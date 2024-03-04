@@ -61,14 +61,34 @@ export default function EventPage() {
                 <Grid item xs={12} md={0} sx={{ mt: '10px', }}>
 
                     {pages.map((page) => (
-                        <FormControl sx={{ m: 1, minWidth: 200, }} variant="outlined" color="primary">
-                            <InputLabel id="demo-simple-select-helper-label">{page}</InputLabel>
+                        <FormControl sx={{ m: 1, minWidth: 200, }} variant="outlined" color="primary" >
+                            <InputLabel id="demo-simple-select-helper-label" sx={{ color: 'white' }} >{page}</InputLabel>
                             <Select
-
                                 labelId="demo-simple-select-helper-label"
                                 id="demo-simple-select-helper"
                                 label={page}
+                                sx={{
+                                    '& .MuiSelect-root': {
+                                        color: 'white',
+                                    },
+                                    '& .MuiMenuItem-root': {
+                                        color: 'white',
+                                    },
+                                    '& .MuiOutlinedInput-notchedOutline': {
+                                        borderColor: 'white',
+                                    },
+                                    '& .MuiSelect-nativeInput': {
+                                        color: 'white',
+                                    },
+                                    '& .MuiSelect-icon': {
+                                        color: 'white',
+                                    },
+                                    '& .MuiOutlinedInput-input': {
+                                        color: 'white',
+                                    },
+                                }}
                             >
+
                                 <MenuItem value="">
                                     <em>None</em>
                                 </MenuItem>
