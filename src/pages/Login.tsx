@@ -1,25 +1,9 @@
-import { Avatar, Box, CssBaseline, FormControl, Grid, Link, Paper, TextField, ThemeProvider, Typography } from "@mui/material";
+import { Avatar, Box, CssBaseline, Grid, Link, Paper, TextField, ThemeProvider, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 import { grey } from '@mui/material/colors';
 import { createTheme } from '@mui/material/styles';
+import LoginIcon from './LoginIcon';
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      light: '#757ce8',
-      main: '#3f50b5',
-      dark: '#002884',
-      contrastText: '#fff',
-    },
-    secondary: {
-      light: '#ff7961',
-      main: '#f44336',
-      dark: '#ba000d',
-      contrastText: '#000',
-    },
-  },
-});
-const secondary = grey[50];
 
 export default function Login() {
 
@@ -29,6 +13,7 @@ export default function Login() {
         <Grid container component="main" sx={{ height: '100vh' }} >
           <CssBaseline />
           <Grid item xs={12} sm={8} md={4} component={Paper} elevation={6} square sx={{ bgcolor: 'black' }}>
+
             <Box
               sx={{
                 my: 8,
@@ -39,9 +24,7 @@ export default function Login() {
                 color: 'white'
               }}
             >
-              <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
-                {/* <LockOutlinedIcon /> */}
-              </Avatar>
+              <LoginIcon fontSize="large" />
               <Typography component="h1" variant="h3" sx={{ mt: 16 }} >
                 Login
               </Typography>
