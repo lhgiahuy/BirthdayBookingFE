@@ -12,11 +12,12 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
+import logo from "../../public/assets/logo.svg"
 
 const pages = ["Home", "Partners", "Event", "About"];
 const settings = ["Profile", "Logout"];
 
-function ResponsiveAppBar() {
+function Navbar() {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
         null
     );
@@ -42,10 +43,13 @@ function ResponsiveAppBar() {
     return (
         <AppBar position="static" sx={{ background: 'white', color: 'black', borderRadius: '60px' }}>
             <Container maxWidth="xl">
-                <Toolbar disableGutters>
+                <Toolbar disableGutters sx={{
+                    height: '40px'
+                }}>
                     <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
                     <IconButton
                         size="large"
+
                         edge="start"
                         color="inherit"
                         aria-label="open drawer"
@@ -126,4 +130,4 @@ function ResponsiveAppBar() {
         </AppBar>
     );
 }
-export default ResponsiveAppBar;
+export default Navbar;
