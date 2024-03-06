@@ -86,7 +86,6 @@ export default function EventPage() {
                     </FormControl>
                 ))}
             </Grid>
-
             <Grid item xs={12} sx={{ flexGrow: 1, mt: 3 }}>
                 <Box>
                     <Grid container spacing={2}>
