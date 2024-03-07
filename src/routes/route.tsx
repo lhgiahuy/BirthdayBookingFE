@@ -4,6 +4,8 @@ import Signup from "../pages/SignUp";
 import EventPage from "../pages/EventPage";
 import RootLayout from "../layouts/RootLayout"
 import BookingPage from "../pages/user/BookingPage";
+import FeedBack from "../pages/Feedback";
+
 
 export const router = createBrowserRouter([
   {
@@ -17,6 +19,10 @@ export const router = createBrowserRouter([
       {
         path: "/Booking",
         element: <BookingPage />,
+      },
+      {
+        path: "/Feedback",
+        element: <FeedBack />,
       },
     ]
   },
