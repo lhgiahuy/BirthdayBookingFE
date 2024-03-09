@@ -5,6 +5,7 @@ import EventPage from "../pages/EventPage";
 import RootLayout from "../layouts/RootLayout"
 import BookingPage from "../pages/user/BookingPage";
 import FeedBack from "../pages/Feedback";
+import ProfilePage from "../pages/user/ProfilePage";
 
 
 export const router = createBrowserRouter([
@@ -23,6 +24,10 @@ export const router = createBrowserRouter([
       {
         path: "/Feedback",
         element: <FeedBack />,
+      },
+      {
+        path: "/Profile",
+        element: <ProfilePage />,
       },
     ]
   },
