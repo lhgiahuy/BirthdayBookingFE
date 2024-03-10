@@ -8,7 +8,7 @@ import CardMedia from '@mui/material/CardMedia';
 
 import EditIcon from '@mui/icons-material/Edit';
 import { Service } from "../../Models/Service";
-export default function ProfilePage() {
+export default function OrderManager() {
 
     const linkpage = ["Profile", "Order", "History"]
     const sort = ["Place", "Price"];
@@ -36,15 +36,18 @@ export default function ProfilePage() {
                                     sx={{ width: 120, height: 120 }}
                                 />
                             </Box>
-                            <Box className=" flex space-x-3 items-center">
+                            <Box className=" flex space-x-3 justify-center items-center">
 
                                 <Typography variant="h6">
-                                    Lê Nguyên  Thiên An
+                                    ADC Company
                                 </Typography>
+
 
                                 <IconButton color="secondary" aria-label="add an alarm">
                                     <EditIcon />
                                 </IconButton>
+
+
                             </Box>
                             <Box>
                                 <Typography variant="body2">
@@ -83,7 +86,7 @@ export default function ProfilePage() {
                             </Box>
                             <Box>
                                 <Typography variant="h6">
-                                    Lê Nguyên  Thiên An
+                                    ADC Company
                                 </Typography>
 
                             </Box>
@@ -132,7 +135,7 @@ export default function ProfilePage() {
                             </Box>
                             <Box className="p-3">
                                 <Typography variant="h4">
-                                    Order History
+                                    Order Managment
                                 </Typography>
                             </Box>
                             <Box>
