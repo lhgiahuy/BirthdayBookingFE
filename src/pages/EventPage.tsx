@@ -6,17 +6,7 @@ import {
     Select, MenuItem
 } from '@mui/material';
 import ServiceCard from '../components/Card';
-
-
-interface Service {
-    name: string;
-    description: string;
-    price: string;
-    service_type_id: number;
-    host_id: number;
-    delete_flag: boolean;
-    id: string;
-}
+import { Service } from '../Models/Service';
 
 export default function EventPage() {
     const [services, setServices] = useState<Service[]>([]);
