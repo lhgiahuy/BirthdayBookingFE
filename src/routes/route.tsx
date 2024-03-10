@@ -6,6 +6,7 @@ import RootLayout from "../layouts/RootLayout"
 import BookingPage from "../pages/user/BookingPage";
 import FeedBack from "../pages/Feedback";
 import ProfilePage from "../pages/user/ProfilePage";
+import HomeHost from "../pages/host/HomeHost";
 import OrderDetailsPage from "../pages/user/OrderDetailsPage";
 
 export const router = createBrowserRouter([
@@ -28,6 +29,10 @@ export const router = createBrowserRouter([
       {
         path: "/Profile",
         element: <ProfilePage />,
+      },
+      {
+        path: "/Homehost",
+        element: <HomeHost />,
       },
       {
         path: "/OrderDetail",

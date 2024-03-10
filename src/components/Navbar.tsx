@@ -18,7 +18,7 @@ import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
 
 const pages = ["Home", "Partners", "Event", "About"];
-const settings = ["Profile", "Logout"];
+
 
 function Navbar() {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
@@ -42,6 +42,7 @@ function Navbar() {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
+
 
     const [isLoggedIn, setIsLoggedIn] = React.useState(false);
 
@@ -132,37 +133,6 @@ function Navbar() {
                                     </IconButton>
                                 </Tooltip>
                                 <Menu
-                                    sx={{ mt: '45px' }}
-                                    id="menu-appbar"
-                                    anchorEl={anchorElUser}
-                                    anchorOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'right',
-                                    }}
-                                    keepMounted
-                                    transformOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'right',
-                                    }}
-                                    open={Boolean(anchorElUser)}
-                                    onClose={handleCloseUserMenu}
-                                >
-                                    {settings.map((setting) => (
-                                        <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                            <Button >{setting}</Button>
-                                        </MenuItem>
-                                    ))}
-                                </Menu>
-                            </Box>
-                        ) :
-                        (
-                            <Box sx={{ flexGrow: 0 }}>
-                                <Tooltip title="Open settings">
-                                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                        <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                                    </IconButton>
-                                </Tooltip>
-                                <Menu
                                     sx={{ mt: '45px', }}
                                     id="menu-appbar"
                                     anchorEl={anchorElUser}
@@ -178,14 +148,53 @@ function Navbar() {
                                     open={Boolean(anchorElUser)}
                                     onClose={handleCloseUserMenu}
                                 >
-                                    {settings.map((setting) => (
-                                        <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                            <Typography className="p-2">{setting}</Typography>
-                                        </MenuItem>
-                                    ))}
+
+                                    <MenuItem onClick={handleCloseUserMenu} >
+
+                                        <Link to="/Profile" className="px-3">Profile</Link>
+
+
+                                    </MenuItem>
+                                    <MenuItem onClick={handleCloseUserMenu}>
+                                        <Typography className="px-3">Logout</Typography>
+                                    </MenuItem>
+
                                 </Menu>
                             </Box>
+                        ) :
+                        (
 
+                            <Box sx={{ flexGrow: 0 }}>
+                                <Grid container spacing={2}>
+                                    <Grid item>
+                                        <Link to="/Login" className="no-underline font-medium" >
+                                            <Button variant="contained" sx={{
+                                                color: 'white',
+                                                backgroundColor: 'black',
+                                                '&:hover': {
+                                                    color: 'white',
+                                                    backgroundColor: 'black',
+                                                }
+                                            }}>
+                                                Sign In
+                                            </Button>
+                                        </Link>
+                                    </Grid>
+                                    <Grid item>
+                                        <Link to="/SignUp" className="no-underline font-medium" >
+                                            <Button sx={{
+                                                color: "black",
+                                                '&:hover': {
+                                                    color: 'black',
+                                                    backgroundColor: '#CDCDCD',
+                                                }
+                                            }}>
+                                                Join Us
+                                            </Button>
+                                        </Link>
+                                    </Grid>
+                                </Grid>
+                            </Box>
                         )}
 
 

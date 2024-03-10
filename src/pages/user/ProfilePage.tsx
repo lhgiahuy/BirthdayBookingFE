@@ -7,15 +7,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import { useTheme } from '@mui/material/styles';
 import EditIcon from '@mui/icons-material/Edit';
-interface Service {
-    name: string;
-    description: string;
-    price: string;
-    service_type_id: number;
-    host_id: number;
-    delete_flag: boolean;
-    id: string;
-}
+import { Service } from "../../Models/Service";
 export default function ProfilePage() {
     const theme = useTheme();
     const linkpage = ["Profile", "Order", "History"]
