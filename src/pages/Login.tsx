@@ -1,8 +1,7 @@
-import { Avatar, Box, CssBaseline, Grid, Link, Paper, TextField, ThemeProvider, Typography } from "@mui/material";
+import { Box, CssBaseline, Grid, IconButton, Link, Paper, TextField, ThemeProvider, Typography } from "@mui/material";
 import Button from "@mui/material/Button";
-import { grey } from '@mui/material/colors';
-import { createTheme } from '@mui/material/styles';
-import LoginIcon from './LoginIcon';
+import EzentLogo from './EzentLogo';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 
 export default function Login() {
@@ -24,7 +23,18 @@ export default function Login() {
                 color: 'white'
               }}
             >
-              <LoginIcon fontSize="large" />
+              {/* <IconButton
+                size="large"
+                edge="start"
+
+                aria-label="open drawer"
+
+
+              >
+                {/* <LoginIcon style={{ width: '1000px' }} /> 
+              </IconButton> */}
+
+              <EzentLogo />
               <Typography component="h1" variant="h3" sx={{ mt: 16 }} >
                 Login
               </Typography>
@@ -87,7 +97,8 @@ export default function Login() {
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
                 >
-                  Login  &nbsp; {">"}
+                  Login
+                  <KeyboardArrowRightIcon />
                 </Button>
 
                 <Grid sx={{ mt: 15 }}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam iure nihil porro, illo nostrum repudiandae quasi enim quisquam molestiae reiciendis placeat est adipisci ratione commodi necessitatibus consectetur fugiat minima in.</Grid>
@@ -116,13 +127,8 @@ export default function Login() {
 
         </Grid>
 
-
       </ThemeProvider>
 
-
-      {/* <div>
-        <Button variant="contained">Login</Button>
-      </div> */}
     </>
   );
 }

@@ -9,6 +9,7 @@ import ProfilePage from "../pages/user/ProfilePage";
 import HomeHost from "../pages/host/HomeHost";
 import OrderManager from "../pages/host/OrderManager";
 
+import OrderDetailsPage from "../pages/user/OrderDetailsPage";
 
 export const router = createBrowserRouter([
   {
@@ -38,6 +39,10 @@ export const router = createBrowserRouter([
       {
         path: "/Ordermanager",
         element: <OrderManager />,
+      },
+      {
+        path: "/OrderDetail",
+        element: <OrderDetailsPage />,
       },
     ]
   },
