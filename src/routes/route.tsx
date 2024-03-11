@@ -10,6 +10,7 @@ import HomeHost from "../pages/host/HomeHost";
 import OrderManager from "../pages/host/OrderManager";
 
 import OrderDetailsPage from "../pages/user/OrderDetailsPage";
+import EditPlace from "../pages/host/EditPlace";
 
 export const router = createBrowserRouter([
   {
@@ -43,6 +44,10 @@ export const router = createBrowserRouter([
       {
         path: "/OrderDetail",
         element: <OrderDetailsPage />,
+      },
+      {
+        path: "/EditPlace",
+        element: <EditPlace />,
       },
     ]
   },
