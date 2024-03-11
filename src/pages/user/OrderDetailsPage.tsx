@@ -34,7 +34,7 @@ export default function OrderDetailsPage() {
             });
     }, []);
     return (
-        <> console.log('aha: ', orderDetail);
+        <>
             <Grid container>
                 <Grid item xs={6} md={4}>
                     <Box className="h-96 w-96 p-9  my-10 border-2 border-white-400 rounded-3xl  ">
