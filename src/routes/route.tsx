@@ -3,7 +3,7 @@ import Login from "../pages/Login";
 import Signup from "../pages/SignUp";
 import EventPage from "../pages/EventPage";
 import RootLayout from "../layouts/RootLayout"
-import BookingPage from "../pages/user/BookingPage";
+import ServiceDetail from "../pages/user/ServiceDetail";
 import FeedBack from "../pages/Feedback";
 import ProfilePage from "../pages/user/ProfilePage";
 import HomeHost from "../pages/host/HomeHost";
@@ -22,8 +22,8 @@ export const router = createBrowserRouter([
         element: <EventPage />,
       },
       {
-        path: "/Booking",
-        element: <BookingPage />,
+        path: "/ServiceDetail",
+        element: <ServiceDetail />,
       },
       {
         path: "/Feedback",
