@@ -12,6 +12,7 @@ import OrderManager from "../pages/host/OrderManager";
 import OrderDetailsPage from "../pages/user/OrderDetailsPage";
 import EditPlace from "../pages/host/EditPlace";
 import EditMenu from "../pages/host/EditMenu";
+import EditDecoration from "../pages/host/EditDecoration";
 
 export const router = createBrowserRouter([
   {
@@ -53,6 +54,10 @@ export const router = createBrowserRouter([
       {
         path: "/EditMenu",
         element: <EditMenu />,
+      },
+      {
+        path: "/EditDecoration",
+        element: <EditDecoration />,
       },
     ]
   },

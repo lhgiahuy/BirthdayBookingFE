@@ -1,4 +1,4 @@
-import { Avatar, Box, Breadcrumbs, Button, Chip, Divider, FormControl, Grid, InputLabel, Link, MenuItem, Select, Typography } from "@mui/material";
+import { Avatar, Box, Breadcrumbs, Button, Chip, Divider, Grid, Link, Typography } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Card from '@mui/material/Card';
@@ -6,7 +6,8 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import { useTheme } from '@mui/material/styles';
 import EditIcon from '@mui/icons-material/Edit';
-import { Email, Mail } from "@mui/icons-material";
+
+
 interface Service {
     name: string;
     description: string;
