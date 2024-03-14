@@ -3,16 +3,18 @@ import Login from "../pages/Login";
 import Signup from "../pages/SignUp";
 import EventPage from "../pages/EventPage";
 import RootLayout from "../layouts/RootLayout"
-import ServiceDetail from "../pages/user/ServiceDetail";
-import FeedBack from "../pages/Feedback";
+import ServiceDetail from "../pages/user/ServiceDetails";
+import FeedBackHost from "../pages/FeedbackHost";
 import ProfilePage from "../pages/user/ProfilePage";
 import HomeHost from "../pages/host/HomeHost";
-import OrderManager from "../pages/host/OrderManager";
+import Profile from "../pages/host/Profile";
 
-import OrderDetailsPage from "../pages/user/OrderDetailsPage";
+import OrderHistory from "../pages/user/OrderHistory";
 import EditPlace from "../pages/host/EditPlace";
 import EditMenu from "../pages/host/EditMenu";
 import EditDecoration from "../pages/host/EditDecoration";
+import BookingPage from "../pages/user/BookingPage";
+
 
 export const router = createBrowserRouter([
   {
@@ -29,10 +31,10 @@ export const router = createBrowserRouter([
       },
       {
         path: "/Feedback",
-        element: <FeedBack />,
+        element: <FeedBackHost />,
       },
       {
-        path: "/Profile",
+        path: "/Profile-user",
         element: <ProfilePage />,
       },
       {
@@ -40,12 +42,12 @@ export const router = createBrowserRouter([
         element: <HomeHost />,
       },
       {
-        path: "/Ordermanager",
-        element: <OrderManager />,
+        path: "/Profile",
+        element: <Profile />,
       },
       {
         path: "/OrderDetail",
-        element: <OrderDetailsPage />,
+        element: <OrderHistory />,
       },
       {
         path: "/EditPlace",
@@ -58,6 +60,14 @@ export const router = createBrowserRouter([
       {
         path: "/EditDecoration",
         element: <EditDecoration />,
+      },
+      {
+        path: "/BookingPage",
+        element: <BookingPage />,
+      },
+      {
+        path: "/ProfileHost",
+        element: <Profile />,
       },
     ]
   },

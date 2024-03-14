@@ -24,7 +24,7 @@ import axios from "axios";
 interface CarouselProps {
   deviceType?: string;
 }
-export default function ServiceDetail(props: CarouselProps) {
+export default function ServiceDetails(props: CarouselProps) {
   const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
@@ -65,13 +65,15 @@ export default function ServiceDetail(props: CarouselProps) {
             BOOKING
           </Link>
         </Breadcrumbs>
-        <Grid container>
+        <Grid sx={{ mt: 2, ml: 1.25 }}>
+          <Typography variant="h4">
+            Service Details
+          </Typography>
+        </Grid>
+        <Grid container className="mt-3">
           <Grid item xs={6}>
-            <Box className=" flex justify-center">
-
-
-              <img className="w-3/4 rounded-2xl" src="https://i.pinimg.com/736x/6e/74/63/6e7463744c9fdf25c505adfd51902f50.jpg" alt="" />
-
+            <Box className=" flex justify-start" sx={{ ml: 1.25 }}>
+              <img className="w-5/6 rounded-2xl" src="https://i.pinimg.com/736x/6e/74/63/6e7463744c9fdf25c505adfd51902f50.jpg" alt="" />
             </Box>
           </Grid>
           <Grid xs={6} direction="row" container spacing={3}>
