@@ -168,7 +168,7 @@ export default function OrderDetailsPage() {
                                             <Grid className="flex justify-between ">
                                                 <Grid item xs={4}>
                                                     <Typography component="div" variant="h5">
-                                                        Order Details
+                                                        Order Details lor
                                                     </Typography>
                                                 </Grid>
                                                 <Typography component="div" variant="h5">
