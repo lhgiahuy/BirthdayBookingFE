@@ -43,10 +43,21 @@ export default function BookingPage() {
     };
 
     return (
-        <Box sx={{ width: '100%' }}>
+        <Box sx={{ width: '100%', mt: 3 }}>
             <Stepper activeStep={activeStep}>
                 {steps.map((label) => (
-                    <Step key={label}>
+                    <Step
+                        sx={{
+                            color: 'white', // Màu mặc định
+                            '&.Mui-active': { color: 'white' }, // Khi step đang active
+                            '&.Mui-completed': { color: 'white' }, // Khi step đã hoàn thành
+                            '& .MuiStepLabel-label': { // Override styles for the label text
+                                color: 'white', // For the default state
+                                '&.Mui-active': { color: 'white' }, // Khi label đang active
+                                '&.Mui-completed': { color: 'white' }, // Khi label đã hoàn thành
+                                '&.Mui-disabled': { color: 'white' } // Khi label bị disable
+                            }
+                        }} key={label}>
                         <StepLabel>{label}</StepLabel>
                     </Step>
                 ))}

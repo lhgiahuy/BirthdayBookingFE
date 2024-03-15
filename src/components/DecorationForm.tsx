@@ -7,9 +7,10 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
+
 export default function DecorationForm() {
     const [services, setServices] = useState<Service[]>([]);
-
+    const [selectedServices, setSelectedServices] = useState<Service[]>([]);
     useEffect(() => {
         Agent.getService()
             .then(response => {
@@ -19,6 +20,7 @@ export default function DecorationForm() {
                 console.error('Error fetching data:', error);
             });
     }, []);
+
     return (
         <>
             <Grid>
@@ -41,6 +43,9 @@ export default function DecorationForm() {
                                     '&.Mui-focused fieldset': {
                                         borderColor: 'white', // Sets the border color when the TextField is focused
                                     },
+                                    '& .MuiInputBase-input': {
+                                        color: 'white', // Sets the input text color
+                                    }
                                 },
                             }}
                             label="Search"
