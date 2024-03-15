@@ -9,7 +9,7 @@ import SearchIcon from '@mui/icons-material/Search';
 
 export default function MenuForm() {
     const [services, setServices] = useState<Service[]>([]);
-
+    const [selectedServices, setSelectedServices] = useState<Service[]>([]);
     useEffect(() => {
         Agent.getService()
             .then(response => {
@@ -19,6 +19,7 @@ export default function MenuForm() {
                 console.error('Error fetching data:', error);
             });
     }, []);
+
     return (
         <>
             <Grid>
@@ -41,11 +42,14 @@ export default function MenuForm() {
                                     '&.Mui-focused fieldset': {
                                         borderColor: 'white', // Sets the border color when the TextField is focused
                                     },
+                                    '& .MuiInputBase-input': {
+                                        color: 'white', // Sets the input text color
+                                    }
                                 },
                             }}
                             label="Search"
                             InputLabelProps={{
-                                style: { color: 'white' }, // Sets the label color
+                                style: { color: 'white' },
                             }}
                             InputProps={{
 
