@@ -7,7 +7,7 @@ function App() {
     return (
         <>
             <Navbar />
-            <Container maxWidth='xl'>
+            <Container maxWidth='lg' className="mt-10" >
                 <Box>
                     <Outlet />
                 </Box>
