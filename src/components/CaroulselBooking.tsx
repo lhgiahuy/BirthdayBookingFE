@@ -56,18 +56,13 @@ export default function Slide(props: CarouselProps) {
           autoPlaySpeed={3000}
           centerMode={false}
           className=""
-          containerClass="container"
           dotListClass=""
-          draggable
           focusOnSelect={false}
-          infinite={false}
           itemClass=""
           keyBoardControl
-          minimumTouchDrag={80}
           pauseOnHover
           renderArrowsWhenDisabled={false}
           renderButtonGroupOutside={false}
-          renderDotsOutside={false}
           responsive={{
             desktop: {
               breakpoint: {
@@ -75,7 +70,6 @@ export default function Slide(props: CarouselProps) {
                 min: 1024,
               },
               items: 4,
-              partialVisibilityGutter: 40,
             },
             mobile: {
               breakpoint: {
@@ -83,7 +77,6 @@ export default function Slide(props: CarouselProps) {
                 min: 0,
               },
               items: 1,
-              partialVisibilityGutter: 30,
             },
             tablet: {
               breakpoint: {
@@ -91,7 +84,6 @@ export default function Slide(props: CarouselProps) {
                 min: 464,
               },
               items: 2,
-              partialVisibilityGutter: 30,
             },
           }}
           rewind={false}
@@ -99,9 +91,8 @@ export default function Slide(props: CarouselProps) {
           rtl={false}
           shouldResetAutoplay
           showDots={false}
-          sliderClass="slider gap-10"
-          slidesToSlide={1}
-          swipeable
+          sliderClass=""
+          slidesToSlide={4}
         >
           {/* Dynamic content */}
           {services.map((service) => (
@@ -111,6 +102,7 @@ export default function Slide(props: CarouselProps) {
                   backgroundColor: "transparent",
                   boxShadow: "none",
                   color: "white",
+                  maxWidth: "320px",
                 }}
               >
                 <CardActionArea>
