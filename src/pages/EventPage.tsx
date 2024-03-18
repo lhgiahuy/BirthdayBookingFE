@@ -1,21 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-import {
-  Box,
-  Grid,
-  Typography,
-  Breadcrumbs,
-  Link,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Card,
-} from "@mui/material";
-import ServiceCard from "../components/Card";
+import { Box, Typography } from "@mui/material";
 import { Service } from "../Models/Service";
-import Slide from "../components/CaroulselBooking";
 import CardCarousel from "../components/Card";
 
 export default function EventPage() {

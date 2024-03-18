@@ -4,7 +4,6 @@ import Signup from "./pages/SignUp";
 import EventPage from "./pages/EventPage";
 import ServiceDetail from "./pages/user/ServiceDetails";
 import FeedBackHost from "./pages/FeedbackHost";
-import ProfilePage from "./pages/user/ProfilePage";
 import HomeHost from "./pages/host/HomeHost";
 import Profile from "./pages/host/Profile";
 import OrderHistory from "./pages/user/OrderHistory";
@@ -12,7 +11,10 @@ import EditPlace from "./pages/host/EditPlace";
 import EditMenu from "./pages/host/EditMenu";
 import EditDecoration from "./pages/host/EditDecoration";
 import BookingPage from "./pages/user/BookingPage";
-import React from "react";
+import React, { Suspense } from "react";
+import ChangePassword from "./pages/user/ChangePassword";
+import EditProfile from "./pages/user/EditProfile";
+import OrderDetails from "./pages/user/OrderDetails";
 const RootLayout = React.lazy(() => import("./layouts/RootLayout"));
 const RootLayoutWithBackground = React.lazy(
   () => import("./layouts/RootLayoutWithBackground")
@@ -23,6 +25,10 @@ function App() {
       element: <RootLayout />,
       children: [
         {
+          path: "/Event",
+          element: <EventPage />,
+        },
+        {
           path: "/ServiceDetail",
           element: <ServiceDetail />,
         },
@@ -31,8 +37,16 @@ function App() {
           element: <FeedBackHost />,
         },
         {
-          path: "/Profile-user",
-          element: <ProfilePage />,
+          path: "/OrderDetails",
+          element: <OrderDetails />,
+        },
+        {
+          path: "/Editprofile",
+          element: <EditProfile />,
+        },
+        {
+          path: "/Changepassword",
+          element: <ChangePassword />,
         },
         {
           path: "/Homehost",
@@ -43,7 +57,7 @@ function App() {
           element: <Profile />,
         },
         {
-          path: "/OrderDetail",
+          path: "/OrderHistory",
           element: <OrderHistory />,
         },
         {
@@ -62,19 +76,23 @@ function App() {
           path: "/BookingPage",
           element: <BookingPage />,
         },
-        {
-          path: "/ProfileHost",
-          element: <Profile />,
-        },
       ],
     },
 
     {
-      element: <RootLayoutWithBackground />,
+      element: (
+        <Suspense>
+          <RootLayoutWithBackground />,
+        </Suspense>
+      ),
       children: [
         {
           path: "/",
-          element: <EventPage />,
+          element: (
+            <Suspense>
+              <EventPage />,
+            </Suspense>
+          ),
         },
       ],
     },

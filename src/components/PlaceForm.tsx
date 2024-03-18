@@ -5,6 +5,7 @@ import { Card, CardContent, FormGroup, Grid, Typography } from "@mui/material";
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 
+
 export default function PlaceForm() {
     const [services, setServices] = useState<Service[]>([]);
 
@@ -17,6 +18,10 @@ export default function PlaceForm() {
                 console.error('Error fetching data:', error);
             });
     }, []);
+
+
+    // Gọi onSubmit khi selectedServices thay đổi
+
     return (
         <>
             <Grid>
