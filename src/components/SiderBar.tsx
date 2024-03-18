@@ -15,7 +15,7 @@ function Siderbar() {
                             color: 'white'
                         }} />
                     </ListItemIcon>
-                    <ListItemText primary={<Link to="/Homehost" style={{ textDecoration: 'none', color: 'inherit' }}>Back to Home</Link>} />
+                    <ListItemText primary={<Link to="/Event" style={{ textDecoration: 'none', color: 'inherit' }}>Back to Home</Link>} />
                 </ListItem>
                 <ListItem button>
                     <ListItemIcon>

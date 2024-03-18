@@ -6,7 +6,7 @@ import RootLayout from "../layouts/RootLayout"
 import ServiceDetail from "../pages/user/ServiceDetails";
 import FeedBackHost from "../pages/FeedbackHost";
 import HomeHost from "../pages/host/HomeHost";
-import Profile from "../pages/host/Profile";
+import Profile from "../pages/host/OrderManagement";
 import EditPlace from "../pages/host/EditPlace";
 import EditMenu from "../pages/host/EditMenu";
 import EditDecoration from "../pages/host/EditDecoration";
