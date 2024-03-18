@@ -2,12 +2,14 @@ import { Outlet } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { Box, Container } from "@mui/material";
+import Hero from "../components/Hero";
 
-const RootLayout = () => {
+const RootLayoutWithBackground = () => {
   return (
     <>
       <Navbar />
-      <Container sx={{ minHeight: "100vh" }} maxWidth="lg" className="mt-10">
+      <Hero></Hero>
+      <Container sx={{ minHeight: "100vh" }} maxWidth="xl">
         <Box>
           <Outlet />
         </Box>
@@ -17,4 +19,4 @@ const RootLayout = () => {
   );
 };
 
-export default RootLayout;
+export default RootLayoutWithBackground;

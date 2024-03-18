@@ -1,4 +1,6 @@
-import React from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
 import {
   Card,
   CardActionArea,
@@ -7,67 +9,114 @@ import {
   Typography,
   Box,
   Grid,
-  Chip,
 } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 
-// Define the prop types
-interface ServiceCardProps {
-  id: string;
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css"; // Ensure you are importing the right CSS file for 'react-multi-carousel'
+
+interface Service {
   name: string;
   description: string;
-  image?: string;
-  rating?: string;
   price: string;
+  service_type_id: number;
+  host_id: number;
+  delete_flag: boolean;
+  id: string;
 }
 
-const ServiceCard: React.FC<ServiceCardProps> = ({
-  id,
-  name,
-  description,
-  image,
-  rating,
-  price,
-}) => (
-  <Grid item xs={12} sm={6} md={3}>
-    <Card
-      sx={{
-        maxWidth: 320,
-        backgroundColor: "transparent",
-        boxShadow: "none",
-        color: "white",
-        m: 2,
-      }}
-    >
-      <CardActionArea>
-        <CardMedia component="img" height="180" image={image} alt={name} />
-        <CardContent>
-          <Box className="flex w-full justify-between items-center pb-2">
-            <Typography variant="h6">
-              By <span className="font-bold text-2xl">{name}</span>
-            </Typography>
-            <Chip label={`${name}`} color="primary"></Chip>
-          </Box>
-          <Typography variant="body2" color="gray">
-            {description}
-          </Typography>
-          <Box display="flex" alignItems="center" mt={2}>
-            <StarIcon sx={{ color: "gold" }} />
-            <Typography variant="h6" sx={{ ml: "10px", color: "white" }}>
-              {rating}
-            </Typography>
-          </Box>
-          <Typography
-            variant="h6"
-            fontWeight="bold"
-            sx={{ mt: "5px", color: "white" }}
-          >
-            {price} VND
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-    </Card>
-  </Grid>
-);
+interface CarouselProps {
+  deviceType?: string;
+}
 
-export default ServiceCard;
+export default function CardCarousel(props: CarouselProps) {
+  const [services, setServices] = useState<Service[]>([]);
+
+  useEffect(() => {
+    fetchServices();
+  }, []);
+
+  const fetchServices = async () => {
+    try {
+      const response = await axios.get(
+        "https://65e1a8d6a8583365b316f7df.mockapi.io/api/service"
+      );
+      setServices(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  return (
+    <Grid container>
+      <Grid item xs={12}>
+        <Carousel
+          additionalTransfrom={0}
+          arrows
+          autoPlaySpeed={3000}
+          centerMode={false}
+          className=""
+          dotListClass=""
+          focusOnSelect={false}
+          itemClass=""
+          keyBoardControl
+          pauseOnHover
+          renderArrowsWhenDisabled={false}
+          renderButtonGroupOutside={false}
+          responsive={{
+            desktop: {
+              breakpoint: {
+                max: 3000,
+                min: 1024,
+              },
+              items: 4,
+            },
+            mobile: {
+              breakpoint: {
+                max: 464,
+                min: 0,
+              },
+              items: 1,
+            },
+            tablet: {
+              breakpoint: {
+                max: 1024,
+                min: 464,
+              },
+              items: 2,
+            },
+          }}
+          rewind={false}
+          rewindWithAnimation={false}
+          rtl={false}
+          shouldResetAutoplay
+          showDots={false}
+          sliderClass=""
+          slidesToSlide={4}
+        >
+          {/* Dynamic content */}
+          {services.map((service) => (
+            <div key={service.id}>
+              <Card
+                sx={{
+                  backgroundColor: "transparent",
+                  boxShadow: "none",
+                  color: "white",
+                  maxWidth: "320px",
+                }}
+              >
+                <CardActionArea>
+                  <CardMedia
+                    component="img"
+                    height="180"
+                    image="https://i.pinimg.com/736x/6e/74/63/6e7463744c9fdf25c505adfd51902f50.jpg"
+                  />
+                </CardActionArea>
+              </Card>
+            </div>
+          ))}
+        </Carousel>
+      </Grid>
+    </Grid>
+  );
+}
