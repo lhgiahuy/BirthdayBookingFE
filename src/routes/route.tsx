@@ -5,15 +5,16 @@ import EventPage from "../pages/EventPage";
 import RootLayout from "../layouts/RootLayout"
 import ServiceDetail from "../pages/user/ServiceDetails";
 import FeedBackHost from "../pages/FeedbackHost";
-import ProfilePage from "../pages/user/ProfilePage";
 import HomeHost from "../pages/host/HomeHost";
 import Profile from "../pages/host/Profile";
-
-import OrderHistory from "../pages/user/OrderHistory";
 import EditPlace from "../pages/host/EditPlace";
 import EditMenu from "../pages/host/EditMenu";
 import EditDecoration from "../pages/host/EditDecoration";
 import BookingPage from "../pages/user/BookingPage";
+import EditProfile from "../pages/user/EditProfile";
+import ChangePassword from "../pages/user/ChangePassword";
+import OrderDetails from "../pages/user/OrderDetails";
+import OrderHistory from "../pages/user/OrderHistory";
 
 
 export const router = createBrowserRouter([
@@ -34,8 +35,16 @@ export const router = createBrowserRouter([
         element: <FeedBackHost />,
       },
       {
-        path: "/Profile-user",
-        element: <ProfilePage />,
+        path: "/OrderDetails",
+        element: <OrderDetails />,
+      },
+      {
+        path: "/Editprofile",
+        element: <EditProfile />,
+      },
+      {
+        path: "/Changepassword",
+        element: <ChangePassword />,
       },
       {
         path: "/Homehost",
@@ -46,7 +55,7 @@ export const router = createBrowserRouter([
         element: <Profile />,
       },
       {
-        path: "/OrderDetail",
+        path: "/OrderHistory",
         element: <OrderHistory />,
       },
       {
@@ -64,10 +73,6 @@ export const router = createBrowserRouter([
       {
         path: "/BookingPage",
         element: <BookingPage />,
-      },
-      {
-        path: "/ProfileHost",
-        element: <Profile />,
       },
     ]
   },
