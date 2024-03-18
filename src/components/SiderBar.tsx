@@ -4,6 +4,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import HistoryIcon from '@mui/icons-material/History';
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
+import { Link } from "react-router-dom";
 function Siderbar() {
     return (
         <Box className="sidebar " >
@@ -14,7 +15,7 @@ function Siderbar() {
                             color: 'white'
                         }} />
                     </ListItemIcon>
-                    <ListItemText primary="Back to Home" />
+                    <ListItemText primary={<Link to="/Homehost" style={{ textDecoration: 'none', color: 'inherit' }}>Back to Home</Link>} />
                 </ListItem>
                 <ListItem button>
                     <ListItemIcon>
@@ -22,15 +23,15 @@ function Siderbar() {
                             color: 'white'
                         }} />
                     </ListItemIcon>
-                    <ListItemText primary="Profile" />
+                    <ListItemText primary={<Link to="/Editprofile" style={{ textDecoration: 'none', color: 'inherit' }}>Profile</Link>} />
                 </ListItem>
-                <ListItem button href="/orderhistory">
+                <ListItem button >
                     <ListItemIcon>
                         <HistoryIcon sx={{
                             color: 'white'
                         }} />
                     </ListItemIcon>
-                    <ListItemText primary="Order History" />
+                    <ListItemText primary={<Link to="/OrderHistory" style={{ textDecoration: 'none', color: 'inherit' }}>Order History</Link>} />
                 </ListItem>
                 <ListItem button>
                     <ListItemIcon>
@@ -38,7 +39,7 @@ function Siderbar() {
                             color: 'white'
                         }} />
                     </ListItemIcon>
-                    <ListItemText primary="Change Password" />
+                    <ListItemText primary={<Link to="/Changepassword" style={{ textDecoration: 'none', color: 'inherit' }}>Change Password</Link>} />
                 </ListItem>
             </List>
             <Divider />
