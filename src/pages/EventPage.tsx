@@ -4,6 +4,7 @@ import axios from "axios";
 import { Box, Typography } from "@mui/material";
 import { Service } from "../Models/Service";
 import CardCarousel from "../components/Card";
+import ExpandableCard from "../components/ExpandableCard";
 
 export default function EventPage() {
   const [services, setServices] = useState<Service[]>([]);
@@ -113,9 +114,15 @@ export default function EventPage() {
     //     </Box>
     //   </Grid>
     // </Grid>
-    <Box className="flex relative flex-col gap-2 px-[3rem] mt-[-4rem]">
-      <Typography variant="h6">Party</Typography>
-      <CardCarousel></CardCarousel>
+    <Box className="flex relative flex-col gap-24 px-[3rem] mt-[-4rem]">
+      <Box className="flex flex-col gap-4">
+        <Typography variant="h6">Top rate party</Typography>
+        <CardCarousel start={0} end={4}></CardCarousel>
+      </Box>
+      <Box className="flex flex-col gap-4">
+        <Typography variant="h6">Party</Typography>
+        <CardCarousel start={4} end={8}></CardCarousel>
+      </Box>
     </Box>
   );
 }

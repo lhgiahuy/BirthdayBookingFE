@@ -33,13 +33,13 @@ export default function Hero() {
         <Box>
           <Link
             to="/"
-            className="text-lg font-bold text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+            className="text-lg font-bold text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 rounded-lg px-5 py-2.5 me-2 mb-2"
           >
             Book now <ArrowForward></ArrowForward>
           </Link>
           <Link
             to="/"
-            className="text-lg font-bold text-white border border-gray-300 hover:bg-gray-900 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+            className="text-lg font-bold text-white border border-gray-300 hover:bg-gray-900 rounded-lg px-5 py-2.5 me-2 mb-2"
           >
             About us
           </Link>
