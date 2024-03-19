@@ -8,9 +8,10 @@ import CardMedia from '@mui/material/CardMedia';
 
 import EditIcon from '@mui/icons-material/Edit';
 import { Service } from "../../Models/Service";
-export default function OrderManager() {
+import Siderbar from "../../components/SiderBar";
+export default function OrderManagement() {
 
-    const linkpage = ["Profile", "Order", "History"]
+    const linkpage = ["Profile", "Order Manager"]
     const sort = ["Place", "Price"];
     const [services, setServices] = useState<Service[]>([]);
     useEffect(() => {
@@ -26,99 +27,13 @@ export default function OrderManager() {
 
         <>
             <Grid container>
-                <Grid item xs={6} md={4}>
-                    <Box className="h-96 w-96 p-9  my-10 border-2 border-white-400 rounded-3xl  ">
-                        <Box className=" flex flex-col justify-center items-center ">
-                            <Box>
-                                <Avatar
-                                    alt="Remy Sharp"
-                                    src="/static/images/avatar/1.jpg"
-                                    sx={{ width: 120, height: 120 }}
-                                />
-                            </Box>
-                            <Box className=" flex space-x-3 justify-center items-center">
 
-                                <Typography variant="h6">
-                                    ADC Company
-                                </Typography>
-
-
-                                <IconButton color="secondary" aria-label="add an alarm">
-                                    <EditIcon />
-                                </IconButton>
-
-
-                            </Box>
-                            <Box>
-                                <Typography variant="body2">
-                                    Andy@gmail.com
-                                </Typography>
-                            </Box>
-                        </Box>
-                        <Divider sx={{ my: 2, border: '1px solid #FFFF' }} />
-                        <Box>
-                            <Box className="flex justify-between m-4">
-                                <Typography variant="body2">
-                                    From
-                                </Typography>
-                                <Typography variant="body2">
-                                    Amerian
-                                </Typography>
-                            </Box>
-                            <Box className="flex justify-between m-4">
-                                <Typography variant="body2">
-                                    Member since
-                                </Typography>
-                                <Typography variant="body2">
-                                    1990
-                                </Typography>
-                            </Box>
-                        </Box>
-                    </Box>
-                    <Box className="h-96 w-96 p-9  my-10 border-2 border-white-400 rounded-3xl  ">
-                        <Box className=" flex flex-col justify-center items-center ">
-                            <Box>
-                                <Avatar
-                                    alt="Remy Sharp"
-                                    src="/static/images/avatar/1.jpg"
-                                    sx={{ width: 120, height: 120 }}
-                                />
-                            </Box>
-                            <Box>
-                                <Typography variant="h6">
-                                    ADC Company
-                                </Typography>
-
-                            </Box>
-                            <Box>
-                                <Typography variant="body2">
-                                    Andy@gmail.com
-                                </Typography>
-                            </Box>
-                        </Box>
-                        <Divider sx={{ my: 2, border: '1px solid #FFFF' }} />
-                        <Box>
-                            <Box className="flex justify-between m-4">
-                                <Typography variant="body2">
-                                    From
-                                </Typography>
-                                <Typography variant="body2">
-                                    Amerian
-                                </Typography>
-                            </Box>
-                            <Box className="flex justify-between m-4">
-                                <Typography variant="body2">
-                                    Member since
-                                </Typography>
-                                <Typography variant="body2">
-                                    1990
-                                </Typography>
-                            </Box>
-                        </Box>
-                    </Box>
+                <Grid item xs={4} md={4}>
+                    <Siderbar />
                 </Grid>
+
                 <Grid item xs={6} md={8}>
-                    <Box className="h-auto w-auto my-10 p-2 border-2 border-white-400 rounded-3xl">
+                    <Box className="h-auto w-auto ">
                         <Box className="m-2">
                             <Box>
                                 <Breadcrumbs aria-label="breadcrumb" color="white">
@@ -133,9 +48,9 @@ export default function OrderManager() {
                                     )}
                                 </Breadcrumbs>
                             </Box>
-                            <Box className="p-3">
-                                <Typography variant="h4">
-                                    Order Managment
+                            <Box className="py-3">
+                                <Typography variant="h3">
+                                    Order Management
                                 </Typography>
                             </Box>
                             <Box>
@@ -143,7 +58,7 @@ export default function OrderManager() {
                                     <FormControl
                                         key={sorts}
                                         sx={{
-                                            m: 1,
+                                            my: 1,
                                             minWidth: 400,
                                             color: "white",
                                             ".MuiOutlinedInput-notchedOutline": { borderColor: "white" },
@@ -182,14 +97,14 @@ export default function OrderManager() {
                                 ))}
                             </Box>
                         </Box>
-                        <Box className="m-4 ">
+                        <Box className="my-4 ">
                             {services.map((service) =>
-                                <Card sx={{ display: 'flex', background: 'black', color: 'white', m: 4 }}>
+                                <Card sx={{ display: 'flex', background: 'black', color: 'white', my: 4 }}>
                                     <Grid>
                                         <CardMedia
                                             className="rounded-3xl"
                                             component="img"
-                                            sx={{ maxWidth: 380, height: 180 }}
+                                            sx={{ maxWidth: 450, height: 180 }}
                                             image="https://i.pinimg.com/736x/6e/74/63/6e7463744c9fdf25c505adfd51902f50.jpg"
 
                                         />

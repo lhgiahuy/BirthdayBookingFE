@@ -5,7 +5,7 @@ import EventPage from "./pages/EventPage";
 import ServiceDetail from "./pages/user/ServiceDetails";
 import FeedBackHost from "./pages/FeedbackHost";
 import HomeHost from "./pages/host/HomeHost";
-import Profile from "./pages/host/Profile";
+import Profile from "./pages/host/OrderManagement";
 import OrderHistory from "./pages/user/OrderHistory";
 import EditPlace from "./pages/host/EditPlace";
 import EditMenu from "./pages/host/EditMenu";
@@ -15,6 +15,7 @@ import React, { Suspense } from "react";
 import ChangePassword from "./pages/user/ChangePassword";
 import EditProfile from "./pages/user/EditProfile";
 import OrderDetails from "./pages/user/OrderDetails";
+import OrderManagement from "./pages/host/OrderManagement";
 const RootLayout = React.lazy(() => import("./layouts/RootLayout"));
 const RootLayoutWithBackground = React.lazy(
   () => import("./layouts/RootLayoutWithBackground")
@@ -53,8 +54,8 @@ function App() {
           element: <HomeHost />,
         },
         {
-          path: "/Profile",
-          element: <Profile />,
+          path: "/Ordermanagement",
+          element: <OrderManagement />,
         },
         {
           path: "/OrderHistory",
