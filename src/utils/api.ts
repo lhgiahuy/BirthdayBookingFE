@@ -56,7 +56,7 @@ apiJWT.interceptors.response.use(
     const token = localStorage.getItem('access_token');
     if (error.response && error.response?.status === 401) {
       localStorage.clear();
-      router.navigate('/login');
+     
     }
     if (
       error.response &&
@@ -64,7 +64,7 @@ apiJWT.interceptors.response.use(
       error.response?.data?.error?.message !== 'User has been blocked' &&
       token
     ) {
-      router.navigate('/forbidden');
+  
     }
     return Promise.reject(error.response);
   }
