@@ -2,9 +2,38 @@ import { Box, CssBaseline, Grid, IconButton, Link, Paper, TextField, ThemeProvid
 import Button from "@mui/material/Button";
 import EzentLogo from './EzentLogo';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import { useState } from "react";
+import { handleLoginSubmit } from "../redux/slice/loginSlice";
+import { useAppDispatch } from '../redux/hook';
+
 
 
 export default function Login() {
+  const dispatch = useAppDispatch();
+  const [userData, setUserData] = useState({
+    email: '',
+    password: '',
+  });
+  console.log("email: ", userData.email);
+  console.log("password: ", userData.password)
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const { name, value } = e.target;
+    setUserData({ ...userData, [name]: value });
+    // const errorMessage = getErrorMessage(name, value);
+    // setErrors({ ...errors, [name]: errorMessage });
+
+    // if (name === 'email') {
+    //   setIsEmailValid(validateEmail(value));
+    // } else if (name === 'password') {
+    //   setIsPasswordValid(validatePassword(value));
+    // }
+  };
+
+  const onHandleSubmit = async () => {
+    const response = await dispatch(handleLoginSubmit(userData))
+    console.log(response);
+  }
 
   return (
     <>
@@ -23,88 +52,58 @@ export default function Login() {
                 color: 'white'
               }}
             >
-              {/* <IconButton
-                size="large"
-                edge="start"
-
-                aria-label="open drawer"
-
-
-              >
-                {/* <LoginIcon style={{ width: '1000px' }} /> 
-              </IconButton> */}
-
               <EzentLogo />
               <Typography component="h1" variant="h3" sx={{ mt: 16 }} >
                 Login
               </Typography>
               {/* <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}> */}
-              <Box component="form" sx={{ mt: 1 }} >
-                <TextField
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                  autoFocus
-                  sx={{
-                    '& .MuiOutlinedInput-notchedOutline': {
-                      borderColor: 'white',
-                    },
-                    '& .MuiInputLabel-root': {
-                      color: 'white',
-                    },
-                    '& .MuiInputBase-input': {
-                      color: 'white',
-                    },
-                  }}
-                />
-                <TextField
-                  margin="normal"
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                  sx={{
-                    '& .MuiOutlinedInput-notchedOutline': {
-                      borderColor: 'white',
-                    },
-                    '& .MuiInputLabel-root': {
-                      color: 'white',
-                    },
-                    '& .MuiInputBase-input': {
-                      color: 'white',
-                    },
-                  }}
-                />
+              <form>
+                <Box component="form" sx={{ mt: 1 }} >
+                  <input
+                    className="items-center bg-[#06070d] px-10 pt-0.5"
+                    placeholder="Enter your email"
+                    style={{ paddingLeft: '2.3rem', fontSize: '15px' }}
+                    type="email"
+                    name="email"
+                    value={userData.email}
+                    autoComplete="off"
+                    onChange={handleInputChange}
+                  />
+                  <input
+                    className="items-center bg-[#06070d] px-10 pt-0.5 mt-2"
+                    placeholder="Enter your password"
+                    style={{ paddingLeft: '2.3rem', fontSize: '15px' }}
+                    type="password"
+                    name="password"
+                    value={userData.password}
+                    autoComplete="off"
+                    onChange={handleInputChange}
+                  />
 
 
-                <Grid container justifyContent="flex-end">
-                  <Link href="#" variant="body2" underline="none" color="white">
-                    {"Don't have an account yet? Sign up here"}
-                  </Link>
-                </Grid>
+                  <Grid container justifyContent="flex-end">
+                    <Link href="#" variant="body2" underline="none" color="white">
+                      {"Don't have an account yet? Sign up here"}
+                    </Link>
+                  </Grid>
 
 
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
-                >
-                  Login
-                  <KeyboardArrowRightIcon />
-                </Button>
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                    onClick={onHandleSubmit}
+                  >
+                    Login
+                    <KeyboardArrowRightIcon />
+                  </Button>
 
-                <Grid sx={{ mt: 15 }}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam iure nihil porro, illo nostrum repudiandae quasi enim quisquam molestiae reiciendis placeat est adipisci ratione commodi necessitatibus consectetur fugiat minima in.</Grid>
+                  <Grid sx={{ mt: 15 }}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam iure nihil porro, illo nostrum repudiandae quasi enim quisquam molestiae reiciendis placeat est adipisci ratione commodi necessitatibus consectetur fugiat minima in.</Grid>
 
-                {/* <Copyright sx={{ mt: 5 }} /> */}
-              </Box>
+                  {/* <Copyright sx={{ mt: 5 }} /> */}
+                </Box>
+              </form>
             </Box>
           </Grid>
 

@@ -1,0 +1,73 @@
+import React from 'react';
+import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
+import IconButton from '@mui/material/IconButton';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import FormHelperText from '@mui/material/FormHelperText';
+
+//de tam vi ch fix dc
+
+export interface MyInputProps {
+    id: string;
+    field: {
+        name: string;
+        value: string;
+        onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    };
+    placeholder: string;
+    error?: string; // Thêm các props error và helperText để hiển thị lỗi từ formik
+    helperText?: string;
+}
+
+function MyInput({ field, placeholder, error, helperText }: MyInputProps) {
+    return (
+        <TextField
+            {...field}
+            id={field.name}
+            label={placeholder}
+            value={field.value || ''}
+            onChange={field.onChange}
+
+            fullWidth
+            helperText={helperText}
+            error={!!error}
+        />
+    );
+}
+
+function MyInputPassword({ field, placeholder, error, helperText }: MyInputProps) {
+    const [showPassword, setShowPassword] = React.useState(false);
+
+    const toggleShowPassword = () => setShowPassword(!showPassword);
+
+    return (
+        <TextField
+            {...field}
+            id={field.name}
+            type={showPassword ? 'text' : 'password'}
+            label={placeholder}
+            value={field.value || ''}
+            onChange={field.onChange}
+
+            fullWidth
+            helperText={helperText}
+            error={!!error}
+            InputProps={{
+                endAdornment: (
+                    <InputAdornment position='end'>
+                        <IconButton
+                            aria-label='toggle password visibility'
+                            onClick={toggleShowPassword}
+                            onMouseDown={(event) => event.preventDefault()}
+                        >
+                            {showPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                    </InputAdornment>
+                ),
+            }}
+        />
+    );
+}
+
+export { MyInput, MyInputPassword };
