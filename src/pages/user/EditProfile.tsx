@@ -1,13 +1,38 @@
 import { Avatar, Box, Breadcrumbs, Button, Chip, Divider, FormControl, Grid, IconButton, InputAdornment, InputLabel, Link, MenuItem, OutlinedInput, Select, TextField, Typography } from "@mui/material";
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { Service } from "../../Models/Service";
 import Siderbar from "../../components/SiderBar";
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import { styled } from '@mui/material/styles';
+import { ref, uploadBytes, getDownloadURL, listAll } from "firebase/storage";
+import { storage } from "../../firebase/firebase";
+import { v4 } from "uuid";
 
 export default function EditProfile() {
+    const [imageUrls, setImageUrls] = useState<string[]>([]);
+    const [imageUpload, setImageUpload] = useState<File | null>(null);
+
+    const uploadFile = (file: File) => {
+        if (file == null) return;
+        const imageRef = ref(storage, `images/${file.name + v4()}`);
+        uploadBytes(imageRef, file).then((snapshot) => {
+            getDownloadURL(snapshot.ref).then((url) => {
+                setImageUrls((prev) => [...prev, url]);
+            });
+        });
+    };
+
+    const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files && event.target.files[0];
+        if (file) {
+            setImageUpload(file);
+            uploadFile(file);
+        }
+    };
+
+
     const VisuallyHiddenInput = styled('input')({
         clip: 'rect(0 0 0 0)',
         clipPath: 'inset(10%)',
@@ -57,7 +82,31 @@ export default function EditProfile() {
                 <Divider sx={{ borderColor: 'white', mb: 3, mt: 1 }} />
                 <Grid container>
                     <Grid item xs>
-                        <Avatar variant="rounded" alt="Remy Sharp"
+                        {imageUrls.length > 0 && (
+                            <Avatar
+                                alt="Uploaded Image"
+                                src={imageUrls[imageUrls.length - 1]}
+                                sx={{ width: 100, height: 100 }}
+                            />
+                        )}
+                        <input
+                            accept="image/*"
+                            id="icon-button-file"
+                            type="file"
+                            onChange={handleImageChange}
+                            hidden
+                        />
+                        <label htmlFor="icon-button-file">
+                            <IconButton
+                                color="primary"
+                                aria-label="upload picture"
+                                component="span"
+                            >
+                                <ModeEditIcon />
+                            </IconButton>
+                        </label>
+
+                        {/* <Avatar variant="rounded" alt="Remy Sharp"
                             src="/static/images/avatar/1.jpg"
                             sx={{ width: 100, height: 100 }}>
                             <label htmlFor="icon-button-file">
@@ -70,7 +119,7 @@ export default function EditProfile() {
                                 </IconButton>
                                 <VisuallyHiddenInput accept="*" id="icon-button-file" type="file" />
                             </label>
-                        </Avatar>
+                        </Avatar> */}
                     </Grid>
                     <Grid item xs={10}>
                         <Typography variant="h6" sx={{ mb: 1, ml: 1 }}>Name</Typography>

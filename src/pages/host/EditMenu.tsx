@@ -31,15 +31,34 @@ export default function EditMenu() {
             slidesToSlide: 1
         }
     };
-    const [services, setServices] = useState<Service[]>([]);
+    interface Menu {
+        id: string,
+        name: string,
+        description: string,
+        price: number
+    }
+    // const [services, setServices] = useState<Service[]>([]);
+    const [menu, setMenu] = useState<Menu[]>([]);
+
+    const getMenu = async () => {
+        try {
+            const response = await axios.get(
+                'https://swdbirthdaypartybooking.somee.com/api/getservicebytype?hostId=56594440-2c26-4f1c-8ed1-a2ba037cde4e&ServiceType=dish');
+            console.log('API Response:', response.data);
+            if (response.data && response.data.success) {
+                setMenu(response.data.data); // Assuming menu data is within response.data.data
+            } else {
+                console.log('Invalid response structure:', response.data);
+            }
+        } catch (error) {
+            console.log('Error fetching data:', error);
+        }
+
+    }
+
     useEffect(() => {
-        axios.get('https://65e1a8d6a8583365b316f7df.mockapi.io/api/service')
-            .then(response => {
-                setServices(response.data);
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
+        getMenu()
+        console.log('menu ne: ', menu)
     }, []);
     return (
         <Grid container>
@@ -50,35 +69,35 @@ export default function EditMenu() {
 
                             href="/"
                         >
-                            <Typography className='text-white'>   {linkpages}</Typography>
+                            <Typography className='text-white'> {linkpages}</Typography>
                         </Link>
                     )}
                 </Breadcrumbs>
 
-                <Typography variant="h4" gutterBottom sx={{ mt: 2, ml: 1.25, color: 'white' }}>
+                <Typography variant="h1" gutterBottom sx={{ mt: 2, ml: 1.25, color: 'white' }}>
                     Event
                 </Typography>
             </Grid>
-            <Typography gutterBottom sx={{ mt: 1, ml: 1.25, color: 'white' }}>
+            <Typography gutterBottom sx={{ ml: 1.25, color: 'white' }}>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur eos nostrum repudiandae facere molestias, eum recusandae commodi provident sit, enim officia, officiis sed. Ab, deserunt! Deserunt doloribus perferendis delectus sed?
             </Typography>
             <Grid container>
-                <Grid item xs={12} className='flex justify-between items-center' justifyContent="space-around">
+                <Grid item xs={12} className='flex justify-between items-center py-4' justifyContent="space-between">
                     <Grid item xs={10} >
-                        <Typography variant='h4' sx={{ ml: 1.25 }} >Menu</Typography>
+                        <Typography variant='h3' sx={{ ml: 1.25 }} >Menu</Typography>
                     </Grid>
-                    <Grid item xs={2}>
+                    <Grid item xs={1} >
                         <Link href="/">
-                            <Button variant='contained' size='small'>
-                                <Typography variant="body2" className='px-3 ' >
+                            <Button variant='contained' size='large' >
+                                <Typography variant="body2" className='px-2' >
                                     ADD
                                 </Typography>
                             </Button>
                         </Link>
                     </Grid>
                 </Grid>
-                <Grid container justifyContent="space-around">
-                    <Grid item xs={10} className='pl-2'>
+                <Grid container className='flex justify-between py-4' justifyContent="space-between">
+                    <Grid item xs={10} >
                         <TextField
                             sx={{
                                 '& label.Mui-focused': {
@@ -162,11 +181,11 @@ export default function EditMenu() {
                         </TextField>
                     </Grid>
                 </Grid>
+
+
                 <Grid item xs={12}>
-
-
-                    {services.map((service) =>
-                        <Card sx={{ display: 'flex', background: 'black', color: 'white', mt: 4, mb: 4 }}>
+                    {Array.isArray(menu) && menu.map(item =>
+                        <Card sx={{ display: 'flex', background: 'black', color: 'white', mt: 4, mb: 4 }} key={item.id}>
                             <Grid>
                                 <CardMedia
                                     className="rounded-3xl"
@@ -178,31 +197,29 @@ export default function EditMenu() {
                             </Grid>
                             <Grid container sx={{ display: 'flex', flexDirection: 'row' }}>
                                 <CardContent sx={{ flex: '1 0 auto' }}>
-                                    <Grid className="flex justify-between ">
-                                        <Grid container>
-                                            <Grid item className="flex items-center" xs={4}>
-                                                <Typography component="div" variant="h5">
-                                                    {service.name}
-                                                </Typography>
-                                                <Box>
-                                                    <IconButton aria-label="delete" size="medium" color="primary">
-                                                        <EditIcon fontSize="inherit" />
-                                                    </IconButton>
-                                                    <IconButton aria-label="delete" size="medium" color="error">
-                                                        <DeleteIcon fontSize="inherit" />
-                                                    </IconButton>
-                                                </Box>
-                                            </Grid>
-                                            <Grid>
+                                    <Grid className='flex' style={{ justifyContent: 'space-between' }}>
+                                        <Grid className='flex '>
+                                            <Typography component="div" variant="h5">
+                                                {item.name}
+                                            </Typography>
 
-                                            </Grid>
+                                            <Box className="flex ml-2">
+                                                <IconButton aria-label="delete" size="medium" color="primary">
+                                                    <EditIcon fontSize="inherit" />
+                                                </IconButton>
+                                                <IconButton aria-label="delete" size="medium" color="error">
+                                                    <DeleteIcon fontSize="inherit" />
+                                                </IconButton>
+                                            </Box>
                                         </Grid>
+
                                         <Typography component="div" variant="h5">
-                                            {service.price}
+                                            {item.price} VND
                                         </Typography>
                                     </Grid>
+
                                     <Typography variant="subtitle1" component="div">
-                                        {service.description}
+                                        {item.description}
                                     </Typography>
                                 </CardContent>
 
