@@ -10,4 +10,8 @@ export const store = configureStore({
 });
 
 export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch; // để tạm vì lỗi
+export type AppDispatch = typeof store.dispatch;
+export type PayloadAction<T, Type extends string, Payload = T> = {
+  payload?: Payload;
+  type: Type;
+};
