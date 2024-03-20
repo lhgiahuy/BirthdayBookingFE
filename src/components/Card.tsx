@@ -42,7 +42,7 @@ export default function CardCarousel(props: CarouselProps) {
   };
 
   return (
-    <Box className="flex flex-wrap gap-4">
+    <Box className="flex gap-4">
       {services.slice(start, end).map((service) => (
         <div key={service.id}>
           <ExpandableCard

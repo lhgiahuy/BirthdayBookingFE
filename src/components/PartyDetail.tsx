@@ -32,8 +32,8 @@ export default function PartyDetail() {
   }, []);
 
   return (
-    <Dialog open={true} fullWidth scroll="paper" color="white">
-      <Box className="bg-black max-w-3xl rounded-xl overflow-hidden">
+    <Dialog open={true} maxWidth="md" scroll="body">
+      <Box sx={{ color: "white!important" }} className="bg-black">
         <Box
           sx={{
             backgroundSize: "cover",
@@ -74,54 +74,46 @@ export default function PartyDetail() {
             </Box>
           </Box>
         </Box>
-        <DialogContent>
-          <Box className="flex flex-col gap-4 py-4 px-4">
-            <Box className="flex flex-col gap-4 items-start justify-between w-full">
-              <Box className="flex items-end gap-2">
-                <Avatar></Avatar>
-                <Typography variant="h5">Someone</Typography>
-              </Box>
-              <Box className="w-[80%]">
-                <Typography variant="subtitle1">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Obcaecati itaque quae exercitationem tempore dolor recusandae
-                  ad fugiat eligendi cum voluptatibus, quo provident inventore
-                  animi aliquam perspiciatis, sit, dicta velit suscipit!
-                </Typography>
-              </Box>
+        <Box className="flex flex-col gap-4 py-4 px-8">
+          <Box className="flex flex-col gap-4 items-start justify-between w-full">
+            <Box className="flex items-end gap-2">
+              <Avatar></Avatar>
+              <Typography variant="h5">Someone</Typography>
             </Box>
-            <Box>
-              <Typography variant="h4">Place</Typography>
-              <Box>
-                {services.map((service) => (
-                  <Card
-                    sx={{
-                      display: "flex",
-                      background: "black",
-                      color: "white",
-                    }}
-                  >
-                    <Grid sx={{ display: "flex", flexDirection: "row" }}>
-                      <CardContent sx={{ flex: "1 0 auto" }}>
-                        <Typography component="div" variant="h5">
-                          {service.name}
-                        </Typography>
-
-                        <Typography component="div" variant="subtitle1">
-                          {service.price}
-                        </Typography>
-
-                        <Typography variant="subtitle1" component="div">
-                          {service.description}
-                        </Typography>
-                      </CardContent>
-                    </Grid>
-                  </Card>
-                ))}
-              </Box>
+            <Box className="w-[80%]">
+              <Typography variant="subtitle1">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Obcaecati itaque quae exercitationem tempore dolor recusandae ad
+                fugiat eligendi cum voluptatibus, quo provident inventore animi
+                aliquam perspiciatis, sit, dicta velit suscipit!
+              </Typography>
             </Box>
           </Box>
-        </DialogContent>
+          <Box>
+            <Typography variant="h4" fontWeight="bold">
+              Place
+            </Typography>
+            <Box>
+              {services.map((service) => (
+                <Box className="flex flex-col mt-4">
+                  <Box className="flex flex-col gap-2">
+                    <Typography component="div" variant="h5">
+                      {service.name}
+                    </Typography>
+
+                    <Typography component="div" variant="subtitle1">
+                      {service.price}
+                    </Typography>
+
+                    <Typography variant="subtitle1" component="div">
+                      {service.description}
+                    </Typography>
+                  </Box>
+                </Box>
+              ))}
+            </Box>
+          </Box>
+        </Box>
       </Box>
     </Dialog>
   );
