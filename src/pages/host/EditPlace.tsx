@@ -1,7 +1,7 @@
 
 import {
     Box, Grid, Typography, Breadcrumbs, Link
-    , Button, Card, CardMedia, CardContent, CardActionArea, TextField, InputAdornment, InputBase, IconButton, Paper, MenuItem
+    , Button, Card, CardContent, TextField, InputAdornment, IconButton, MenuItem
 } from '@mui/material';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
@@ -31,15 +31,34 @@ export default function EditPlace() {
             slidesToSlide: 1
         }
     };
-    const [services, setServices] = useState<Service[]>([]);
+    interface Place {
+        id: string;
+        name: string;
+        description: string;
+        address: string;
+        price: number;
+    }
+
+    const [places, setPlaces] = useState<Place[]>([]);
+
+    const getPlaces = async () => {
+        try {
+            const response = await axios.get(
+                'https://swdbirthdaypartybooking.somee.com/api/getplace?id=114e9f53-7fc3-4e3a-944f-2d5e66c65410');
+            console.log('API Response:', response.data); // Log the response to understand its structure
+            // Modify the logic to extract places correctly
+            if (response.data && response.data.success && response.data.data && Array.isArray(response.data.data.$values)) {
+                setPlaces(response.data.data.$values);
+            }
+        } catch (error) {
+            console.log('Error fetching data:', error);
+        }
+
+    }
+
     useEffect(() => {
-        axios.get('https://65e1a8d6a8583365b316f7df.mockapi.io/api/service')
-            .then(response => {
-                setServices(response.data);
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
+        getPlaces()
+        console.log("data ne: ", places);
     }, []);
     return (
         <Grid container>
@@ -160,15 +179,15 @@ export default function EditPlace() {
                     </Grid>
                 </Grid>
                 <Grid item xs={12}>
-                    {services.map((service) =>
-                        <Card sx={{ display: 'flex', background: 'black', color: 'white' }}>
+                    {places && places.map(place =>
+                        <Card sx={{ display: 'flex', background: 'black', color: 'white' }} >
 
                             <Grid sx={{ display: 'flex', flexDirection: 'row' }}>
                                 <CardContent sx={{ flex: '1 0 auto' }}>
                                     <Box>
                                         <Box className="flex items-center">
                                             <Typography component="div" variant="h4">
-                                                {service.name}
+                                                {place.name}
                                             </Typography>
                                             <Box>
 
@@ -183,12 +202,12 @@ export default function EditPlace() {
                                     </Box>
 
                                     <Typography component="div" variant="subtitle1">
-                                        {service.price}
+                                        {place.address}
                                     </Typography>
 
 
                                     <Typography variant="subtitle1" component="div">
-                                        {service.description}
+                                        {place.description}
                                     </Typography>
                                 </CardContent>
 
@@ -196,7 +215,6 @@ export default function EditPlace() {
 
                         </Card>
                     )}
-
                 </Grid>
             </Grid>
 

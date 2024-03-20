@@ -16,7 +16,6 @@ import ChangePassword from "./pages/user/ChangePassword";
 import EditProfile from "./pages/user/EditProfile";
 import OrderDetails from "./pages/user/OrderDetails";
 import OrderManagement from "./pages/host/OrderManagement";
-import TestUpload from "./pages/user/TestUpload";
 const RootLayout = React.lazy(() => import("./layouts/RootLayout"));
 const RootLayoutWithBackground = React.lazy(
   () => import("./layouts/RootLayoutWithBackground")
@@ -78,17 +77,13 @@ function App() {
           path: "/BookingPage",
           element: <BookingPage />,
         },
-        {
-          path: "/TestUpload",
-          element: <TestUpload />
-        }
       ],
     },
 
     {
       element: (
         <Suspense>
-          <RootLayoutWithBackground />,
+          <RootLayoutWithBackground />
         </Suspense>
       ),
       children: [
@@ -96,7 +91,7 @@ function App() {
           path: "/",
           element: (
             <Suspense>
-              <EventPage />,
+              <EventPage />
             </Suspense>
           ),
         },
