@@ -1,8 +1,3 @@
-import * as React from "react";
-import Card from "@mui/material/Card";
-import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
-import Collapse from "@mui/material/Collapse";
 import Typography from "@mui/material/Typography";
 import { Box, Chip, IconButton, Rating, Tooltip } from "@mui/material";
 import VerifiedIcon from "@mui/icons-material/Verified";
@@ -17,60 +12,6 @@ interface ExpandableCardProps {
 
 export default function ExpandableCard(props: ExpandableCardProps) {
   return (
-    //   sx={{
-    //     backgroundColor: "transparent",
-    //     boxShadow: "none",
-    //     color: "white",
-    //     maxWidth: "320px",
-    //     transition: "all .5s ease",
-    //     "&:hover": {
-    //       maxWidth: "400px",
-    //     },
-    //   }}
-    //   onMouseEnter={() => setExpanded(true)}
-    //   onMouseLeave={() => setExpanded(false)}
-    // >
-    //   <CardMedia
-    //     component="img"
-    //     height="194"
-    //     image="https://mui.com/static/images/cards/paella.jpg"
-    //     alt="Paella dish"
-    //   />
-    //   <Collapse in={expanded} unmountOnExit>
-    //     <CardContent>
-    //       <Box className="flex items-center w-full justify-between">
-    //         <Typography variant="h4">{props.name}</Typography>
-    //         <Chip
-    //           label={`${props.tag}`}
-    //           size="small"
-    //           color="primary"
-    //           icon={<VerifiedIcon />}
-    //         ></Chip>
-    //       </Box>
-    //       <Box className="flex items-center gap-2">
-    //         <Rating defaultValue={1} max={1} />
-    //         <Typography component="legend">{props.rating}</Typography>
-    //       </Box>
-    //       <Typography paragraph>{props.description}</Typography>
-    //       <Box className="flex items-center w-full justify-end">
-    //         <Tooltip title="View detail">
-    //           <IconButton
-    //             size="small"
-    //             sx={{
-    //               border: "2px solid gray",
-    //               color: "white",
-    //               "&:hover": {
-    //                 border: "2px solid white",
-    //               },
-    //             }}
-    //           >
-    //             <ExpandMoreIcon fontSize="large" />
-    //           </IconButton>
-    //         </Tooltip>
-    //       </Box>
-    //     </CardContent>
-    //   </Collapse>
-    // </Card>
     <div className="group rounded bg-zinc-900 col-span relative h-[12vw]">
       <img
         src="https://mui.com/static/images/cards/paella.jpg"
