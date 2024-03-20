@@ -1,14 +1,11 @@
-// store.js
-
-import { configureStore } from "@reduxjs/toolkit";
-import authReducer from "./slice/loginSlice";
-import roleSlice from "./slice/roleSlice";
-
+import { configureStore } from '@reduxjs/toolkit';
+import multiStepReducer from './slice/multiStepSlice'
+import ServiceStateReducer from './slice/serviceSlice';
 
 export const store = configureStore({
   reducer: {
-    auth: authReducer,
-    roleCheck: roleSlice,
+    multiStep: multiStepReducer,
+    serviceState: ServiceStateReducer,
   },
 });
 
