@@ -2,6 +2,8 @@ import Typography from "@mui/material/Typography";
 import { Box, Chip, IconButton, Rating, Tooltip } from "@mui/material";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { useAppDispatch, useAppSelector } from "../redux/hook";
+import { setIsOpen } from "../redux/slice/serviceSlice";
 
 interface ExpandableCardProps {
   name: string;
@@ -11,6 +13,10 @@ interface ExpandableCardProps {
 }
 
 export default function ExpandableCard(props: ExpandableCardProps) {
+  const dispatch = useAppDispatch();
+  const setModelOpen = () => {
+    dispatch(setIsOpen(true));
+  };
   return (
     <div className="group rounded bg-zinc-900 col-span relative h-[12vw]">
       <img
@@ -105,6 +111,7 @@ export default function ExpandableCard(props: ExpandableCardProps) {
                     border: "2px solid white",
                   },
                 }}
+                onClick={setModelOpen}
               >
                 <ExpandMoreIcon fontSize="medium" />
               </IconButton>

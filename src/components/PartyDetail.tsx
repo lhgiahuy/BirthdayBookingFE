@@ -3,23 +3,29 @@ import {
   Avatar,
   Box,
   Card,
-  CardContent,
+  CardActionArea,
+  CardMedia,
   Chip,
   Dialog,
-  DialogContent,
-  Grid,
-  Modal,
+  Divider,
+  IconButton,
   Rating,
   Typography,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Service } from "../Models/Service";
+import Carousel from "react-multi-carousel";
+import CloseIcon from "@mui/icons-material/Close";
+import { useAppDispatch, useAppSelector } from "../redux/hook";
+import { setIsOpen } from "../redux/slice/serviceSlice";
 
 export default function PartyDetail() {
   const [services, setServices] = useState<Service[]>([]);
+  const dispatch = useAppDispatch();
+  const { modalOpen } = useAppSelector((state) => state.serviceState);
   useEffect(() => {
     axios
       .get("https://65e1a8d6a8583365b316f7df.mockapi.io/api/service")
@@ -31,9 +37,26 @@ export default function PartyDetail() {
       });
   }, []);
 
+  const handleClose = () => {
+    dispatch(setIsOpen(false));
+  };
+
   return (
-    <Dialog open={true} maxWidth="md" scroll="body">
+    <Dialog open={modalOpen} maxWidth="md" scroll="body">
       <Box sx={{ color: "white!important" }} className="bg-black">
+        <IconButton
+          aria-label="close"
+          onClick={handleClose}
+          sx={{
+            position: "absolute",
+            right: 8,
+            top: 8,
+            color: (theme) => theme.palette.grey[500],
+            zIndex: 100,
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
         <Box
           sx={{
             backgroundSize: "cover",
@@ -89,6 +112,7 @@ export default function PartyDetail() {
               </Typography>
             </Box>
           </Box>
+          <Divider className="bg-gray-400" variant="fullWidth"></Divider>
           <Box>
             <Typography variant="h4" fontWeight="bold">
               Place
@@ -112,6 +136,189 @@ export default function PartyDetail() {
                 </Box>
               ))}
             </Box>
+          </Box>
+          <Divider className="bg-gray-400" variant="fullWidth"></Divider>
+          <Box>
+            <Typography variant="h4" fontWeight="bold">
+              Menu
+            </Typography>
+            <Carousel
+              additionalTransfrom={0}
+              arrows
+              autoPlaySpeed={3000}
+              centerMode={false}
+              className="mt-4"
+              dotListClass=""
+              focusOnSelect={false}
+              itemClass=""
+              keyBoardControl
+              pauseOnHover
+              renderArrowsWhenDisabled={false}
+              renderButtonGroupOutside={false}
+              responsive={{
+                desktop: {
+                  breakpoint: {
+                    max: 3000,
+                    min: 1024,
+                  },
+                  items: 4,
+                },
+                mobile: {
+                  breakpoint: {
+                    max: 464,
+                    min: 0,
+                  },
+                  items: 1,
+                },
+                tablet: {
+                  breakpoint: {
+                    max: 1024,
+                    min: 464,
+                  },
+                  items: 2,
+                },
+              }}
+              rewind={false}
+              rewindWithAnimation={false}
+              rtl={false}
+              shouldResetAutoplay
+              showDots={false}
+              sliderClass=""
+              slidesToSlide={4}
+            >
+              {/* Dynamic content */}
+              {services.map((service) => (
+                <div key={service.id}>
+                  <Card
+                    sx={{
+                      maxWidth: 200,
+                      backgroundColor: "transparent",
+                      boxShadow: "none",
+                      color: "white",
+                    }}
+                  >
+                    <CardActionArea>
+                      <CardMedia
+                        component="img"
+                        height="180"
+                        image="https://i.pinimg.com/736x/6e/74/63/6e7463744c9fdf25c505adfd51902f50.jpg"
+                      />
+                      <Box className="flex flex-col gap-1">
+                        <Typography variant="h6">{service.name}</Typography>
+                        <Typography variant="body2">
+                          {service.description}
+                        </Typography>
+                        <Box display="flex" alignItems="center">
+                          <Box className="flex items-center gap-2">
+                            <Rating defaultValue={1} max={1} />
+                            <Typography component="legend">5.0</Typography>
+                          </Box>
+                        </Box>
+                        <Typography
+                          variant="body2"
+                          fontWeight="bold"
+                          sx={{ mt: "5px", color: "white" }}
+                        >
+                          {service.price}
+                        </Typography>
+                      </Box>
+                    </CardActionArea>
+                  </Card>
+                </div>
+              ))}
+            </Carousel>
+          </Box>
+          <Divider className="bg-gray-400" variant="fullWidth"></Divider>
+
+          <Box>
+            <Typography variant="h4" fontWeight="bold">
+              Decorations
+            </Typography>
+            <Carousel
+              additionalTransfrom={0}
+              arrows
+              autoPlaySpeed={3000}
+              centerMode={false}
+              className="mt-4"
+              dotListClass=""
+              focusOnSelect={false}
+              itemClass=""
+              keyBoardControl
+              pauseOnHover
+              renderArrowsWhenDisabled={false}
+              renderButtonGroupOutside={false}
+              responsive={{
+                desktop: {
+                  breakpoint: {
+                    max: 3000,
+                    min: 1024,
+                  },
+                  items: 4,
+                },
+                mobile: {
+                  breakpoint: {
+                    max: 464,
+                    min: 0,
+                  },
+                  items: 1,
+                },
+                tablet: {
+                  breakpoint: {
+                    max: 1024,
+                    min: 464,
+                  },
+                  items: 2,
+                },
+              }}
+              rewind={false}
+              rewindWithAnimation={false}
+              rtl={false}
+              shouldResetAutoplay
+              showDots={false}
+              sliderClass=""
+              slidesToSlide={4}
+            >
+              {/* Dynamic content */}
+              {services.map((service) => (
+                <div key={service.id}>
+                  <Card
+                    sx={{
+                      maxWidth: 200,
+                      backgroundColor: "transparent",
+                      boxShadow: "none",
+                      color: "white",
+                    }}
+                  >
+                    <CardActionArea>
+                      <CardMedia
+                        component="img"
+                        height="180"
+                        image="https://i.pinimg.com/736x/6e/74/63/6e7463744c9fdf25c505adfd51902f50.jpg"
+                      />
+                      <Box className="flex flex-col gap-1">
+                        <Typography variant="h6">{service.name}</Typography>
+                        <Typography variant="body2">
+                          {service.description}
+                        </Typography>
+                        <Box display="flex" alignItems="center">
+                          <Box className="flex items-center gap-2">
+                            <Rating defaultValue={1} max={1} />
+                            <Typography component="legend">5.0</Typography>
+                          </Box>
+                        </Box>
+                        <Typography
+                          variant="body2"
+                          fontWeight="bold"
+                          sx={{ mt: "5px", color: "white" }}
+                        >
+                          {service.price}
+                        </Typography>
+                      </Box>
+                    </CardActionArea>
+                  </Card>
+                </div>
+              ))}
+            </Carousel>
           </Box>
         </Box>
       </Box>
