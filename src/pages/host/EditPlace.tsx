@@ -45,10 +45,10 @@ export default function EditPlace() {
         try {
             const response = await axios.get(
                 'https://swdbirthdaypartybooking.somee.com/api/getplace?id=114e9f53-7fc3-4e3a-944f-2d5e66c65410');
-            console.log('API Response:', response.data); // Log the response to understand its structure
-            // Modify the logic to extract places correctly
-            if (response.data && response.data.success && response.data.data && Array.isArray(response.data.data.$values)) {
-                setPlaces(response.data.data.$values);
+            // console.log('API Response:', response.data); // Log the response to understand its structure
+
+            if (response.data && response.data.success) {
+                setPlaces(response.data.data);
             }
         } catch (error) {
             console.log('Error fetching data:', error);
@@ -59,6 +59,7 @@ export default function EditPlace() {
     useEffect(() => {
         getPlaces()
         console.log("data ne: ", places);
+
     }, []);
     return (
         <Grid container>
@@ -74,27 +75,30 @@ export default function EditPlace() {
                     )}
                 </Breadcrumbs>
 
-                <Typography variant="h4" gutterBottom sx={{ mt: 2, ml: 1.25, color: 'white' }}>
+                <Typography variant="h1" gutterBottom sx={{ mt: 2, ml: 1.25, color: 'white' }}>
                     Event
                 </Typography>
             </Grid>
-            <Typography gutterBottom sx={{ mt: 1, ml: 1.25, color: 'white' }}>
+            <Typography gutterBottom sx={{ ml: 1.25, color: 'white' }}>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur eos nostrum repudiandae facere molestias, eum recusandae commodi provident sit, enim officia, officiis sed. Ab, deserunt! Deserunt doloribus perferendis delectus sed?
             </Typography>
             <Grid container>
-                <Grid item xs={12} className='flex justify-between items-center'>
-                    <Typography variant='h4' sx={{ ml: 1.25 }}>Place</Typography>
-                    <Link href="/">
-                        <Button variant='contained' size='small'>
-                            <Typography variant="body2" className='px-3' >
-                                ADD
-                            </Typography>
-                        </Button>
-                    </Link>
-
+                <Grid item xs={12} className='flex justify-between items-center py-4' justifyContent="space-between">
+                    <Grid item xs={10} >
+                        <Typography variant='h3' sx={{ ml: 1.25 }} >Place</Typography>
+                    </Grid>
+                    <Grid item xs={1} >
+                        <Link href="/">
+                            <Button variant='contained' size='large' >
+                                <Typography variant="body2" className='px-2' >
+                                    ADD
+                                </Typography>
+                            </Button>
+                        </Link>
+                    </Grid>
                 </Grid>
-                <Grid container justifyContent="space-around">
-                    <Grid item xs={10} className='pl-2'>
+                <Grid container className='flex justify-between py-4' justifyContent="space-between">
+                    <Grid item xs={10} >
                         <TextField
                             sx={{
                                 '& label.Mui-focused': {
@@ -178,11 +182,12 @@ export default function EditPlace() {
                         </TextField>
                     </Grid>
                 </Grid>
+
                 <Grid item xs={12}>
                     {places && places.map(place =>
                         <Card sx={{ display: 'flex', background: 'black', color: 'white' }} >
 
-                            <Grid sx={{ display: 'flex', flexDirection: 'row' }}>
+                            <Grid sx={{ display: 'flex', flexDirection: 'row' }} key={place.id}>
                                 <CardContent sx={{ flex: '1 0 auto' }}>
                                     <Box>
                                         <Box className="flex items-center">
