@@ -6,35 +6,24 @@ import { NavigateFunction, useNavigate } from "react-router-dom";
 import { AxiosError } from "axios";
 import { Formik, Form, Field } from "formik";
 import { MyInput, MyInputPassword } from "../ui/myInput";
+import { useAuth } from "../hooks/useAuth";
+import { useState } from "react";
+import Alert from '@mui/material/Alert';
+
 
 export default function Login() {
-  const navigation = useNavigate();
-
-  const handleLoginSubmit = async (
-    requestData: FormValues,
-    navigate: NavigateFunction
-  ) => {
-    try {
-      const response = await agent.Authentication.login(requestData);
-      navigate("/EditMenu");
-      console.log(response);
-      return response;
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        const errorResponse = error?.response?.data?.error?.message;
-        console.log(errorResponse);
-        return errorResponse;
-      }
-    }
-  };
-
-  const handleSubmit = async (values: FormValues) => {
-    handleLoginSubmit(values, navigation);
-  };
 
   const initialValues = {
-    email: "",
-    password: "",
+    email: '',
+    password: '',
+  };
+  const { state, handleLogin } = useAuth();
+
+  const navigate = useNavigate();
+
+  const handleSubmit = async (values: FormValues) => {
+    handleLogin(values, navigate);
+
   };
 
   return (
@@ -137,6 +126,7 @@ export default function Login() {
     //   </Grid>
     // </>
     <>
+
       <Formik initialValues={initialValues} onSubmit={handleSubmit}>
         <Form>
           <Box className="flex gap-4 p-8 w-full h-[400px] bg-white">
@@ -149,6 +139,7 @@ export default function Login() {
             <Button type="submit" variant="contained">
               Sign in
             </Button>
+
           </Box>
         </Form>
       </Formik>

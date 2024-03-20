@@ -19,12 +19,10 @@ const PrivateRoute = ({ inverted, children, requiredRoles }: PrivateRouteProps) 
     // }
 
     if (inverted) {
-        return isAuth ? <Navigate to="/Event" /> : children;
+        return isAuth ? <Navigate to="/account" /> : children;
     }
 
-    if (currentRole.role && !requiredRoles?.some((r) => currentRole.role === r)) return (<div></div>)
-
-        ;
+    if (currentRole.role && !requiredRoles?.some((r) => currentRole.role === r)) return;
 
     return isAuth ? children : <Navigate to="/login" />;
 };

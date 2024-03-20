@@ -5,22 +5,23 @@ import { NavigateFunction } from 'react-router-dom';
 import baseApi from '../utils/baseApi';
 import { AxiosError } from 'axios';
 import { LoginError } from '../constants/login';
+
 export function useAuth() {
   const state = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
+
 
   const handleLogin = async (value: FormValues, navigate: NavigateFunction) => {
     dispatch(loginStart());
     try {
       const { data } = await baseApi.post(`/api/auth/signin`, {
-        input: value,
+        email: value.email,
+        password: value.password,
       });
-      const { link, access_token, ...user } = data.data;
-      dispatch(loginSuccess(user));
+      const  access_token  = data.data;
+
       localStorage.setItem('access_token', access_token);
-      localStorage.setItem('user', JSON.stringify(user));
-      localStorage.setItem('link', JSON.stringify(link));
-      navigate(link);
+  
     } catch (error) {
       if (error instanceof AxiosError) {
         const errorResponse = error?.response?.data?.error?.message;
