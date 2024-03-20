@@ -83,7 +83,7 @@ function App() {
     {
       element: (
         <Suspense>
-          <RootLayoutWithBackground />,
+          <RootLayoutWithBackground />
         </Suspense>
       ),
       children: [
@@ -91,7 +91,7 @@ function App() {
           path: "/",
           element: (
             <Suspense>
-              <EventPage />,
+              <EventPage />
             </Suspense>
           ),
         },

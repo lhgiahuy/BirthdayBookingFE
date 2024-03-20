@@ -25,11 +25,7 @@ interface Service {
   id: string;
 }
 
-interface CarouselProps {
-  deviceType?: string;
-}
-
-export default function Slide(props: CarouselProps) {
+export default function Slide() {
   const [services, setServices] = useState<Service[]>([]);
 
   useEffect(() => {

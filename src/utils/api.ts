@@ -1,8 +1,8 @@
 import axios, { AxiosError } from 'axios';
 import { Envs } from './env';
 import baseApi from './baseApi';
-import { router } from '../routes/route';
 import { jwtDecode } from 'jwt-decode';
+import { Navigate } from 'react-router-dom';
 const baseURL = Envs.apiRemote;
 
 const apiJWT = axios.create({
@@ -32,7 +32,7 @@ apiJWT.interceptors.request.use(async (config) => {
           console.log(error.response?.data.error);
           if (error.response?.data.error.message === 'You are not authenticated') {
             localStorage.clear();
-            router.navigate('/login');
+          
             throw error;
           }
         } else {
