@@ -6,6 +6,7 @@ import { Box, Card, CardActionArea, CardMedia, Grid } from "@mui/material";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import ExpandableCard from "./ExpandableCard";
+import { useAppDispatch } from "../redux/hook";
 
 interface Service {
   name: string;
@@ -25,7 +26,6 @@ interface CarouselProps {
 export default function CardCarousel(props: CarouselProps) {
   const [services, setServices] = useState<Service[]>([]);
   const { start, end } = props;
-
   useEffect(() => {
     fetchServices();
   }, []);
@@ -42,7 +42,7 @@ export default function CardCarousel(props: CarouselProps) {
   };
 
   return (
-    <Box className="flex flex-wrap gap-4">
+    <Box className="flex gap-4">
       {services.slice(start, end).map((service) => (
         <div key={service.id}>
           <ExpandableCard
