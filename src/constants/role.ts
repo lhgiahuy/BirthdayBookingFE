@@ -1,5 +1,7 @@
 export const ROLE = {
-    1: "User",
-    2: "Supplider",
+    role1: "Customer",
+    role2: "Host",
+    role3: "Admin",
    
   };
+  
