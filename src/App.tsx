@@ -16,6 +16,9 @@ import ChangePassword from "./pages/user/ChangePassword";
 import EditProfile from "./pages/user/EditProfile";
 import OrderDetails from "./pages/user/OrderDetails";
 import OrderManagement from "./pages/host/OrderManagement";
+import PrivateRoute from "./routes/privateRoute";
+import Forbidden from "./pages/error/forbidden";
+import { ROLE } from "./constants/role";
 const RootLayout = React.lazy(() => import("./layouts/RootLayout"));
 const RootLayoutWithBackground = React.lazy(
   () => import("./layouts/RootLayoutWithBackground")
@@ -26,8 +29,13 @@ function App() {
       element: <RootLayout />,
       children: [
         {
+
           path: "/Event",
-          element: <EventPage />,
+          element: (
+            <PrivateRoute inverted={false} requiredRoles={[ROLE.role1]}>
+              <EventPage />
+            </PrivateRoute>
+          )
         },
         {
           path: "/ServiceDetail",
@@ -100,7 +108,15 @@ function App() {
 
     {
       path: "/login",
-      element: <Login />,
+      element: (
+        <PrivateRoute inverted={true}>
+          <Login />
+        </PrivateRoute>
+      ),
+    },
+    {
+      path: "/error",
+      element: <Forbidden />,
     },
     {
       path: "/signup",
