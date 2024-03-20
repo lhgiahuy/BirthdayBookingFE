@@ -12,37 +12,126 @@ import {
   Rating,
   Typography,
 } from "@mui/material";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { Service } from "../Models/Service";
-import Carousel from "react-multi-carousel";
+import { Host } from "../Models/Host";
 import CloseIcon from "@mui/icons-material/Close";
 import { useAppDispatch, useAppSelector } from "../redux/hook";
 import { setIsOpen } from "../redux/slice/serviceSlice";
+import Carousel from "react-multi-carousel";
+import { Service } from "../Models/Service";
+import { Place } from "../Models/Place";
 
 export default function PartyDetail() {
-  const [services, setServices] = useState<Service[]>([]);
+  const [service, setService] = useState<Host>();
+  const [menu, setMenu] = useState<Service[]>([]);
+  const [decoration, setDecoration] = useState<Service[]>([]);
+  const [place, setPlace] = useState<Place[]>([]);
   const dispatch = useAppDispatch();
-  const { modalOpen } = useAppSelector((state) => state.serviceState);
+  const { modalOpen, id } = useAppSelector((state) => state.serviceState);
   useEffect(() => {
-    axios
-      .get("https://65e1a8d6a8583365b316f7df.mockapi.io/api/service")
-      .then((response) => {
-        setServices(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  }, []);
+    if (id != "") {
+      axios
+        .get(
+          `https://swdbirthdaypartybooking.somee.com/api/getaccount?Id=${id}`
+        )
+        .then((response) => {
+          const mappedService = {
+            name: response.data.data.name,
+            description: response.data.data.description,
+            price: response.data.data.description,
+            delete_flag: response.data.data.deleteFlag,
+            id: response.data.data.id,
+            // Map other fields as needed
+          };
+          setService(mappedService);
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    }
+  }, [id]);
+
+  useEffect(() => {
+    if (id != "") {
+      axios
+        .get(
+          `https://swdbirthdaypartybooking.somee.com/api/getservicebytype?hostId=${id}&ServiceType=dish`
+        )
+        .then((response) => {
+          const mappedServices = response.data.data.map((value: any) => ({
+            // Map fields according to the Service interface
+            id: value.id, // Replace field1 with the actual field name
+            name: value.name,
+            description: value.name,
+            price: value.price,
+            // Replace field2 with the actual field name
+            // Add more fields as needed
+          }));
+          setMenu(mappedServices);
+          console.log(menu);
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    }
+  }, [id]);
+
+  useEffect(() => {
+    if (id != "") {
+      axios
+        .get(
+          `https://swdbirthdaypartybooking.somee.com/api/getservicebytype?hostId=${id}&ServiceType=decoration`
+        )
+        .then((response) => {
+          const mappedServices = response.data.data.map((value: any) => ({
+            // Map fields according to the Service interface
+            id: value.id, // Replace field1 with the actual field name
+            name: value.name,
+            description: value.name,
+            price: value.price,
+            // Replace field2 with the actual field name
+            // Add more fields as needed
+          }));
+          setDecoration(mappedServices);
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    }
+  }, [id]);
+
+  useEffect(() => {
+    if (id != "") {
+      axios
+        .get(`https://swdbirthdaypartybooking.somee.com/api/getplace?Id=${id}`)
+        .then((response) => {
+          const mappedServices = response.data.data.map((value: any) => ({
+            // Map fields according to the Service interface
+            id: value.id, // Replace field1 with the actual field name
+            name: value.name,
+            description: value.description,
+            price: value.price,
+            address: value.address,
+            // Replace field2 with the actual field name
+            // Add more fields as needed
+          }));
+          setPlace(mappedServices);
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    }
+  }, [id]);
 
   const handleClose = () => {
     dispatch(setIsOpen(false));
   };
 
   return (
-    <Dialog open={modalOpen} maxWidth="md" scroll="body">
+    <Dialog open={Boolean(modalOpen)} maxWidth="md" scroll="body">
       <Box sx={{ color: "white!important" }} className="bg-black">
         <IconButton
           aria-label="close"
@@ -74,7 +163,7 @@ export default function PartyDetail() {
           >
             <Box className="flex flex-col gap-4 w-[70%] relative top-[60%] left-[2%]">
               <Box className="flex items-center gap-4">
-                <Typography variant="h4">Title</Typography>
+                <Typography variant="h4">{service?.name}</Typography>
                 <Chip
                   label="Top rated"
                   size="small"
@@ -118,19 +207,27 @@ export default function PartyDetail() {
               Place
             </Typography>
             <Box>
-              {services.map((service) => (
-                <Box className="flex flex-col mt-4">
+              {place.map((service) => (
+                <Box key={service.id} className="flex flex-col mt-4">
                   <Box className="flex flex-col gap-2">
                     <Typography component="div" variant="h5">
                       {service.name}
                     </Typography>
 
-                    <Typography component="div" variant="subtitle1">
-                      {service.price}
+                    <Typography
+                      color="gray"
+                      variant="subtitle1"
+                      component="div"
+                    >
+                      {service.address}
                     </Typography>
 
-                    <Typography variant="subtitle1" component="div">
-                      {service.description}
+                    <Typography
+                      component="div"
+                      fontWeight="bold"
+                      variant="subtitle1"
+                    >
+                      {service.price}.000VNĐ
                     </Typography>
                   </Box>
                 </Box>
@@ -187,7 +284,7 @@ export default function PartyDetail() {
               slidesToSlide={4}
             >
               {/* Dynamic content */}
-              {services.map((service) => (
+              {menu.map((service) => (
                 <div key={service.id}>
                   <Card
                     sx={{
@@ -219,7 +316,7 @@ export default function PartyDetail() {
                           fontWeight="bold"
                           sx={{ mt: "5px", color: "white" }}
                         >
-                          {service.price}
+                          {service.price}.000Đ
                         </Typography>
                       </Box>
                     </CardActionArea>
@@ -279,7 +376,7 @@ export default function PartyDetail() {
               slidesToSlide={4}
             >
               {/* Dynamic content */}
-              {services.map((service) => (
+              {decoration.map((service) => (
                 <div key={service.id}>
                   <Card
                     sx={{
@@ -311,7 +408,7 @@ export default function PartyDetail() {
                           fontWeight="bold"
                           sx={{ mt: "5px", color: "white" }}
                         >
-                          {service.price}
+                          {service.price}.000VNĐ
                         </Typography>
                       </Box>
                     </CardActionArea>

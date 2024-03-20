@@ -1,5 +1,6 @@
 import { Navigate } from "react-router-dom";
 import { useAppSelector } from "../redux/hook";
+import React from "react";
 interface PrivateRouteProps {
   inverted: boolean;
   children: React.ReactNode;
