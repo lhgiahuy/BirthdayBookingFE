@@ -1,14 +1,11 @@
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { Envs } from './env';
-import jwt_decode, { jwtDecode } from 'jwt-decode';
-import baseApi from './baseApi';
-import { router } from '../routes/route';
 
 const baseURL = Envs.apiRemote;
 
 const apiJWT = axios.create({
   baseURL,
-  withCredentials: true, 
+  withCredentials: false, 
 });
 
 // const sleep = () => new Promise((resolve) => setTimeout(resolve, 500)); 

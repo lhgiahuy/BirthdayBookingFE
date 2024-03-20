@@ -3,6 +3,7 @@ import agent from '../../utils/agent2';
 
 import { FormValues } from '../../Models/Authentication';
 import { AxiosError } from 'axios';
+import { NavigateFunction } from 'react-router-dom';
 export interface CurrentUser {
   id: string;
   email: string,
@@ -27,23 +28,6 @@ const initialState: User = {
   displayError: '',
 };
 
-export const handleLoginSubmit = createAsyncThunk(
-  "auth/handleLoginSubmit", 
-  async (requestData: FormValues) => {
-    try{
-        const response = await agent.Authentication.login(requestData);
-        console.log(response);
-        return response;
-    } catch(error){
-if (error instanceof AxiosError) {
-        return {
-          message: error.response?.data.error.message,
-          status: error.response?.status,
-        };
-      }
-    }
-  }
-)
 
 const authSlice = createSlice({
   name: 'auth',
