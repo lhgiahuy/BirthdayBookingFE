@@ -21,7 +21,6 @@ const Authentication = {
 const Account = {
   getHostAccount : () => requests.get('https://swdbirthdaypartybooking.somee.com/api/getallhost')
 }
-=======
 const Role = {
   checkRole: () => requests.get("role/get-role"),
 };
