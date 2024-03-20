@@ -102,8 +102,8 @@ function Navbar() {
     <AppBar
       position="sticky"
       sx={{
-        background: "white",
-        color: "black",
+        background: "black",
+        color: "white",
       }}
     >
       <Container maxWidth="xl">

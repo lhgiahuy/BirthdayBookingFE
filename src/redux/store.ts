@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import multiStepReducer from './slice/multiStepSlice'
+import ServiceStateReducer from './slice/serviceSlice';
 
 export const store = configureStore({
   reducer: {
     multiStep: multiStepReducer,
+    serviceState: ServiceStateReducer,
   },
 });
 

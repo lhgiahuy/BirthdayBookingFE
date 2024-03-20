@@ -1,19 +1,12 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-import {
-  Card,
-  CardActionArea,
-  CardContent,
-  CardMedia,
-  Typography,
-  Box,
-  Grid,
-} from "@mui/material";
-import StarIcon from "@mui/icons-material/Star";
+import { Box, Card, CardActionArea, CardMedia, Grid } from "@mui/material";
 
 import Carousel from "react-multi-carousel";
-import "react-multi-carousel/lib/styles.css"; // Ensure you are importing the right CSS file for 'react-multi-carousel'
+import "react-multi-carousel/lib/styles.css";
+import ExpandableCard from "./ExpandableCard";
+import { useAppDispatch } from "../redux/hook";
 
 interface Service {
   name: string;
@@ -26,12 +19,13 @@ interface Service {
 }
 
 interface CarouselProps {
-  deviceType?: string;
+  start: number;
+  end: number;
 }
 
 export default function CardCarousel(props: CarouselProps) {
   const [services, setServices] = useState<Service[]>([]);
-
+  const { start, end } = props;
   useEffect(() => {
     fetchServices();
   }, []);
@@ -48,75 +42,17 @@ export default function CardCarousel(props: CarouselProps) {
   };
 
   return (
-    <Grid container>
-      <Grid item xs={12}>
-        <Carousel
-          additionalTransfrom={0}
-          arrows
-          autoPlaySpeed={3000}
-          centerMode={false}
-          className=""
-          dotListClass=""
-          focusOnSelect={false}
-          itemClass=""
-          keyBoardControl
-          pauseOnHover
-          renderArrowsWhenDisabled={false}
-          renderButtonGroupOutside={false}
-          responsive={{
-            desktop: {
-              breakpoint: {
-                max: 3000,
-                min: 1024,
-              },
-              items: 4,
-            },
-            mobile: {
-              breakpoint: {
-                max: 464,
-                min: 0,
-              },
-              items: 1,
-            },
-            tablet: {
-              breakpoint: {
-                max: 1024,
-                min: 464,
-              },
-              items: 2,
-            },
-          }}
-          rewind={false}
-          rewindWithAnimation={false}
-          rtl={false}
-          shouldResetAutoplay
-          showDots={false}
-          sliderClass=""
-          slidesToSlide={4}
-        >
-          {/* Dynamic content */}
-          {services.map((service) => (
-            <div key={service.id}>
-              <Card
-                sx={{
-                  backgroundColor: "transparent",
-                  boxShadow: "none",
-                  color: "white",
-                  maxWidth: "320px",
-                }}
-              >
-                <CardActionArea>
-                  <CardMedia
-                    component="img"
-                    height="180"
-                    image="https://i.pinimg.com/736x/6e/74/63/6e7463744c9fdf25c505adfd51902f50.jpg"
-                  />
-                </CardActionArea>
-              </Card>
-            </div>
-          ))}
-        </Carousel>
-      </Grid>
-    </Grid>
+    <Box className="flex gap-4">
+      {services.slice(start, end).map((service) => (
+        <div key={service.id}>
+          <ExpandableCard
+            name={service.name}
+            description={service.description}
+            rating="5.0"
+            tag="Top rated"
+          />
+        </div>
+      ))}
+    </Box>
   );
 }
