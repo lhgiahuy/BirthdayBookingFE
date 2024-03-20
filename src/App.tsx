@@ -29,13 +29,12 @@ function App() {
       element: <RootLayout />,
       children: [
         {
-
           path: "/Event",
           element: (
             <PrivateRoute inverted={false} requiredRoles={[ROLE.role1]}>
               <EventPage />
             </PrivateRoute>
-          )
+          ),
         },
         {
           path: "/ServiceDetail",

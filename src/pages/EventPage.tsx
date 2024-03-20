@@ -1,6 +1,9 @@
 import { Box, Typography } from "@mui/material";
 import CardCarousel from "../components/Card";
 import PartyDetail from "../components/PartyDetail";
+import agent from "../utils/agent2";
+import { AxiosError } from "axios";
+import { useEffect } from "react";
 
 export default function EventPage() {
   return (

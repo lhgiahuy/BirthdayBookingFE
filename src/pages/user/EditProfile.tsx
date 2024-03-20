@@ -1,5 +1,23 @@
-import { Avatar, Box, Breadcrumbs, Button, Chip, Divider, FormControl, Grid, IconButton, InputAdornment, InputLabel, Link, MenuItem, OutlinedInput, Select, TextField, Typography } from "@mui/material";
-import SaveAltIcon from '@mui/icons-material/SaveAlt';
+import {
+  Avatar,
+  Box,
+  Breadcrumbs,
+  Button,
+  Chip,
+  Divider,
+  FormControl,
+  Grid,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  Link,
+  MenuItem,
+  OutlinedInput,
+  Select,
+  TextField,
+  Typography,
+} from "@mui/material";
+import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import axios from "axios";
 import { ChangeEvent, useEffect, useState } from "react";
 import { Service } from "../../Models/Service";
@@ -54,8 +72,6 @@ export default function EditProfile() {
             });
     }, []);
     return (
-
-
         <Grid container className="h-auto">
             <Grid item xs={4} md={4}>
                 <Siderbar />

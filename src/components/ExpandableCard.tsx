@@ -3,9 +3,10 @@ import { Box, Chip, IconButton, Rating, Tooltip } from "@mui/material";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useAppDispatch, useAppSelector } from "../redux/hook";
-import { setIsOpen } from "../redux/slice/serviceSlice";
+import { setId, setIsOpen } from "../redux/slice/serviceSlice";
 
 interface ExpandableCardProps {
+  id: string;
   name: string;
   description: string;
   tag: string;
@@ -16,12 +17,14 @@ export default function ExpandableCard(props: ExpandableCardProps) {
   const dispatch = useAppDispatch();
   const setModelOpen = () => {
     dispatch(setIsOpen(true));
+    dispatch(setId(props.id));
   };
+
   return (
     <div className="group rounded bg-zinc-900 col-span relative h-[12vw]">
       <img
         src="https://mui.com/static/images/cards/paella.jpg"
-        alt="Movie"
+        alt="Party"
         draggable={false}
         className="
       cursor-pointer
@@ -48,7 +51,7 @@ export default function ExpandableCard(props: ExpandableCardProps) {
       invisible
       sm:visible
       delay-300
-      w-full
+      min-w-80
       scale-0
       group-hover:scale-110
       group-hover:-translate-y-[6vw]
@@ -85,7 +88,7 @@ export default function ExpandableCard(props: ExpandableCardProps) {
         "
         >
           <Box className="flex items-center w-full justify-between">
-            <Typography variant="h5">{props.name}</Typography>
+            <Typography variant="h6">{props.name}</Typography>
             <Chip
               label={`${props.tag}`}
               size="small"
