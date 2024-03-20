@@ -1,17 +1,13 @@
-import { PayloadAction, createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import agent from '../../utils/agent2';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-import { FormValues } from '../../Models/Authentication';
-import { AxiosError } from 'axios';
-import { NavigateFunction } from 'react-router-dom';
 export interface CurrentUser {
   id: string;
-  email: string,
-  password: string,
-  name: string,
-  phone: string,
-  role: number,
-  deleteFlag: number,
+  email: string;
+  password: string;
+    phone: string;
+  name: string;
+  role: string;
+  deleteFlag: number;
 }
 
 export interface User {
@@ -27,7 +23,6 @@ const initialState: User = {
   error: false,
   displayError: '',
 };
-
 
 const authSlice = createSlice({
   name: 'auth',
