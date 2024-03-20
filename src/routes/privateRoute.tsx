@@ -21,21 +21,11 @@ const PrivateRoute = ({
   //   return <Navigate to='/account/change-password' />;
   // }
 
-<<<<<<< HEAD
-    if (inverted) {
-        return isAuth ? <Navigate to="/account" /> : children;
-    }
-
-    if (currentRole.role && !requiredRoles?.some((r) => currentRole.role === r)) return;
-
-    return isAuth ? children : <Navigate to="/login" />;
-=======
   if (inverted) {
     return isAuth ? <Navigate to="/Event" /> : children;
   }
 
   return isAuth ? children : <Navigate to="/login" />;
->>>>>>> 4523cdf7115677352fd6ceafef4d4837644d8ba0
 };
 
 export default PrivateRoute;
