@@ -52,6 +52,15 @@ export default function EditDecoration() {
 
   const [decoration, setDecoration] = useState<Decoration[]>([])
   const [sortBy, setSortBy] = useState<string>('');
+  const [searchQuery, setSearchQuery] = useState<string>('');
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const filteredDecorations = decoration.filter((item) =>
+    item.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const getDecoration = async () => {
     try {
@@ -68,7 +77,7 @@ export default function EditDecoration() {
 
   useEffect(() => {
     getDecoration()
-    console.log('data ne:', decoration)
+    // console.log('data ne:', decoration)
   }, []);
 
   const handleSortChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -168,6 +177,8 @@ export default function EditDecoration() {
               }}
               className="w-1/2"
               label="Search"
+              value={searchQuery}
+              onChange={handleSearchChange}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -179,6 +190,7 @@ export default function EditDecoration() {
               }}
             />
           </Grid>
+
           <Grid item xs={2}>
             <TextField
               id="contained-select-currency"
@@ -222,7 +234,7 @@ export default function EditDecoration() {
 
 
         <Grid item xs={12}>
-          {decoration && decoration.map((item) => (
+          {filteredDecorations.map((item) => (
             <Card
               sx={{
                 display: "flex",
