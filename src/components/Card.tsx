@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-
 import { Box } from "@mui/material";
-
 import "react-multi-carousel/lib/styles.css";
 import ExpandableCard from "./ExpandableCard";
 

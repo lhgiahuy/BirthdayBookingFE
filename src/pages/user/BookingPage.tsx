@@ -6,7 +6,7 @@ import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import PlaceForm from "../../components/PlaceForm";
 import ServiceForm from "../../components/MenuForm";
-import { useAppDispatch } from "../../redux/hook";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { getMenuPrice, getTotalPrice } from "../../redux/slice/orderSlice";
 import ReviewOrder from "../../components/ReviewOrder";
 
@@ -43,6 +43,8 @@ export default function BookingPage() {
     dispatch(getTotalPrice());
     dispatch(getMenuPrice());
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    window.scrollTo(0, 0); // Scroll to top of the page
+
   };
 
   // Optionally, you can add handleBack if you want a "Back" button

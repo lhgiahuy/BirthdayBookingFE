@@ -1,4 +1,4 @@
-import { ArrowForward, Book } from "@mui/icons-material";
+import { ArrowForward } from "@mui/icons-material";
 import {
   Avatar,
   Box,
@@ -13,17 +13,17 @@ import {
   Rating,
   Typography,
 } from "@mui/material";
-import { Link } from "react-router-dom";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Host } from "../Models/Host";
 import CloseIcon from "@mui/icons-material/Close";
 import { useAppDispatch, useAppSelector } from "../redux/hook";
-import { setIsOpen } from "../redux/slice/serviceSlice";
+import { setId, setIsOpen } from "../redux/slice/serviceSlice";
 import Carousel from "react-multi-carousel";
 import { Service } from "../Models/Service";
 import { Place } from "../Models/Place";
+import { useNavigate } from "react-router-dom";
 
 export default function PartyDetail() {
   const [service, setService] = useState<Host>();
@@ -31,6 +31,8 @@ export default function PartyDetail() {
   const [decoration, setDecoration] = useState<Service[]>([]);
   const [place, setPlace] = useState<Place[]>([]);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const { modalOpen, id } = useAppSelector((state) => state.serviceState);
   useEffect(() => {
     if (id != "") {
@@ -130,6 +132,14 @@ export default function PartyDetail() {
   const handleClose = () => {
     dispatch(setIsOpen(false));
   };
+  const handleRedirect = () => {
+    if (service != null) {
+      dispatch(setId(service.id));
+      navigate("/BookingPage");
+      dispatch(setIsOpen(false));
+      window.scrollTo(0, 0); // Scroll to top of the page
+    }
+  };
 
   return (
     <Dialog open={Boolean(modalOpen)} maxWidth="md" scroll="body">
@@ -177,7 +187,7 @@ export default function PartyDetail() {
                 <Rating defaultValue={5} readOnly max={5} />
               </Box>
               <Box className="mt-2">
-                <Button variant="contained">
+                <Button variant="contained" onClick={handleRedirect}>
                   Book now <ArrowForward></ArrowForward>
                 </Button>
               </Box>

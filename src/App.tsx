@@ -144,7 +144,9 @@ function App() {
         },
         {
           path: "/BookingPage",
-          element: <BookingPage />,
+          element: (
+              <BookingPage />
+          ),
         },
       ],
     },
