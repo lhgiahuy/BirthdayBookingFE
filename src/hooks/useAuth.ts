@@ -2,7 +2,6 @@ import { useAppDispatch, useAppSelector } from "../redux/hook";
 import {
   loginFailure,
   loginStart,
-  loginSuccess,
 } from "../redux/slice/loginSlice";
 import { FormValues } from "../Models/Authentication";
 import { NavigateFunction } from "react-router-dom";
@@ -34,7 +33,7 @@ export function useAuth() {
       console.log(decodeToken);
       switch (decodeToken?.role) {
         case ROLE.role1:
-          navigate("/Event");
+          navigate("/");
           break;
         case ROLE.role2:
           navigate("/Homehost");
