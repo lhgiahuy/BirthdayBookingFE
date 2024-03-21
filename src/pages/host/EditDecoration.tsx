@@ -58,6 +58,15 @@ export default function EditDecoration() {
     setSearchQuery(event.target.value);
   };
 
+  const handleDelete = async (id: string) => {
+    try {
+      await axios.delete(`https://swdbirthdaypartybooking.somee.com/api/deleteservice/${id}`);
+      setDecoration(prevDecor => prevDecor.filter(decoration => decoration.id !== id));
+    } catch (error) {
+      throw new Error;
+    }
+  };
+
   const filteredDecorations = decoration.filter((item) =>
     item.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -65,7 +74,7 @@ export default function EditDecoration() {
   const getDecoration = async () => {
     try {
       const response = await axios.get(
-        'https://swdbirthdaypartybooking.somee.com/api/getservicebytype?hostId=56594440-2c26-4f1c-8ed1-a2ba037cde4e&ServiceType=decoration')
+        'https://swdbirthdaypartybooking.somee.com/api/getservicebytype?hostId=56594440-2c26-4f1c-8ed1-a2ba037cde4e&ServiceType=f59fc2cd-fb79-4032-938b-8e3856e4a07a')
       if (response.data && response.data.success) {
         setDecoration(response.data.data)
       }
@@ -276,6 +285,7 @@ export default function EditDecoration() {
                           aria-label="delete"
                           size="medium"
                           color="error"
+                          onClick={() => handleDelete(item.id)}
                         >
                           <DeleteIcon fontSize="inherit" />
                         </IconButton>

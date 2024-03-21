@@ -80,6 +80,15 @@ export default function EditMenu() {
     setSearchQuery(event.target.value);
   };
 
+  const handleDelete = async (id: string) => {
+    try {
+      await axios.delete(`https://swdbirthdaypartybooking.somee.com/api/deleteservice/${id}`);
+      setMenu(prevMenu => prevMenu.filter(menu => menu.id !== id));
+    } catch (error) {
+      throw new Error;
+    }
+  };
+
   const filteredDecorations = menu.filter((item) =>
     item.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -88,7 +97,7 @@ export default function EditMenu() {
   const getMenu = async () => {
     try {
       const response = await axios.get(
-        "https://swdbirthdaypartybooking.somee.com/api/getservicebytype?hostId=56594440-2c26-4f1c-8ed1-a2ba037cde4e&ServiceType=dish"
+        "https://swdbirthdaypartybooking.somee.com/api/getservicebytype?hostId=56594440-2c26-4f1c-8ed1-a2ba037cde4e&ServiceType=523856cb-8dc4-43b9-b880-5ac2214320e6"
       );
       console.log("API Response:", response.data);
       if (response.data && response.data.success) {
@@ -301,6 +310,7 @@ export default function EditMenu() {
                             aria-label="delete"
                             size="medium"
                             color="error"
+                            onClick={() => handleDelete(item.id)}
                           >
                             <DeleteIcon fontSize="inherit" />
                           </IconButton>

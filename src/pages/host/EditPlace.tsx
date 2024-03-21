@@ -81,6 +81,26 @@ export default function EditPlace() {
         item.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
+    const handleSortChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSortBy(event.target.value);
+        const sortedPlaces = [...places];
+        if (event.target.value === 'name') {
+            sortedPlaces.sort((a, b) => a.name.localeCompare(b.name));
+        } else if (event.target.value === 'price') {
+            sortedPlaces.sort((a, b) => b.price - a.price);
+        }
+        setPlaces(sortedPlaces);
+    };
+
+    const handleDelete = async (id: string) => {
+        try {
+            await axios.delete(`https://swdbirthdaypartybooking.somee.com/api/deleteplace/${id}`);
+            setPlaces(prevPlaces => prevPlaces.filter(place => place.id !== id));
+        } catch (error) {
+            throw new Error;
+        }
+    };
+
     const getPlaces = async () => {
         try {
             const response = await axios.get(
@@ -100,17 +120,6 @@ export default function EditPlace() {
         getPlaces();
         console.log("data ne: ", places);
     }, []);
-
-    const handleSortChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSortBy(event.target.value);
-        const sortedPlaces = [...places];
-        if (event.target.value === 'name') {
-            sortedPlaces.sort((a, b) => a.name.localeCompare(b.name));
-        } else if (event.target.value === 'price') {
-            sortedPlaces.sort((a, b) => b.price - a.price);
-        }
-        setPlaces(sortedPlaces);
-    };
 
     return (
         <>
@@ -278,6 +287,7 @@ export default function EditPlace() {
                                                         aria-label="delete"
                                                         size="medium"
                                                         color="error"
+                                                        onClick={() => handleDelete(place.id)}
                                                     >
                                                         <DeleteIcon fontSize="inherit" />
                                                     </IconButton>
@@ -305,14 +315,10 @@ export default function EditPlace() {
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
+                style={{}}
             >
                 <Box sx={style}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
-                        Text in a modal
-                    </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                        Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-                    </Typography>
+                    <TextField id="outlined-basic" label="Outlined" variant="outlined" />
                 </Box>
             </Modal>
         </>
