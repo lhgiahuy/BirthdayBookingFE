@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 
-import { Box, Card, CardActionArea, CardMedia, Grid } from "@mui/material";
+import { Box } from "@mui/material";
 
 import "react-multi-carousel/lib/styles.css";
 import ExpandableCard from "./ExpandableCard";
-import agent from "../utils/agent2";
 
 interface Service {
   name: string;
