@@ -19,6 +19,8 @@ import OrderManagement from "./pages/host/OrderManagement";
 import PrivateRoute from "./routes/privateRoute";
 import Forbidden from "./pages/error/forbidden";
 import { ROLE } from "./constants/role";
+import EditProfileHost from "./pages/host/EditProfileHost";
+import ChangePasswordHost from "./pages/host/ChangePasswordHost";
 const RootLayout = React.lazy(() => import("./layouts/RootLayout"));
 const RootLayoutWithBackground = React.lazy(
   () => import("./layouts/RootLayoutWithBackground")
@@ -38,7 +40,11 @@ function App() {
         },
         {
           path: "/ServiceDetail",
-          element: <ServiceDetail />,
+          element: (
+            <PrivateRoute inverted={false} requiredRoles={[ROLE.role1]}>
+              <ServiceDetail />
+            </PrivateRoute>
+          ),
         },
         {
           path: "/Feedback",
@@ -46,43 +52,99 @@ function App() {
         },
         {
           path: "/OrderDetails",
-          element: <OrderDetails />,
+          element: (
+            <PrivateRoute inverted={false} requiredRoles={[ROLE.role1]}>
+              <OrderDetails />
+            </PrivateRoute>
+          ),
         },
         {
           path: "/Editprofile",
-          element: <EditProfile />,
+          element: (
+            <PrivateRoute inverted={false} requiredRoles={[ROLE.role1]}>
+              <EditProfile />
+            </PrivateRoute>
+          ),
         },
         {
           path: "/Changepassword",
-          element: <ChangePassword />,
+          element: (
+            <PrivateRoute inverted={false} requiredRoles={[ROLE.role1]}>
+              <ChangePassword />
+            </PrivateRoute>
+          ),
         },
         {
           path: "/Homehost",
-          element: <HomeHost />,
+          element: (
+            <PrivateRoute inverted={false} requiredRoles={[ROLE.role2]}>
+              <HomeHost />
+            </PrivateRoute>
+          ),
+        },
+        {
+          path: "/EditprofileHost",
+          element: (
+            <PrivateRoute inverted={false} requiredRoles={[ROLE.role2]}>
+              <EditProfileHost />
+            </PrivateRoute>
+          ),
+        },
+        {
+          path: "/ChangepasswordHost",
+          element: (
+            <PrivateRoute inverted={false} requiredRoles={[ROLE.role2]}>
+              <ChangePasswordHost />
+            </PrivateRoute>
+          ),
         },
         {
           path: "/Ordermanagement",
-          element: <OrderManagement />,
+          element: (
+            <PrivateRoute inverted={false} requiredRoles={[ROLE.role2]}>
+              <OrderManagement />
+            </PrivateRoute>
+          ),
         },
         {
           path: "/OrderHistory",
-          element: <OrderHistory />,
+          element: (
+            <PrivateRoute inverted={false} requiredRoles={[ROLE.role1]}>
+              <OrderHistory />
+            </PrivateRoute>
+          ),
         },
         {
           path: "/EditPlace",
-          element: <EditPlace />,
+          element: (
+            <PrivateRoute inverted={false} requiredRoles={[ROLE.role2]}>
+              <EditPlace />
+            </PrivateRoute>
+          ),
         },
         {
           path: "/EditMenu",
-          element: <EditMenu />,
+          element: (
+            <PrivateRoute inverted={false} requiredRoles={[ROLE.role2]}>
+              <EditMenu />
+            </PrivateRoute>
+          ),
         },
         {
           path: "/EditDecoration",
-          element: <EditDecoration />,
+          element: (
+            <PrivateRoute inverted={false} requiredRoles={[ROLE.role2]}>
+              <EditDecoration />
+            </PrivateRoute>
+          ),
         },
         {
           path: "/BookingPage",
-          element: <BookingPage />,
+          element: (
+            <PrivateRoute inverted={false} requiredRoles={[ROLE.role1]}>
+              <BookingPage />
+            </PrivateRoute>
+          ),
         },
       ],
     },

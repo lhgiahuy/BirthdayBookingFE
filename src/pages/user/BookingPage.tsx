@@ -8,6 +8,7 @@ import PlaceForm from "../../components/PlaceForm";
 import ServiceForm from "../../components/MenuForm";
 import { useAppDispatch } from "../../redux/hook";
 import { getMenuPrice, getTotalPrice } from "../../redux/slice/orderSlice";
+import ReviewOrder from "../../components/ReviewOrder";
 
 const steps = [
   "Choose Your Place",
