@@ -52,11 +52,29 @@ export default function EditDecoration() {
 
   const [decoration, setDecoration] = useState<Decoration[]>([])
   const [sortBy, setSortBy] = useState<string>('');
+  const [searchQuery, setSearchQuery] = useState<string>('');
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const handleDelete = async (id: string) => {
+    try {
+      await axios.delete(`https://swdbirthdaypartybooking.somee.com/api/deleteservice/${id}`);
+      setDecoration(prevDecor => prevDecor.filter(decoration => decoration.id !== id));
+    } catch (error) {
+      throw new Error;
+    }
+  };
+
+  const filteredDecorations = decoration.filter((item) =>
+    item.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const getDecoration = async () => {
     try {
       const response = await axios.get(
-        'https://swdbirthdaypartybooking.somee.com/api/getservicebytype?hostId=56594440-2c26-4f1c-8ed1-a2ba037cde4e&ServiceType=decoration')
+        'https://swdbirthdaypartybooking.somee.com/api/getservicebytype?hostId=56594440-2c26-4f1c-8ed1-a2ba037cde4e&ServiceType=f59fc2cd-fb79-4032-938b-8e3856e4a07a')
       if (response.data && response.data.success) {
         setDecoration(response.data.data)
       }
@@ -68,7 +86,7 @@ export default function EditDecoration() {
 
   useEffect(() => {
     getDecoration()
-    console.log('data ne:', decoration)
+    // console.log('data ne:', decoration)
   }, []);
 
   const handleSortChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -168,6 +186,8 @@ export default function EditDecoration() {
               }}
               className="w-1/2"
               label="Search"
+              value={searchQuery}
+              onChange={handleSearchChange}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -179,6 +199,7 @@ export default function EditDecoration() {
               }}
             />
           </Grid>
+
           <Grid item xs={2}>
             <TextField
               id="contained-select-currency"
@@ -222,7 +243,7 @@ export default function EditDecoration() {
 
 
         <Grid item xs={12}>
-          {decoration && decoration.map((item) => (
+          {filteredDecorations.map((item) => (
             <Card
               sx={{
                 display: "flex",
@@ -264,6 +285,7 @@ export default function EditDecoration() {
                           aria-label="delete"
                           size="medium"
                           color="error"
+                          onClick={() => handleDelete(item.id)}
                         >
                           <DeleteIcon fontSize="inherit" />
                         </IconButton>
