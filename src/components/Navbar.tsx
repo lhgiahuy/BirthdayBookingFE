@@ -12,15 +12,27 @@ import {
   Tooltip,
   Avatar,
   InputBase,
+  Button,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { styled, alpha } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
+import { useEffect, useState } from "react";
+
 
 const pages = ["Home", "Partners", "Event", "About"];
 
 function Navbar() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigation = useNavigate();
+  useEffect(() => {
+    const access_token = localStorage.getItem('access_token');
+    if (access_token) {
+      setIsLoggedIn(true);
+    }
+  }, [])
+
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -43,16 +55,12 @@ function Navbar() {
     setAnchorElUser(null);
   };
 
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
-
-  // Hàm mô phỏng việc đăng nhập thành công
-  const simulateLogin = () => {
-    setIsLoggedIn(true);
-  };
 
   // Hàm mô phỏng việc đăng xuất
-  const simulateLogout = () => {
-    setIsLoggedIn(false);
+  const handleLogout = async () => {
+    await localStorage.clear();
+    navigation("/login")
+
   };
 
   const Search = styled("div")(({ theme }) => ({
@@ -212,7 +220,11 @@ function Navbar() {
                     </Link>
                   </MenuItem>
                   <MenuItem onClick={handleCloseUserMenu}>
-                    <Typography className="px-3">Logout</Typography>
+                    <Button
+                      onClick={handleLogout}
+                    >
+                      Logout
+                    </Button>
                   </MenuItem>
                 </Menu>
               </Box>
