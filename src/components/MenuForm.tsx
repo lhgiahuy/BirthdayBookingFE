@@ -19,7 +19,7 @@ interface ServiceFormProps {
 export default function ServiceForm(props: ServiceFormProps) {
   const [services, setServices] = useState<Service[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const id = "114e9f53-7fc3-4e3a-944f-2d5e66c65410";
+  const { id } = useAppSelector((state) => state.serviceState);
   const dispatch = useAppDispatch();
   const { selectedServices, decoration } = useAppSelector(
     (state) => state.orderSlice

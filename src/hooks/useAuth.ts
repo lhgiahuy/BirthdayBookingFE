@@ -15,13 +15,15 @@ import { JwtPayload } from "jwt-decode";
 
 interface roleJwt extends JwtPayload {
   role: string;
+  id: string;
+  unique_name: string;
 }
 export function useAuth() {
   const state = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const handleLogin = async (value: FormValues, navigate: NavigateFunction) => {
+  const handleLogin = async (value: FormValues, navigate: NavigateFunction,) => {
     dispatch(loginStart());
     try {
       const { data } = await baseApi.post(`/api/auth/signin`, {
@@ -30,6 +32,9 @@ export function useAuth() {
       });
       const access_token = data.data;
       const decodeToken = jwtDecode(access_token) as roleJwt;
+      localStorage.setItem("id", decodeToken?.id);
+      localStorage.setItem("name", decodeToken?.unique_name)
+
       console.log(decodeToken);
       switch (decodeToken?.role) {
         case ROLE.role1:

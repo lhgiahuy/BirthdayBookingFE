@@ -17,7 +17,7 @@ export interface MyInputProps {
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   };
   placeholder: string;
-  error?: string; // Thêm các props error và helperText để hiển thị lỗi từ formik
+  error?: string;
   helperText?: string;
 }
 
@@ -30,6 +30,19 @@ function MyInput({ field, placeholder, error, helperText }: MyInputProps) {
         label={placeholder}
         value={field.value || ""}
         onChange={field.onChange}
+        fullWidth
+        size="medium"
+        sx={{
+          '& .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'white',
+          },
+          '& .MuiInputLabel-root': {
+            color: 'white',
+          },
+          '& .MuiInputBase-input': {
+            color: 'white',
+          },
+        }}
         helperText={helperText}
         error={!!error}
       />
@@ -59,6 +72,19 @@ function MyInputPassword({
         id={field.name}
         type={showPassword ? "text" : "password"}
         label={placeholder}
+        size="medium"
+        fullWidth
+        sx={{
+          '& .MuiOutlinedInput-notchedOutline': {
+            borderColor: 'white',
+          },
+          '& .MuiInputLabel-root': {
+            color: 'white',
+          },
+          '& .MuiInputBase-input': {
+            color: 'white',
+          },
+        }}
         value={field.value || ""}
         onChange={field.onChange}
         helperText={helperText}
@@ -67,6 +93,7 @@ function MyInputPassword({
           endAdornment: (
             <InputAdornment position="end">
               <IconButton
+                style={{ color: 'white' }}
                 aria-label="toggle password visibility"
                 onClick={toggleShowPassword}
                 onMouseDown={(event) => event.preventDefault()}
