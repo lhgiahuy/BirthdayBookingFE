@@ -22,7 +22,7 @@ export function useAuth() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const handleLogin = async (value: FormValues, navigate: NavigateFunction) => {
+  const handleLogin = async (value: FormValues, navigate: NavigateFunction,) => {
     dispatch(loginStart());
     try {
       const { data } = await baseApi.post(`/api/auth/signin`, {

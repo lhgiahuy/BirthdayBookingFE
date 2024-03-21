@@ -1,7 +1,7 @@
 export const Envs = {
-    apiLocal: process.env.REACT_APP_API_LOCAL,
-    apiRemote: process.env.REACT_APP_API,
-    apiEnv: process.env.REACT_APP_API_ENVIRONMENT,
+    apiLocal: "ttp://localhost:3000",
+    apiRemote: "https://www.swdbirthdaypartybooking.somee.com",
+    apiEnv: "development",
   
   };
   
