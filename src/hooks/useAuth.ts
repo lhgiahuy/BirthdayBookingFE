@@ -2,7 +2,6 @@ import { useAppDispatch, useAppSelector } from "../redux/hook";
 import {
   loginFailure,
   loginStart,
-  loginSuccess,
 } from "../redux/slice/loginSlice";
 import { FormValues } from "../Models/Authentication";
 import { NavigateFunction } from "react-router-dom";

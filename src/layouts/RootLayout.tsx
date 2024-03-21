@@ -7,7 +7,7 @@ const RootLayout = () => {
   return (
     <>
       <Navbar />
-      <Container sx={{ minHeight: "100vh" }} maxWidth="lg" className="mt-10">
+      <Container sx={{ minHeight: "70rem" }} maxWidth="lg" className="mt-10">
         <Box>
           <Outlet />
         </Box>
