@@ -5,6 +5,9 @@ export const theme = createTheme({
     primary: {
       main: "#FFFFFF",
     },
+    secondary: {
+      main: "#000000"
+    }
   },
   components: {
     MuiTextField: {

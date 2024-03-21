@@ -60,7 +60,6 @@ function Navbar() {
   const handleLogout = async () => {
     await localStorage.clear();
     navigation("/login")
-
   };
 
   const Search = styled("div")(({ theme }) => ({
@@ -215,12 +214,19 @@ function Navbar() {
                   onClose={handleCloseUserMenu}
                 >
                   <MenuItem onClick={handleCloseUserMenu}>
-                    <Link to="/Profile" className="px-3">
+                    <Button
+                      color="secondary"
+                      onClick={() => {
+                        navigation("/Editprofile")
+                        window.scrollTo(0, 0); // Scroll to top of the page
+                      }}
+                    >
                       Profile
-                    </Link>
+                    </Button>
                   </MenuItem>
                   <MenuItem onClick={handleCloseUserMenu}>
                     <Button
+                      color="secondary"
                       onClick={handleLogout}
                     >
                       Logout

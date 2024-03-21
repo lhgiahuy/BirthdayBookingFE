@@ -8,7 +8,7 @@ import { setPlace } from "../redux/slice/orderSlice";
 export default function PlaceForm() {
   const [services, setServices] = useState<Place[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const id = "114e9f53-7fc3-4e3a-944f-2d5e66c65410";
+  const { id } = useAppSelector((state) => state.serviceState);
   const dispatch = useAppDispatch();
   const { place } = useAppSelector((state) => state.orderSlice);
 
