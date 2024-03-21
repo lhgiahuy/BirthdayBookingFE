@@ -28,7 +28,11 @@ const RootLayoutWithBackground = React.lazy(
 function App() {
   const routes = useRoutes([
     {
-      element: <RootLayout />,
+      element: (
+        <Suspense>
+          <RootLayout />,
+        </Suspense>
+      ),
       children: [
         {
           path: "/Event",
@@ -140,11 +144,7 @@ function App() {
         },
         {
           path: "/BookingPage",
-          element: (
-            <PrivateRoute inverted={false} requiredRoles={[ROLE.role1]}>
-              <BookingPage />
-            </PrivateRoute>
-          ),
+          element: <BookingPage />,
         },
       ],
     },

@@ -1,7 +1,8 @@
-import { ArrowForward } from "@mui/icons-material";
+import { ArrowForward, Book } from "@mui/icons-material";
 import {
   Avatar,
   Box,
+  Button,
   Card,
   CardActionArea,
   CardMedia,
@@ -176,12 +177,9 @@ export default function PartyDetail() {
                 <Rating defaultValue={5} readOnly max={5} />
               </Box>
               <Box className="mt-2">
-                <Link
-                  to="/"
-                  className="text-sm font-bold text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 rounded-lg px-5 py-2.5 me-2 mb-2"
-                >
+                <Button variant="contained">
                   Book now <ArrowForward></ArrowForward>
-                </Link>
+                </Button>
               </Box>
             </Box>
           </Box>
