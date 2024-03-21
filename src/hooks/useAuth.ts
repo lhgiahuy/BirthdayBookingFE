@@ -33,7 +33,7 @@ export function useAuth() {
       console.log(decodeToken);
       switch (decodeToken?.role) {
         case ROLE.role1:
-          navigate("/Event");
+          navigate("/");
           break;
         case ROLE.role2:
           navigate("/Homehost");
