@@ -50,8 +50,9 @@ export default function EditMenu() {
     description: string;
     price: number;
   }
-  // const [services, setServices] = useState<Service[]>([]);
+
   const [menu, setMenu] = useState<Menu[]>([]);
+  const [sortBy, setSortBy] = useState<string>('');
 
   const getMenu = async () => {
     try {
@@ -73,6 +74,17 @@ export default function EditMenu() {
     getMenu();
     console.log("menu ne: ", menu);
   }, []);
+
+  const handleSortChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSortBy(event.target.value);
+    const sortedMenu = [...menu];
+    if (event.target.value === 'name') {
+      sortedMenu.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (event.target.value === 'price') {
+      sortedMenu.sort((a, b) => b.price - a.price);
+    }
+    setMenu(sortedMenu);
+  };
   return (
     <Grid container>
       <Grid item xs={12} sm={8}>
@@ -176,6 +188,7 @@ export default function EditMenu() {
               id="contained-select-currency"
               select
               label="Sort"
+              onChange={handleSortChange}
               helperText="Please select your currency"
               sx={{
                 "& label.Mui-focused": {
@@ -204,7 +217,8 @@ export default function EditMenu() {
                 },
               }}
             >
-              <MenuItem>Name</MenuItem>
+              <MenuItem value="name">Name</MenuItem>
+              <MenuItem value="price">Price</MenuItem>
             </TextField>
           </Grid>
         </Grid>

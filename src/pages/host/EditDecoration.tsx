@@ -41,17 +41,47 @@ export default function EditDecoration() {
       slidesToSlide: 1,
     },
   };
-  const [services, setServices] = useState<Service[]>([]);
+
+  interface Decoration {
+    id: string,
+    name: string,
+    description: string,
+    price: number
+  }
+
+
+  const [decoration, setDecoration] = useState<Decoration[]>([])
+  const [sortBy, setSortBy] = useState<string>('');
+
+  const getDecoration = async () => {
+    try {
+      const response = await axios.get(
+        'https://swdbirthdaypartybooking.somee.com/api/getservicebytype?hostId=56594440-2c26-4f1c-8ed1-a2ba037cde4e&ServiceType=decoration')
+      if (response.data && response.data.success) {
+        setDecoration(response.data.data)
+      }
+    } catch (error) {
+      throw new Error();
+    }
+
+  }
+
   useEffect(() => {
-    axios
-      .get("https://65e1a8d6a8583365b316f7df.mockapi.io/api/service")
-      .then((response) => {
-        setServices(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
+    getDecoration()
+    console.log('data ne:', decoration)
   }, []);
+
+  const handleSortChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSortBy(event.target.value);
+    const sortedDecorations = [...decoration];
+    if (event.target.value === 'name') {
+      sortedDecorations.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (event.target.value === 'price') {
+      sortedDecorations.sort((a, b) => b.price - a.price);
+    }
+    setDecoration(sortedDecorations);
+  };
+
   return (
     <Grid container>
       <Grid item xs={12} sm={8}>
@@ -68,14 +98,14 @@ export default function EditDecoration() {
         </Breadcrumbs>
 
         <Typography
-          variant="h4"
+          variant="h1"
           gutterBottom
           sx={{ mt: 2, ml: 1.25, color: "white" }}
         >
           Event
         </Typography>
       </Grid>
-      <Typography gutterBottom sx={{ mt: 1, ml: 1.25, color: "white" }}>
+      <Typography gutterBottom sx={{ ml: 1.25, color: "white" }}>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur
         eos nostrum repudiandae facere molestias, eum recusandae commodi
         provident sit, enim officia, officiis sed. Ab, deserunt! Deserunt
@@ -85,26 +115,30 @@ export default function EditDecoration() {
         <Grid
           item
           xs={12}
-          className="flex justify-between items-center"
-          justifyContent="space-around"
+          className="flex justify-between items-center py-4"
+          justifyContent="space-between"
         >
           <Grid item xs={10}>
-            <Typography variant="h4" sx={{ ml: 1.25 }}>
-              Menu
+            <Typography variant="h3" sx={{ ml: 1.25 }}>
+              Decoration
             </Typography>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item xs={1}>
             <Link href="/">
-              <Button variant="contained" size="small">
-                <Typography variant="body2" className="px-3 ">
+              <Button variant="contained" size="large">
+                <Typography variant="body2" className="px-2">
                   ADD
                 </Typography>
               </Button>
             </Link>
           </Grid>
         </Grid>
-        <Grid container justifyContent="space-around">
-          <Grid item xs={10} className="pl-2">
+        <Grid
+          container
+          className="flex justify-between py-4"
+          justifyContent="space-between"
+        >
+          <Grid item xs={10}>
             <TextField
               sx={{
                 "& label.Mui-focused": {
@@ -150,6 +184,7 @@ export default function EditDecoration() {
               id="contained-select-currency"
               select
               label="Sort"
+              onChange={handleSortChange}
               helperText="Please select your currency"
               sx={{
                 "& label.Mui-focused": {
@@ -178,12 +213,16 @@ export default function EditDecoration() {
                 },
               }}
             >
-              <MenuItem>Name</MenuItem>
+              <MenuItem value="name">Name</MenuItem>
+              <MenuItem value="price">Price</MenuItem>
             </TextField>
           </Grid>
         </Grid>
+
+
+
         <Grid item xs={12}>
-          {services.map((service) => (
+          {decoration && decoration.map((item) => (
             <Card
               sx={{
                 display: "flex",
@@ -192,6 +231,7 @@ export default function EditDecoration() {
                 mt: 4,
                 mb: 4,
               }}
+              key={item.id}
             >
               <Grid>
                 <CardMedia
@@ -203,37 +243,40 @@ export default function EditDecoration() {
               </Grid>
               <Grid container sx={{ display: "flex", flexDirection: "row" }}>
                 <CardContent sx={{ flex: "1 0 auto" }}>
-                  <Grid className="flex justify-between ">
-                    <Grid container>
-                      <Grid item className="flex items-center" xs={4}>
-                        <Typography component="div" variant="h5">
-                          {service.name}
-                        </Typography>
-                        <Box>
-                          <IconButton
-                            aria-label="delete"
-                            size="medium"
-                            color="primary"
-                          >
-                            <EditIcon fontSize="inherit" />
-                          </IconButton>
-                          <IconButton
-                            aria-label="delete"
-                            size="medium"
-                            color="error"
-                          >
-                            <DeleteIcon fontSize="inherit" />
-                          </IconButton>
-                        </Box>
-                      </Grid>
-                      <Grid></Grid>
+                  <Grid
+                    className="flex"
+                    style={{ justifyContent: "space-between" }}
+                  >
+                    <Grid className="flex ">
+                      <Typography component="div" variant="h5">
+                        {item.name}
+                      </Typography>
+
+                      <Box className="flex ml-2">
+                        <IconButton
+                          aria-label="delete"
+                          size="medium"
+                          color="primary"
+                        >
+                          <EditIcon fontSize="inherit" />
+                        </IconButton>
+                        <IconButton
+                          aria-label="delete"
+                          size="medium"
+                          color="error"
+                        >
+                          <DeleteIcon fontSize="inherit" />
+                        </IconButton>
+                      </Box>
                     </Grid>
+
                     <Typography component="div" variant="h5">
-                      {service.price}
+                      {item.price} VND
                     </Typography>
                   </Grid>
+
                   <Typography variant="subtitle1" component="div">
-                    {service.description}
+                    {item.description}
                   </Typography>
                 </CardContent>
               </Grid>
