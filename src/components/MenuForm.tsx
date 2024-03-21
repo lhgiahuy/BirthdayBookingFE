@@ -1,156 +1,166 @@
-import { useEffect, useState } from "react";
-import Agent from "../utils/agent";
-import { Service } from "../Models/Service";
+import React, { useEffect, useState } from "react";
 import {
+  Box,
+  Button,
   Card,
   CardContent,
   CardMedia,
-  FormGroup,
-  Grid,
   IconButton,
-  TextField,
   Typography,
 } from "@mui/material";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import InputAdornment from "@mui/material/InputAdornment";
-import SearchIcon from "@mui/icons-material/Search";
+import axios from "axios";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
+import { useAppDispatch, useAppSelector } from "../redux/hook";
+import {
+  addDish,
+  removeService,
+  addDecoration,
+} from "../redux/slice/orderSlice";
+import { Service } from "../Models/Service";
 
-export default function MenuForm() {
+interface ServiceFormProps {
+  title: string;
+  type: string;
+}
+
+export default function ServiceForm(props: ServiceFormProps) {
   const [services, setServices] = useState<Service[]>([]);
-  const [selectedServices, setSelectedServices] = useState<Service[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const id = "114e9f53-7fc3-4e3a-944f-2d5e66c65410";
+  const dispatch = useAppDispatch();
+  const { selectedServices, decoration } = useAppSelector(
+    (state) => state.orderSlice
+  );
+
   useEffect(() => {
-    Agent.getService()
-      .then((response) => {
-        setServices(response.data);
-      })
-      .catch((error) => {
+    const fetchServices = async () => {
+      try {
+        setIsLoading(true);
+        const response = await axios.get(
+          `https://swdbirthdaypartybooking.somee.com/api/getservicebytype?hostId=${id}&ServiceType=${props.type}`
+        );
+        const mappedServices = response.data.data.map((value: any) => ({
+          id: value.id,
+          name: value.name,
+          description: value.name,
+          price: value.price,
+        }));
+        setServices(mappedServices);
+      } catch (error) {
         console.error("Error fetching data:", error);
-      });
-  }, []);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchServices();
+  }, [props.type]);
+
+  const getQuantityByServiceId = (serviceId: string) => {
+    const service = selectedServices.find(
+      (service) => service.serviceId === serviceId
+    );
+    return service ? service.quantity : 0;
+  };
+
+  const isDecorationAdded = (serviceId: string) => {
+    return decoration.id === serviceId;
+  };
 
   return (
-    <>
-      <Grid>
-        <Grid container className="mt-6">
-          <Grid item xs={12} className="flex justify-between items-center">
-            <Typography variant="h4" sx={{ ml: 1.25 }}>
-              Choose your menu
-            </Typography>
-          </Grid>
-          <Grid item xs={12} sx={{ ml: 1.25, mt: 3 }}>
-            <TextField
-              className="w-1/3"
+    <Box className="flex flex-col gap-16 mt-16">
+      <Typography variant="h4">{props.title}</Typography>
+      <Box className="flex flex-col w-full gap-8">
+        {isLoading ? (
+          <Typography>Loading...</Typography>
+        ) : (
+          services.map((service) => (
+            <Box
+              key={service.id}
               sx={{
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: "white", // Sets the border color
-                  },
-                  "&:hover fieldset": {
-                    borderColor: "white", // Sets the hover border color
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "white", // Sets the border color when the TextField is focused
-                  },
-                  "& .MuiInputBase-input": {
-                    color: "white", // Sets the input text color
-                  },
-                },
+                display: "flex",
+                background: "black",
+                color: "white",
               }}
-              label="Search"
-              InputLabelProps={{
-                style: { color: "white" },
-              }}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton>
-                      <SearchIcon
-                        sx={{
-                          color: "white",
-                          "&.Mui-checked": {
-                            color: "white",
-                          },
-                        }}
-                      />
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <FormGroup className="w-full">
-              {services.map((service) => (
-                <FormControlLabel
-                  key={service.id} // assuming each service has a unique 'id'
-                  label={
-                    // this will become the text part of the label
-                    <Card
-                      sx={{
-                        display: "flex",
-                        background: "black",
-                        color: "white",
-                        m: 4,
-                      }}
-                    >
-                      <Grid>
-                        <CardMedia
-                          className="rounded-3xl"
-                          component="img"
-                          sx={{ maxWidth: 380, height: 180 }}
-                          image="https://i.pinimg.com/736x/6e/74/63/6e7463744c9fdf25c505adfd51902f50.jpg"
-                        />
-                      </Grid>
-                      <Grid
-                        container
-                        sx={{ display: "flex", flexDirection: "row" }}
-                      >
-                        <CardContent sx={{ flex: "1 0 auto" }}>
-                          <Grid className="flex justify-between ">
-                            <Grid container>
-                              <Grid item xs={8}>
-                                <Grid container className="justify-between">
-                                  <Typography component="div" variant="h5">
-                                    {service.name}
-                                  </Typography>
-
-                                  <Typography component="div" variant="h5">
-                                    {service.price}
-                                  </Typography>
-                                </Grid>
-                              </Grid>
-                            </Grid>
-                          </Grid>
-                          <Grid item xs={10}>
-                            <Typography variant="subtitle1" component="div">
-                              Lorem ipsum, dolor sit amet consectetur
-                              adipisicing elit. Quae nihil quidem quisquam iure
-                              placeat harum iusto, ipsa culpa repudiandae
-                              perferendis rem rerum magnam, dolor qui
-                              consectetur, eos provident autem natus!
-                            </Typography>
-                          </Grid>
-                        </CardContent>
-                      </Grid>
-                    </Card>
-                  }
-                  control={
-                    <Checkbox
-                      sx={{
-                        color: "white",
-                        "&.Mui-checked": {
-                          color: "white",
-                        },
-                      }}
-                    />
-                  } // this is the checkbox element itself
-                />
-              ))}
-            </FormGroup>
-          </Grid>
-        </Grid>
-      </Grid>
-    </>
+              className="gap-8"
+            >
+              <CardMedia
+                className="rounded-3xl"
+                component="img"
+                sx={{ maxWidth: 256 }}
+                image="https://i.pinimg.com/736x/6e/74/63/6e7463744c9fdf25c505adfd51902f50.jpg"
+              />
+              <Box className="flex flex-col w-full gap-2">
+                <Typography variant="h4">{service.name}</Typography>
+                <Typography variant="subtitle1" component="div">
+                  Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quae
+                  nihil quidem quisquam iure placeat harum iusto, ipsa culpa
+                  repudiandae perferendis rem rerum magnam, dolor qui
+                  consectetur, eos provident autem natus!
+                </Typography>
+                <Box className="flex w-full justify-between">
+                  <Typography fontWeight="bold" variant="h5">
+                    {service.price}.000VNĐ
+                  </Typography>
+                  <Box className="flex w-full justify-end">
+                    {props.type === "dish" ? (
+                      <Box className="flex w-full gap-4 items-center justify-end">
+                        <IconButton
+                          size="small"
+                          sx={{ color: "white", border: "1px solid white" }}
+                          onClick={() => {
+                            dispatch(removeService(service.id));
+                          }}
+                        >
+                          <RemoveIcon />
+                        </IconButton>
+                        <Typography>
+                          {getQuantityByServiceId(service.id)}
+                        </Typography>
+                        <IconButton
+                          size="small"
+                          sx={{ color: "white", border: "1px solid white" }}
+                          onClick={() => {
+                            dispatch(
+                              addDish({
+                                serviceId: service.id,
+                                quantity: 1,
+                                price: service.price,
+                              })
+                            );
+                          }}
+                        >
+                          <AddIcon />
+                        </IconButton>
+                      </Box>
+                    ) : (
+                      <Box>
+                        <Button
+                          variant="contained"
+                          disabled={
+                            isDecorationAdded(service.id) ? true : false
+                          }
+                          onClick={() => {
+                            dispatch(
+                              addDecoration({
+                                decorationId: service.id,
+                                price: service.price,
+                              })
+                            );
+                          }}
+                        >
+                          {isDecorationAdded(service.id) ? "Added" : "Add"}
+                        </Button>
+                      </Box>
+                    )}
+                  </Box>
+                </Box>
+              </Box>
+            </Box>
+          ))
+        )}
+      </Box>
+    </Box>
   );
 }

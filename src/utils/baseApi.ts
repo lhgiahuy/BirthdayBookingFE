@@ -5,7 +5,7 @@ const baseURL = Envs.apiRemote;
 
 const baseApi = axios.create({
   baseURL,
-  withCredentials: false,
+  withCredentials: true,
 });
 
 export default baseApi;

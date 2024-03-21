@@ -23,34 +23,32 @@ interface CarouselProps {
 }
 
 export default function CardCarousel(props: CarouselProps) {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [services, setServices] = useState<Service[]>([]);
   const { start, end } = props;
+
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchServices = async () => {
       try {
-        const response = await agent.Account.getHostAccount();
-        setServices(response.data);
-        const mappedServices = response.data.map((value: any) => ({
-          // Map fields according to the Service interface
-          id: value.id, // Replace field1 with the actual field name
+        setIsLoading(true);
+        const response = await axios.get(
+          `https://swdbirthdaypartybooking.somee.com/api/getallhost`
+        );
+        const mappedServices = response.data.data.map((value: any) => ({
+          id: value.id,
           name: value.name,
           description: value.name,
-          // Replace field2 with the actual field name
-          // Add more fields as needed
         }));
         setServices(mappedServices);
       } catch (error) {
-        if (error instanceof AxiosError) {
-          const errorResponse = error?.response?.data?.error?.message;
-          console.log(errorResponse);
-          // Handle error, e.g., show error message to user
-        }
+        console.error("Error fetching data:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
-    fetchData();
-  }, []); // Specify dependencies if needed
-
+    fetchServices();
+  }, []);
   return (
     <Box className="flex gap-4">
       {services.slice(start, end).map((service) => (
