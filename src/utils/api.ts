@@ -7,7 +7,7 @@ const baseURL = Envs.apiRemote;
 
 const apiJWT = axios.create({
   baseURL,
-  withCredentials: true, 
+  withCredentials: false, 
 });
 
 const sleep = () => new Promise((resolve) => setTimeout(resolve, 500)); 

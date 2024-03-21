@@ -1,81 +1,100 @@
 import { useEffect, useState } from "react";
-import Agent from "../utils/agent";
-import { Service } from "../Models/Service";
-import { Card, CardContent, FormGroup, Grid, Typography } from "@mui/material";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
+import { Box, FormControl, Radio, RadioGroup, Typography } from "@mui/material";
+import { Place } from "../Models/Place";
+import axios from "axios";
+import { useAppDispatch, useAppSelector } from "../redux/hook";
+import { setPlace } from "../redux/slice/orderSlice";
 
 export default function PlaceForm() {
-  const [services, setServices] = useState<Service[]>([]);
+  const [services, setServices] = useState<Place[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const { id } = useAppSelector((state) => state.serviceState);
+  const dispatch = useAppDispatch();
+  const { place } = useAppSelector((state) => state.orderSlice);
 
   useEffect(() => {
-    Agent.getService()
-      .then((response) => {
-        setServices(response.data);
-      })
-      .catch((error) => {
+    const fetchServices = async () => {
+      try {
+        setIsLoading(true);
+        const response = await axios.get(
+          `https://swdbirthdaypartybooking.somee.com/api/getplace?Id=${id}`
+        );
+        const mappedServices = response.data.data.map((value: any) => ({
+          id: value.id,
+          name: value.name,
+          description: value.description,
+          price: value.price,
+          address: value.address,
+        }));
+        setServices(mappedServices);
+      } catch (error) {
         console.error("Error fetching data:", error);
-      });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchServices();
   }, []);
 
-  // Gọi onSubmit khi selectedServices thay đổi
+  const handleRadioChange = (serviceId: string, price: number) => {
+    dispatch(setPlace({ placeId: serviceId, price: price }));
+  };
 
   return (
     <>
-      <Grid>
-        <Grid container className="mt-6">
-          <Grid item xs={12} className="flex justify-between items-center">
-            <Typography variant="h4" sx={{ ml: 1.25 }}>
-              Choose your place
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <FormGroup>
-              {services.map((service) => (
-                <FormControlLabel
-                  key={service.id} // assuming each service has a unique 'id'
-                  label={
-                    // this will become the text part of the label
-                    <Card
-                      sx={{
-                        display: "flex",
-                        background: "black",
-                        color: "white",
-                      }}
-                    >
-                      <Grid container alignItems="center">
-                        {" "}
-                        {/* use container for root Grid */}
-                        <CardContent sx={{ flex: "1 0 auto" }}>
-                          <Typography component="div" variant="h5">
-                            {service.name}
-                          </Typography>
-                          <Typography component="div" variant="subtitle1">
-                            {service.price}
-                          </Typography>
-                          <Typography variant="subtitle1" component="div">
-                            {service.description}
-                          </Typography>
-                        </CardContent>
-                      </Grid>
-                    </Card>
-                  }
-                  control={
-                    <Checkbox
-                      sx={{
-                        color: "white",
-                        "&.Mui-checked": {
-                          color: "white",
-                        },
-                      }}
-                    />
-                  } // this is the checkbox element itself
-                />
-              ))}
-            </FormGroup>
-          </Grid>
-        </Grid>
-      </Grid>
+      <FormControl>
+        <Box className="flex flex-col gap-16 mt-16">
+          <Typography variant="h4">CHOOSE YOUR PLACE</Typography>
+
+          <RadioGroup
+            value={place.id}
+            onChange={(e) =>
+              handleRadioChange(
+                e.target.value,
+                services.find((service) => service.id === e.target.value)
+                  ?.price || 0
+              )
+            }
+          >
+            <Box className="flex flex-col gap-8 ">
+              {isLoading ? (
+                <Typography>Loading...</Typography>
+              ) : (
+                services.map((service) => (
+                  <Box
+                    key={service.id}
+                    className="cursor-pointer flex items-center gap-4 p-4 rounded-xl border-2 border-gray-700 hover:border-white"
+                  >
+                    <Radio value={service.id} />
+                    <Box className="flex flex-col items-start gap-2">
+                      <Typography component="div" variant="h5">
+                        {service.name}
+                      </Typography>
+
+                      <Typography
+                        color="gray"
+                        variant="subtitle1"
+                        component="div"
+                      >
+                        {service.address}
+                      </Typography>
+
+                      <Typography
+                        component="div"
+                        fontWeight="bold"
+                        variant="subtitle1"
+                      >
+                        {service.price}.000VNĐ
+                      </Typography>
+                    </Box>
+                  </Box>
+                ))
+              )}
+            </Box>
+          </RadioGroup>
+        </Box>
+      </FormControl>
     </>
   );
 }

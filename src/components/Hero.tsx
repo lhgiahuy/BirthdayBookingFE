@@ -32,7 +32,7 @@ export default function Hero() {
         </Typography>
         <Box>
           <Link
-            to="/"
+            to="/BookingPage"
             className="text-lg font-bold text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 rounded-lg px-5 py-2.5 me-2 mb-2"
           >
             Book now <ArrowForward></ArrowForward>

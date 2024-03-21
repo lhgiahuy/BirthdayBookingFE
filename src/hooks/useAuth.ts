@@ -2,7 +2,6 @@ import { useAppDispatch, useAppSelector } from "../redux/hook";
 import {
   loginFailure,
   loginStart,
-  loginSuccess,
 } from "../redux/slice/loginSlice";
 import { FormValues } from "../Models/Authentication";
 import { NavigateFunction } from "react-router-dom";
@@ -16,6 +15,8 @@ import { JwtPayload } from "jwt-decode";
 
 interface roleJwt extends JwtPayload {
   role: string;
+  id: string;
+  unique_name: string;
 }
 export function useAuth() {
   const state = useAppSelector((state) => state.auth);
@@ -31,10 +32,13 @@ export function useAuth() {
       });
       const access_token = data.data;
       const decodeToken = jwtDecode(access_token) as roleJwt;
+      localStorage.setItem("id", decodeToken?.id);
+      localStorage.setItem("name", decodeToken?.unique_name)
+
       console.log(decodeToken);
       switch (decodeToken?.role) {
         case ROLE.role1:
-          navigate("/Event");
+          navigate("/");
           break;
         case ROLE.role2:
           navigate("/Homehost");

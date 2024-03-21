@@ -1,7 +1,6 @@
 export const Envs = {
-    apiLocal: "ttp://localhost:3000",
-    apiRemote: "https://www.swdbirthdaypartybooking.somee.com",
-    apiEnv: "development",
-  
+    apiLocal: "https://swdbirthdaypartybooking.somee.com/",
+    apiRemote: "https://swdbirthdaypartybooking.somee.com/",
+    apiEnv: "https://swdbirthdaypartybooking.somee.com/",
   };
   

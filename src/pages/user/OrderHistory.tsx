@@ -1,16 +1,7 @@
 import {
-  Avatar,
   Box,
-  Breadcrumbs,
   Chip,
-  Divider,
-  FormControl,
   Grid,
-  IconButton,
-  InputLabel,
-  Link,
-  MenuItem,
-  Select,
   Typography,
 } from "@mui/material";
 import axios from "axios";
@@ -21,19 +12,32 @@ import CardMedia from "@mui/material/CardMedia";
 import Siderbar from "../../components/SiderBar";
 import { Service } from "../../Models/Service";
 export default function OrderHistory() {
-  const linkpage = ["Profile", "Order History"];
-  const sort = ["Place", "Price"];
-  const [services, setServices] = useState<Service[]>([]);
+  interface Order{
+    hostId: string;
+    status: string;
+    totalPrice: number
+  }
+  const [services, setServices] = useState<Order[]>([]);
+
+  const id = "53b6a602-de1c-4589-ac04-66b165d98c57";
   useEffect(() => {
     axios
-      .get("https://65e1a8d6a8583365b316f7df.mockapi.io/api/service")
+      .get(
+        `https://swdbirthdaypartybooking.somee.com/api/getorderbycustomerid?customerId=${id}`
+      )
       .then((response) => {
-        setServices(response.data);
+        const mappedServices = response.data.data.map((value: any) => ({
+          status: value.status,
+          totalPrice: value.totalPrice,
+          hostId: value.hostId,
+        }));
+        setServices(mappedServices);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  }, []);
+  });
+
   return (
     <>
       <Grid container>
@@ -44,65 +48,9 @@ export default function OrderHistory() {
           <Box className="h-auto w-auto ">
             <Box>
               <Box>
-                <Breadcrumbs aria-label="breadcrumb" color="white">
-                  {linkpage.map((linkpages) => (
-                    <Link underline="hover" sx={{ color: "white" }} href="/">
-                      {linkpages}
-                    </Link>
-                  ))}
-                </Breadcrumbs>
               </Box>
               <Box className="p-3">
-                <Typography variant="h4">Order History</Typography>
-              </Box>
-              <Box>
-                {sort.map((sorts) => (
-                  <FormControl
-                    key={sorts}
-                    sx={{
-                      m: 1,
-                      minWidth: 400,
-                      color: "white",
-                      ".MuiOutlinedInput-notchedOutline": {
-                        borderColor: "white",
-                      },
-                    }}
-                  >
-                    <InputLabel
-                      sx={{ color: "white" }}
-                      id={`select-${sorts}-label`}
-                    >
-                      {sorts}
-                    </InputLabel>
-                    <Select
-                      labelId={`select-${sorts}-label`}
-                      id={`select-${sorts}`}
-                      label={sorts}
-                      sx={{
-                        color: "white",
-                        "& .MuiSelect-icon": { color: "white" },
-                        "&.MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
-                          {
-                            borderColor: "white",
-                          },
-                        "&:hover .MuiOutlinedInput-notchedOutline": {
-                          borderColor: "white",
-                        },
-                        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                          borderColor: "white",
-                        },
-                      }}
-                    >
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
-                      <MenuItem value={10}>Ten</MenuItem>
-                      <MenuItem value={20}>Twenty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem>
-                      {/* ... */}
-                    </Select>
-                  </FormControl>
-                ))}
+                <Typography variant="h4" fontWeight="bold">Order History</Typography>
               </Box>
             </Box>
             <Box>
@@ -132,7 +80,6 @@ export default function OrderHistory() {
                         <Grid container>
                           <Grid item xs={4}>
                             <Typography component="div" variant="h5">
-                              {service.name}
                             </Typography>
                           </Grid>
                           <Grid>
@@ -140,11 +87,10 @@ export default function OrderHistory() {
                           </Grid>
                         </Grid>
                         <Typography component="div" variant="h5">
-                          {service.price}
+                          {service.totalPrice}
                         </Typography>
                       </Grid>
                       <Typography variant="subtitle1" component="div">
-                        {service.description}
                       </Typography>
                     </CardContent>
                   </Grid>

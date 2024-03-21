@@ -2,7 +2,7 @@ import Typography from "@mui/material/Typography";
 import { Box, Chip, IconButton, Rating, Tooltip } from "@mui/material";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { useAppDispatch, useAppSelector } from "../redux/hook";
+import { useAppDispatch } from "../redux/hook";
 import { setId, setIsOpen } from "../redux/slice/serviceSlice";
 
 interface ExpandableCardProps {
