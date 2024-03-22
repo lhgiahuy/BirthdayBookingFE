@@ -1,28 +1,63 @@
-import { Box, CssBaseline, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  CssBaseline,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Grid,
+  Modal,
+  Typography,
+} from "@mui/material";
 import Button from "@mui/material/Button";
-import { FormValues } from "../Models/Authentication";
 import { Link, useNavigate } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
 import { MyInput, MyInputPassword } from "../ui/myInput";
 import { useAuth } from "../hooks/useAuth";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import LoginIcon from "./EzentLogo";
 import * as Yup from "yup";
+import React, { useEffect } from "react";
+import axios from "axios";
+import { setPlace } from "../redux/slice/orderSlice";
 const validationSchema = Yup.object().shape({
   email: Yup.string().email("Invalid Email").required("Email cannot be empty"),
   password: Yup.string().required("Password cannot be empty"),
+  name: Yup.string().required("Name cannot be empty"),
 });
-export default function Login() {
+export default function SignUp() {
+  const [open, setOpen] = React.useState(true);
+  const [role, setRole] = React.useState(0);
+  interface FormValues {
+    email: string;
+    password: string;
+    name: string;
+  }
   const initialValues = {
     email: "",
     password: "",
+    name: "",
   };
-  const { state, handleLogin } = useAuth();
 
   const navigate = useNavigate();
 
-  const handleSubmit = async (values: FormValues) => {
-    handleLogin(values, navigate);
+  const handleSubmit = async (value: FormValues) => {
+    const newAccount = {
+      email: value.email,
+      password: value.password,
+      name: value.name,
+      role,
+    };
+    try {
+      const response = await axios.post(
+        `https://swdbirthdaypartybooking.somee.com/api/auth/signup`,
+        newAccount
+      );
+      console.log("Response:", response.data);
+      navigate("/login");
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
@@ -44,7 +79,7 @@ export default function Login() {
             }}
           >
             <Typography variant="h3" fontWeight="bold" sx={{ mt: 4 }}>
-              Login
+              Sign up
             </Typography>
             <Box>
               <Formik
@@ -56,6 +91,13 @@ export default function Login() {
                   <Box className="w-full flex flex-col gap-4 mt-8">
                     <Box>
                       <Box>
+                        <Field
+                          name="name"
+                          component={MyInput}
+                          placeholder="Name"
+                        />
+                      </Box>
+                      <Box className="mt-5 mb-2">
                         <Field
                           name="email"
                           component={MyInput}
@@ -73,9 +115,9 @@ export default function Login() {
                     </Box>
                     <Grid container justifyContent="flex-end">
                       <Typography variant="body2">
-                        Don't have an account yet?{" "}
-                        <Link to="/signup" className="hover:text-blue-400">
-                          Sign up here
+                        Already have an account?{" "}
+                        <Link to="/signin" className="hover:text-blue-400">
+                          Sign in here
                         </Link>
                       </Typography>
                     </Grid>
@@ -85,14 +127,8 @@ export default function Login() {
                       fullWidth
                       variant="contained"
                       endIcon={<KeyboardArrowRightIcon />}
-                    >
-                      {state.isFetching ? "Processing..." : "Sign in"}
-                    </Button>
-                    {state.error && (
-                      <article className="text-red-500">
-                        Invalid username or password, please check again
-                      </article>
-                    )}
+                    ></Button>
+
                     <Grid sx={{ mt: 4 }}>
                       By joining, you agree to our Terms of Service and to
                       occasionally receive emails from us. Please read our
@@ -121,6 +157,44 @@ export default function Login() {
           }}
         />
       </Grid>
+      <Dialog
+        open={open}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <Box className="bg-black text-white">
+          <Typography variant="h5" sx={{ padding: 2 }}>
+            Select what you want to do
+          </Typography>
+          <Box className="px-4">
+            <DialogContentText color="primary" id="alert-dialog-description">
+              To provide the best experience in using the website, please select
+              your role
+            </DialogContentText>
+          </Box>
+          <Box className="flex gap-4 w-full p-4 justify-end">
+            <Button
+              variant="outlined"
+              onClick={() => {
+                setRole(1);
+                setOpen(false);
+              }}
+            >
+              Customer
+            </Button>
+            <Button
+              variant="outlined"
+              onClick={() => {
+                setRole(2);
+                setOpen(false);
+              }}
+              autoFocus
+            >
+              Supplier
+            </Button>
+          </Box>
+        </Box>
+      </Dialog>
     </>
   );
 }
