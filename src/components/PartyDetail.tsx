@@ -142,7 +142,12 @@ export default function PartyDetail() {
   };
 
   return (
-    <Dialog open={Boolean(modalOpen)} maxWidth="md" scroll="body">
+    <Dialog
+      open={Boolean(modalOpen)}
+      onClose={handleClose}
+      maxWidth="md"
+      scroll="body"
+    >
       <Box sx={{ color: "white!important" }} className="bg-black min-w-[800px]	">
         <IconButton
           aria-label="close"

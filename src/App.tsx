@@ -144,7 +144,11 @@ function App() {
         },
         {
           path: "/BookingPage",
-          element: <BookingPage />,
+          element: (
+            <PrivateRoute inverted={false} requiredRoles={[ROLE.role1]}>
+              <BookingPage />
+            </PrivateRoute>
+          ),
         },
       ],
     },
@@ -160,7 +164,9 @@ function App() {
           path: "/",
           element: (
             <Suspense>
-              <EventPage />
+              <PrivateRoute inverted={false} requiredRoles={[ROLE.role1]}>
+                <EventPage />
+              </PrivateRoute>
             </Suspense>
           ),
         },
