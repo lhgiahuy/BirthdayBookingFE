@@ -33,14 +33,14 @@ function MyInput({ field, placeholder, error, helperText }: MyInputProps) {
         fullWidth
         size="medium"
         sx={{
-          '& .MuiOutlinedInput-notchedOutline': {
-            borderColor: 'white',
+          "& .MuiOutlinedInput-notchedOutline": {
+            borderColor: "white",
           },
-          '& .MuiInputLabel-root': {
-            color: 'white',
+          "& .MuiInputLabel-root": {
+            color: "white",
           },
-          '& .MuiInputBase-input': {
-            color: 'white',
+          "& .MuiInputBase-input": {
+            color: "white",
           },
         }}
         helperText={helperText}
@@ -49,7 +49,7 @@ function MyInput({ field, placeholder, error, helperText }: MyInputProps) {
       <ErrorMessage
         name={field.name}
         component="p"
-        className="ml-2 text-sm text-red-500"
+        className="pt-2 text-sm text-red-500"
       />
     </Box>
   );
@@ -75,14 +75,14 @@ function MyInputPassword({
         size="medium"
         fullWidth
         sx={{
-          '& .MuiOutlinedInput-notchedOutline': {
-            borderColor: 'white',
+          "& .MuiOutlinedInput-notchedOutline": {
+            borderColor: "white",
           },
-          '& .MuiInputLabel-root': {
-            color: 'white',
+          "& .MuiInputLabel-root": {
+            color: "white",
           },
-          '& .MuiInputBase-input': {
-            color: 'white',
+          "& .MuiInputBase-input": {
+            color: "white",
           },
         }}
         value={field.value || ""}
@@ -93,7 +93,7 @@ function MyInputPassword({
           endAdornment: (
             <InputAdornment position="end">
               <IconButton
-                style={{ color: 'white' }}
+                style={{ color: "white" }}
                 aria-label="toggle password visibility"
                 onClick={toggleShowPassword}
                 onMouseDown={(event) => event.preventDefault()}
@@ -107,7 +107,7 @@ function MyInputPassword({
       <ErrorMessage
         name={field.name}
         component="p"
-        className="ml-2 text-sm text-red-500"
+        className="pt-2 text-sm text-red-500"
       />
     </Box>
   );

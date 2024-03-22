@@ -72,6 +72,11 @@ export default function BookingPage() {
         quantity: value.quantity,
       }));
 
+      mappedService.push({
+        id: order.decoration.id, // Replace with actual decoration id
+        quantity: 1,
+      });
+
       const mappedOrder = {
         hostId: id,
         guestId: customerId,

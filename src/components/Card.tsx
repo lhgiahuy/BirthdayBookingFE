@@ -34,7 +34,7 @@ export default function CardCarousel(props: CarouselProps) {
         const mappedServices = response.data.data.map((value: any) => ({
           id: value.id,
           name: value.name,
-          description: value.name,
+          description: value.description,
         }));
         setServices(mappedServices);
       } catch (error) {

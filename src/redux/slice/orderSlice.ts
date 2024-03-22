@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 
 export interface orderSlice {
   order: {
+    id: string;
     place: {
       id: string;
       price: number;
@@ -27,6 +28,7 @@ export interface orderSlice {
 
 const initialState: orderSlice = {
   order: {
+    id: "",
     place: { id: "", price: 0 },
     menuPrice: 0,
     selectedServices: [],
@@ -122,6 +124,10 @@ const orderSlice = createSlice({
     setNote: (state, action: PayloadAction<string>) => {
       state.order.note = action.payload;
     },
+
+    setId: (state, action: PayloadAction<string>) => {
+      state.order.id = action.payload;
+    },
   },
 });
 
@@ -134,6 +140,7 @@ export const {
   getTotalPrice,
   setDate,
   setNote,
+  setId,
 } = orderSlice.actions;
 
 export default orderSlice.reducer;

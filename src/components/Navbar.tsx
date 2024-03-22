@@ -20,18 +20,17 @@ import { styled, alpha } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
 import { useEffect, useState } from "react";
 
-
 const pages = ["Home", "Partners", "Event", "About"];
 
 function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigation = useNavigate();
   useEffect(() => {
-    const access_token = localStorage.getItem('access_token');
+    const access_token = localStorage.getItem("access_token");
     if (access_token) {
       setIsLoggedIn(true);
     }
-  }, [])
+  }, []);
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
@@ -55,11 +54,10 @@ function Navbar() {
     setAnchorElUser(null);
   };
 
-
   // Hàm mô phỏng việc đăng xuất
   const handleLogout = async () => {
     await localStorage.clear();
-    navigation("/login")
+    navigation("/login");
   };
 
   const Search = styled("div")(({ theme }) => ({
@@ -192,8 +190,9 @@ function Navbar() {
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                     <Avatar
-                      alt="Remy Sharp"
-                      src="/static/images/avatar/2.jpg"
+                      alt="Avatar"
+                      src="https://scontent.fsgn19-1.fna.fbcdn.net/v/t39.30808-1/269922981_3016543585235258_3132946373432292991_n.jpg?stp=dst-jpg_p320x320&_nc_cat=108&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeHyXr4F3Z-7d9fd9FodVyaH3eIc7-Lebuvd4hzv4t5u69TRSbqyc-nQJ4FCTPnEYsdvHCrH_NfhmndMvvTwTLm5&_nc_ohc=hibNpN-JsJgAX_ZRGqG&_nc_ht=scontent.fsgn19-1.fna&oh=00_AfAUMDS01ew0CeKkFvsV9LTw3w3q1mEaBP0lyw7h0aHHog&oe=660146D6"
+                      sx={{ width: "2rem", height: "2rem" }}
                     />
                   </IconButton>
                 </Tooltip>
@@ -217,7 +216,7 @@ function Navbar() {
                     <Button
                       color="secondary"
                       onClick={() => {
-                        navigation("/Editprofile")
+                        navigation("/Editprofile");
                         window.scrollTo(0, 0); // Scroll to top of the page
                       }}
                     >
@@ -227,8 +226,16 @@ function Navbar() {
                   <MenuItem onClick={handleCloseUserMenu}>
                     <Button
                       color="secondary"
-                      onClick={handleLogout}
+                      onClick={() => {
+                        navigation("/OrderHistory");
+                        window.scrollTo(0, 0); // Scroll to top of the page
+                      }}
                     >
+                      Order History
+                    </Button>
+                  </MenuItem>
+                  <MenuItem onClick={handleCloseUserMenu}>
+                    <Button color="secondary" onClick={handleLogout}>
                       Logout
                     </Button>
                   </MenuItem>
