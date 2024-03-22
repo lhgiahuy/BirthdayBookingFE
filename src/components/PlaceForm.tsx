@@ -10,7 +10,7 @@ export default function PlaceForm() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const { id } = useAppSelector((state) => state.serviceState);
   const dispatch = useAppDispatch();
-  const { place } = useAppSelector((state) => state.orderSlice);
+  const { order } = useAppSelector((state) => state.orderSlice);
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -42,59 +42,56 @@ export default function PlaceForm() {
   };
 
   return (
-    <>
-      <FormControl>
-        <Box className="flex flex-col gap-16 mt-16">
-          <Typography variant="h4">CHOOSE YOUR PLACE</Typography>
+    <FormControl fullWidth>
+      <Box className="flex flex-col w-[70%] gap-16 mt-16">
+        <Typography variant="h4">CHOOSE YOUR PLACE</Typography>
+        <RadioGroup
+          value={order.place.id}
+          onChange={(e) =>
+            handleRadioChange(
+              e.target.value,
+              services.find((service) => service.id === e.target.value)
+                ?.price || 0
+            )
+          }
+        >
+          <Box className="flex w-full flex-col gap-8 ">
+            {isLoading ? (
+              <Typography>Loading...</Typography>
+            ) : (
+              services.map((service) => (
+                <Box
+                  key={service.id}
+                  className="cursor-pointer flex items-center gap-4 p-4 rounded-xl border-2 border-gray-700 hover:border-white"
+                >
+                  <Radio value={service.id} />
+                  <Box className="flex flex-col items-start gap-2">
+                    <Typography component="div" variant="h5">
+                      {service.name}
+                    </Typography>
 
-          <RadioGroup
-            value={place.id}
-            onChange={(e) =>
-              handleRadioChange(
-                e.target.value,
-                services.find((service) => service.id === e.target.value)
-                  ?.price || 0
-              )
-            }
-          >
-            <Box className="flex flex-col gap-8 ">
-              {isLoading ? (
-                <Typography>Loading...</Typography>
-              ) : (
-                services.map((service) => (
-                  <Box
-                    key={service.id}
-                    className="cursor-pointer flex items-center gap-4 p-4 rounded-xl border-2 border-gray-700 hover:border-white"
-                  >
-                    <Radio value={service.id} />
-                    <Box className="flex flex-col items-start gap-2">
-                      <Typography component="div" variant="h5">
-                        {service.name}
-                      </Typography>
+                    <Typography
+                      color="gray"
+                      variant="subtitle1"
+                      component="div"
+                    >
+                      {service.address}
+                    </Typography>
 
-                      <Typography
-                        color="gray"
-                        variant="subtitle1"
-                        component="div"
-                      >
-                        {service.address}
-                      </Typography>
-
-                      <Typography
-                        component="div"
-                        fontWeight="bold"
-                        variant="subtitle1"
-                      >
-                        {service.price}.000VNĐ
-                      </Typography>
-                    </Box>
+                    <Typography
+                      component="div"
+                      fontWeight="bold"
+                      variant="subtitle1"
+                    >
+                      ${service.price}
+                    </Typography>
                   </Box>
-                ))
-              )}
-            </Box>
-          </RadioGroup>
-        </Box>
-      </FormControl>
-    </>
+                </Box>
+              ))
+            )}
+          </Box>
+        </RadioGroup>
+      </Box>
+    </FormControl>
   );
 }

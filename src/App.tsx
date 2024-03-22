@@ -30,7 +30,7 @@ function App() {
     {
       element: (
         <Suspense>
-          <RootLayout />,
+          <RootLayout />
         </Suspense>
       ),
       children: [
@@ -144,9 +144,7 @@ function App() {
         },
         {
           path: "/BookingPage",
-          element: (
-              <BookingPage />
-          ),
+          element: <BookingPage />,
         },
       ],
     },
