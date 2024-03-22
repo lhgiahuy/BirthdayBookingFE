@@ -1,4 +1,4 @@
-import { Box, Divider, TextField, Typography } from "@mui/material";
+import { Avatar, Box, Divider, TextField, Typography } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useAppDispatch, useAppSelector } from "../redux/hook";
@@ -10,6 +10,7 @@ import { setDate, setNote } from "../redux/slice/orderSlice";
 interface Customer {
   name: string;
   phone: number;
+  email: string;
 }
 
 export default function ReviewOrder() {
@@ -39,8 +40,8 @@ export default function ReviewOrder() {
             },
           }
         );
-        const { name, phone } = response.data.data;
-        setCustomer({ name, phone });
+        const { name, phone, email } = response.data.data;
+        setCustomer({ name, phone, email });
       } catch (error) {
         console.error("Error fetching customer data:", error);
       } finally {
@@ -107,11 +108,12 @@ export default function ReviewOrder() {
           <Typography variant="h4" fontWeight="bold">
             Order summary
           </Typography>
-          <Box>
-            <Typography variant="caption" fontWeight="bold">
-              Order id
-            </Typography>
-            <Typography variant="h6">OrderName</Typography>
+          <Box className="flex gap-4 items-center">
+            <Avatar
+              alt="avatar"
+              src="https://scontent.fsgn19-1.fna.fbcdn.net/v/t39.30808-1/269922981_3016543585235258_3132946373432292991_n.jpg?stp=dst-jpg_p320x320&_nc_cat=108&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeHyXr4F3Z-7d9fd9FodVyaH3eIc7-Lebuvd4hzv4t5u69TRSbqyc-nQJ4FCTPnEYsdvHCrH_NfhmndMvvTwTLm5&_nc_ohc=hibNpN-JsJgAX_ZRGqG&_nc_ht=scontent.fsgn19-1.fna&oh=00_AfAUMDS01ew0CeKkFvsV9LTw3w3q1mEaBP0lyw7h0aHHog&oe=660146D6"
+            ></Avatar>
+            <Typography variant="h6">{customer?.email}</Typography>
           </Box>
           <Divider className="bg-gray-600"></Divider>
           <Box className="flex flex-col ">

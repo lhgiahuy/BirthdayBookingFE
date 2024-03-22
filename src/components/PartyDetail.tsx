@@ -143,7 +143,7 @@ export default function PartyDetail() {
 
   return (
     <Dialog open={Boolean(modalOpen)} maxWidth="md" scroll="body">
-      <Box sx={{ color: "white!important" }} className="bg-black">
+      <Box sx={{ color: "white!important" }} className="bg-black min-w-[800px]	">
         <IconButton
           aria-label="close"
           onClick={handleClose}
@@ -172,9 +172,11 @@ export default function PartyDetail() {
               backgroundImage: "linear-gradient(0deg,#181818,transparent 50%)",
             }}
           >
-            <Box className="flex flex-col gap-4 w-[70%] relative top-[60%] left-[2%]">
+            <Box className="flex flex-col gap-4 w-[70%] relative top-[55%] left-[2%]">
               <Box className="flex items-center gap-4">
+                <Avatar></Avatar>
                 <Typography variant="h4">{service?.name}</Typography>
+
                 <Chip
                   label="Top rated"
                   size="small"
@@ -195,21 +197,6 @@ export default function PartyDetail() {
           </Box>
         </Box>
         <Box className="flex flex-col gap-4 py-4 px-8">
-          <Box className="flex flex-col gap-4 items-start justify-between w-full">
-            <Box className="flex items-end gap-2">
-              <Avatar></Avatar>
-              <Typography variant="h5">Someone</Typography>
-            </Box>
-            <Box className="w-[80%]">
-              <Typography variant="subtitle1">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Obcaecati itaque quae exercitationem tempore dolor recusandae ad
-                fugiat eligendi cum voluptatibus, quo provident inventore animi
-                aliquam perspiciatis, sit, dicta velit suscipit!
-              </Typography>
-            </Box>
-          </Box>
-          <Divider className="bg-gray-400" variant="fullWidth"></Divider>
           <Box>
             <Typography variant="h4" fontWeight="bold">
               Place
@@ -296,7 +283,7 @@ export default function PartyDetail() {
                 <div key={service.id}>
                   <Card
                     sx={{
-                      maxWidth: 200,
+                      maxWidth: 176,
                       backgroundColor: "transparent",
                       boxShadow: "none",
                       color: "white",
@@ -324,7 +311,7 @@ export default function PartyDetail() {
                           fontWeight="bold"
                           sx={{ mt: "5px", color: "white" }}
                         >
-                          {service.price}.000Đ
+                          {service.price}
                         </Typography>
                       </Box>
                     </CardActionArea>
@@ -388,7 +375,7 @@ export default function PartyDetail() {
                 <div key={service.id}>
                   <Card
                     sx={{
-                      maxWidth: 200,
+                      maxWidth: 176,
                       backgroundColor: "transparent",
                       boxShadow: "none",
                       color: "white",
@@ -416,7 +403,7 @@ export default function PartyDetail() {
                           fontWeight="bold"
                           sx={{ mt: "5px", color: "white" }}
                         >
-                          {service.price}.000VNĐ
+                          {service.price}
                         </Typography>
                       </Box>
                     </CardActionArea>

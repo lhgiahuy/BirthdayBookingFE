@@ -5,16 +5,31 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Siderbar from "../../components/SiderBar";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
+import { setId } from "../../redux/slice/orderSlice";
+
+// Define enum for status types
+enum Status {
+  Pending = 1,
+  Processing = 0,
+  Completed = 3,
+  Cancelled = 5,
+}
+
 export default function OrderHistory() {
   interface Order {
     description: string;
     id: string;
     hostName: string;
-    status: string;
+    status: Status; // Use enum for status type
     totalPrice: number;
   }
   const [services, setServices] = useState<Order[]>([]);
   const id = localStorage.getItem("id");
+  const navigate = useNavigate();
+  useAppSelector((state) => state.orderSlice);
+  const dispatch = useAppDispatch();
   useEffect(() => {
     axios
       .get(
@@ -22,7 +37,7 @@ export default function OrderHistory() {
       )
       .then((response) => {
         const mappedServices = response.data.data.map((value: any) => ({
-          status: value.status,
+          status: value.status, // Status is already an integer
           totalPrice: value.totalPrice,
           hostName: value.hostName,
           id: value.id,
@@ -33,7 +48,53 @@ export default function OrderHistory() {
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  });
+  }, [id]); // Include id in dependency array
+
+  // Function to get status label from enum
+  const getStatusLabel = (status: Status): string => {
+    switch (status) {
+      case Status.Pending:
+        return "Pending";
+      case Status.Processing:
+        return "Processing";
+      case Status.Completed:
+        return "Completed";
+      case Status.Cancelled:
+        return "Cancelled";
+      default:
+        return "";
+    }
+  };
+
+  // Function to get chip color based on status
+  const getChipColor = (
+    status: Status
+  ):
+    | "primary"
+    | "secondary"
+    | "default"
+    | "error"
+    | "success"
+    | "info"
+    | "warning" => {
+    switch (status) {
+      case Status.Pending:
+        return "warning";
+      case Status.Processing:
+        return "info";
+      case Status.Completed:
+        return "success";
+      case Status.Cancelled:
+        return "error";
+      default:
+        return "default";
+    }
+  };
+
+  // Function to sort services array by status
+  const sortServicesByStatus = (services: Order[]): Order[] => {
+    return services.slice().sort((a, b) => a.status - b.status);
+  };
 
   return (
     <Box className="flex gap-16">
@@ -46,7 +107,7 @@ export default function OrderHistory() {
             </Typography>
           </Box>
         </Box>
-        {services.map((service) => (
+        {sortServicesByStatus(services).map((service) => (
           <Box
             key={service.id}
             sx={{
@@ -66,7 +127,10 @@ export default function OrderHistory() {
               <Box className="flex justify-between items-center">
                 <Box className="flex gap-4 items-center">
                   <Typography variant="h5">{service.hostName}</Typography>
-                  <Chip label={`${service.status}`} color="primary" />
+                  <Chip
+                    label={getStatusLabel(service.status)}
+                    color={getChipColor(service.status)} // Dynamically set chip color
+                  />
                 </Box>
                 <Typography fontWeight="bold" variant="h5">
                   ${service.totalPrice}
@@ -75,9 +139,20 @@ export default function OrderHistory() {
               <Typography variant="subtitle1" component="div">
                 {service.description}
               </Typography>
-              <Box className="flex w-full justify-start">
-                <Button variant="contained">View detail</Button>
-              </Box>
+              {service.status !== Status.Cancelled && (
+                <Box className="flex w-full justify-start">
+                  <Button
+                    variant="contained"
+                    onClick={() => {
+                      dispatch(setId(service.id));
+                      navigate("/OrderDetails");
+                      window.scrollTo(0, 0);
+                    }}
+                  >
+                    View detail
+                  </Button>
+                </Box>
+              )}
             </Box>
           </Box>
         ))}
