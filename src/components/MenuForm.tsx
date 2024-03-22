@@ -21,9 +21,7 @@ export default function ServiceForm(props: ServiceFormProps) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const { id } = useAppSelector((state) => state.serviceState);
   const dispatch = useAppDispatch();
-  const { selectedServices, decoration } = useAppSelector(
-    (state) => state.orderSlice
-  );
+  const { order } = useAppSelector((state) => state.orderSlice);
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -35,7 +33,7 @@ export default function ServiceForm(props: ServiceFormProps) {
         const mappedServices = response.data.data.map((value: any) => ({
           id: value.id,
           name: value.name,
-          description: value.name,
+          description: value.description,
           price: value.price,
         }));
         setServices(mappedServices);
@@ -50,20 +48,20 @@ export default function ServiceForm(props: ServiceFormProps) {
   }, [props.type]);
 
   const getQuantityByServiceId = (serviceId: string) => {
-    const service = selectedServices.find(
+    const service = order.selectedServices.find(
       (service) => service.serviceId === serviceId
     );
     return service ? service.quantity : 0;
   };
 
   const isDecorationAdded = (serviceId: string) => {
-    return decoration.id === serviceId;
+    return order.decoration.id === serviceId;
   };
 
   return (
     <Box className="flex flex-col gap-16 mt-16">
       <Typography variant="h4">{props.title}</Typography>
-      <Box className="flex flex-col w-full gap-8">
+      <Box className="flex flex-col w-full gap-16">
         {isLoading ? (
           <Typography>Loading...</Typography>
         ) : (
@@ -80,10 +78,10 @@ export default function ServiceForm(props: ServiceFormProps) {
               <CardMedia
                 className="rounded-3xl"
                 component="img"
-                sx={{ maxWidth: 256 }}
+                sx={{ maxWidth: 300 }}
                 image="https://i.pinimg.com/736x/6e/74/63/6e7463744c9fdf25c505adfd51902f50.jpg"
               />
-              <Box className="flex flex-col w-full gap-2">
+              <Box className="flex flex-col w-full gap-4">
                 <Typography variant="h4">{service.name}</Typography>
                 <Typography variant="subtitle1" component="div">
                   Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quae
@@ -93,7 +91,7 @@ export default function ServiceForm(props: ServiceFormProps) {
                 </Typography>
                 <Box className="flex w-full justify-between">
                   <Typography fontWeight="bold" variant="h5">
-                    {service.price}.000VNĐ
+                    ${service.price}
                   </Typography>
                   <Box className="flex w-full justify-end">
                     {props.type === "dish" ? (

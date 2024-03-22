@@ -6,10 +6,17 @@ export const theme = createTheme({
       main: "#FFFFFF",
     },
     secondary: {
-      main: "#000000"
-    }
+      main: "#000000",
+    },
   },
   components: {
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          color: "#FFFFFF",
+        },
+      },
+    },
     MuiTextField: {
       styleOverrides: {
         root: {
