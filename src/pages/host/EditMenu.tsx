@@ -8,22 +8,25 @@ import {
   Card,
   CardMedia,
   CardContent,
-  CardActionArea,
   TextField,
   InputAdornment,
-  InputBase,
   IconButton,
-  Paper,
   MenuItem,
   Modal,
+  Avatar,
 } from "@mui/material";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { storage } from "../../firebase/firebase";
+import { v4 } from "uuid";
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { Service } from "../../Models/Service";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import "react-multi-carousel/lib/styles.css";
 import SearchIcon from "@mui/icons-material/Search";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { styled } from "@mui/material/styles";
+
 
 const linkpage = ["Profile", "Service"];
 
@@ -41,12 +44,22 @@ const style = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 700,
-  height: 400,
+  height: 500,
   bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
+  borderRadius: '16px',
+  // border: '2px solid #000',
+  // boxShadow: 24,
   p: 4,
 };
+
+const VisuallyHiddenInput = styled("input")({
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(10%)",
+  height: 1,
+  overflow: "hidden",
+  position: "absolute",
+  width: 1,
+});
 
 export default function EditMenu() {
   const responsive = {
@@ -72,12 +85,68 @@ export default function EditMenu() {
   const [sortBy, setSortBy] = useState<string>('');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
+
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const openModal = () => setOpen(true);
+  const closeModal = () => setOpen(false);
+
+  const hostId = localStorage.getItem("id");
+  const token = localStorage.getItem("access_token");
+  // const serviceTypeId = '523856cb-8dc4-43b9-b880-5ac2214320e6'
+  const serviceType = 'dish'
+
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState('');
+  const [imageURL, setImageURL] = useState('');
+  const [price, setPrice] = useState('');
+
+  const handleAddMenu = async () => {
+    const newDish = {
+      name,
+      description,
+      imageURL,
+      price,
+      serviceType,
+      hostId
+    }
+
+    console.log('newdish: ', newDish)
+    try {
+      const response = await axios.post(
+        "https://swdbirthdaypartybooking.somee.com/api/createservice",
+        newDish,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+
+      console.log("Response ne :", response.data);
+      closeModal();
+
+      if (response.data.success) {
+        closeModal();
+        getMenu();
+      } else {
+
+        throw new Error('Something went wrong', response.data.message);
+      }
+
+    } catch (error) {
+      console.error('Error:', error);
+    }
+
+  }
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
+  };
+
+  const [editedItem, setEditedItem] = useState<Menu | null>(null);
+  const handleUpdate = (item: Menu) => {
+    // setEditedItem(item);
+    setOpen(true);
   };
 
   const handleDelete = async (id: string) => {
@@ -89,6 +158,33 @@ export default function EditMenu() {
     }
   };
 
+  const [imageUpload, setImageUpload] = useState<File | null>(null);
+
+
+  const uploadFile = (file: File) => {
+    if (file == null) return;
+    const imageRef = ref(storage, `images/${file.name + v4()}`);
+    uploadBytes(imageRef, file)
+      .then((snapshot) => getDownloadURL(snapshot.ref))
+      .then((url) => {
+        setImageURL(url); // Set the imageURL directly with the URL
+        console.log('imageurl:', imageURL)
+      })
+      .catch((error) => {
+        console.error("Error uploading file:", error);
+      });
+  };
+
+  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files && event.target.files[0];
+    if (file) {
+      setImageUpload(file);
+      uploadFile(file);
+      console.log('file', imageUpload)
+    }
+  };
+
+
   const filteredDecorations = menu.filter((item) =>
     item.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -97,7 +193,7 @@ export default function EditMenu() {
   const getMenu = async () => {
     try {
       const response = await axios.get(
-        "https://swdbirthdaypartybooking.somee.com/api/getservicebytype?hostId=56594440-2c26-4f1c-8ed1-a2ba037cde4e&ServiceType=523856cb-8dc4-43b9-b880-5ac2214320e6"
+        `https://swdbirthdaypartybooking.somee.com/api/getservicebytype?hostId=${hostId}&ServiceType=${serviceType}`
       );
       console.log("API Response:", response.data);
       if (response.data && response.data.success) {
@@ -170,7 +266,7 @@ export default function EditMenu() {
             </Grid>
             <Grid item xs={1}>
 
-              <Button variant="contained" size="large" onClick={handleOpen}>
+              <Button variant="contained" size="large" onClick={openModal}>
                 <Typography variant="body2" className="px-2">
                   ADD
                 </Typography>
@@ -303,6 +399,7 @@ export default function EditMenu() {
                             aria-label="delete"
                             size="medium"
                             color="primary"
+                            onClick={() => handleUpdate(item)}
                           >
                             <EditIcon fontSize="inherit" />
                           </IconButton>
@@ -335,18 +432,98 @@ export default function EditMenu() {
 
       <Modal
         open={open}
-        onClose={handleClose}
+        onClose={closeModal}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
+
       >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
+        <Box sx={style} >
+          <Typography variant="h4" gutterBottom style={{ color: 'black' }} sx={{ textAlign: 'center' }}>
+            {editedItem ? "Edit Menu Item" : "Add A New Place"} {/* Add A New Place */}
           </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
+
+          <TextField
+            id="name"
+            label="Name"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            size="small"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+
+          < TextField
+            id="description"
+            label="Description"
+            variant="outlined"
+            multiline
+            rows={2}
+            fullWidth
+            margin="normal"
+            size="small"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+          <TextField
+            id="price"
+            label="Price"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            size="small"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+          />
+
+          <Grid className="flex" sx={{
+            display: 'flex',
+            justifyContent: 'space-around',
+            alignItems: 'center',
+          }}>
+
+            <input
+              accept="image/*"
+              id="icon-button-file"
+              type="file"
+              onChange={handleImageChange}
+              style={{ position: 'absolute', opacity: 0 }}
+            // hidden
+            />
+            <label htmlFor="icon-button-file">
+              <Button
+                component="span"
+                role={undefined}
+                variant="contained"
+                tabIndex={-1}
+                startIcon={<CloudUploadIcon />}
+              >
+                Upload file
+                <VisuallyHiddenInput type="file" />
+              </Button>
+            </label>
+            {imageURL && (
+              <Box sx={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}>
+                <img
+                  src={imageURL} alt="Uploaded Image"
+                  style={{
+                    maxWidth: '100%',
+                    maxHeight: '100px',
+                    borderRadius: '5%',
+                  }} />
+              </Box>
+            )}
+          </Grid>
+
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{ display: 'block', margin: '13px auto 0' }}
+            onClick={handleAddMenu} >
+            Add
+          </Button>
         </Box>
+
       </Modal>
     </>
   );

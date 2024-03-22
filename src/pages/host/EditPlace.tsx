@@ -15,11 +15,11 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Service } from "../../Models/Service";
 import "react-multi-carousel/lib/styles.css";
 import SearchIcon from "@mui/icons-material/Search";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+
 
 const linkpage = ["Profile", "Service"];
 
@@ -29,10 +29,11 @@ const style = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: 700,
-    height: 400,
+    height: 450,
     bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
+    borderRadius: '16px',
+    // border: '2px solid #000',
+    // boxShadow: 24,
     p: 4,
 };
 
@@ -73,6 +74,9 @@ export default function EditPlace() {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
+    const hostId = localStorage.getItem("id");
+    const token = localStorage.getItem("access_token");
+
     const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(event.target.value);
     };
@@ -101,10 +105,55 @@ export default function EditPlace() {
         }
     };
 
+    const [name, setName] = useState("");
+    const [address, setAddress] = useState('');
+    const [description, setDescription] = useState('');
+    const [price, setPrice] = useState('');
+
+    const handleAddPlace = async () => {
+
+        const newPlaceData = {
+            hostId,
+            name,
+            address,
+            description,
+            price
+        }
+
+
+        try {
+            const response = await axios.post(
+                "https://swdbirthdaypartybooking.somee.com/api/createplace",
+                newPlaceData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+
+
+            console.log("Response:", response.data);
+            handleClose();
+            if (response.data.success) {
+
+                handleClose();
+
+                getPlaces();
+            } else {
+
+                throw new Error('Something went wrong', response.data.message);
+            }
+
+        } catch (error) {
+            console.error('Error:', error);
+        }
+
+    };
+
     const getPlaces = async () => {
         try {
             const response = await axios.get(
-                "https://swdbirthdaypartybooking.somee.com/api/getplace?id=114e9f53-7fc3-4e3a-944f-2d5e66c65410"
+                `https://swdbirthdaypartybooking.somee.com/api/getplace?id=${hostId}`
             );
             // console.log('API Response:', response.data); // Log the response to understand its structure
 
@@ -118,7 +167,7 @@ export default function EditPlace() {
 
     useEffect(() => {
         getPlaces();
-        console.log("data ne: ", places);
+
     }, []);
 
     return (
@@ -315,11 +364,64 @@ export default function EditPlace() {
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
-                style={{}}
+
             >
-                <Box sx={style}>
-                    <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+                <Box sx={style} >
+                    <Typography variant="h4" gutterBottom style={{ color: 'black' }} sx={{ textAlign: 'center' }}>
+                        Add A New Place
+                    </Typography>
+                    <TextField
+                        id="name"
+                        label="Name"
+                        variant="outlined"
+                        fullWidth
+                        margin="normal"
+                        size="small"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+
+                    />
+                    <TextField
+                        id="address"
+                        label="Address"
+                        variant="outlined"
+                        fullWidth
+                        margin="normal"
+                        size="small"
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
+                    />
+                    <TextField
+                        id="description"
+                        label="Description"
+                        variant="outlined"
+                        multiline
+                        rows={2}
+                        fullWidth
+                        margin="normal"
+                        size="small"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                    />
+                    <TextField
+                        id="price"
+                        label="Price"
+                        variant="outlined"
+                        fullWidth
+                        margin="normal"
+                        size="small"
+                        value={price}
+                        onChange={(e) => setPrice(e.target.value)}
+                    />
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        sx={{ display: 'block', margin: '16px auto 0' }}
+                        onClick={handleAddPlace} >
+                        Add
+                    </Button>
                 </Box>
+
             </Modal>
         </>
     );
