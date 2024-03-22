@@ -54,6 +54,8 @@ export default function EditDecoration() {
   const [sortBy, setSortBy] = useState<string>('');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
+  const userId = localStorage.getItem("id");
+
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
   };
@@ -74,7 +76,7 @@ export default function EditDecoration() {
   const getDecoration = async () => {
     try {
       const response = await axios.get(
-        'https://swdbirthdaypartybooking.somee.com/api/getservicebytype?hostId=56594440-2c26-4f1c-8ed1-a2ba037cde4e&ServiceType=f59fc2cd-fb79-4032-938b-8e3856e4a07a')
+        `https://swdbirthdaypartybooking.somee.com/api/getservicebytype?hostId=${userId}&ServiceType=f59fc2cd-fb79-4032-938b-8e3856e4a07a`)
       if (response.data && response.data.success) {
         setDecoration(response.data.data)
       }
