@@ -1,10 +1,10 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 export interface CurrentUser {
   id: string;
   email: string;
   password: string;
-    phone: string;
+  phone: string;
   name: string;
   role: string;
   deleteFlag: number;
@@ -21,11 +21,11 @@ const initialState: User = {
   currentUser: {} as CurrentUser,
   isFetching: false,
   error: false,
-  displayError: '',
+  displayError: "",
 };
 
 const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState,
   reducers: {
     loginStart: (state) => {

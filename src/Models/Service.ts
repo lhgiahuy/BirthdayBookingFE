@@ -6,4 +6,5 @@ export interface Service {
   deleteFlag: number;
   quantity: number;
   type: string;
+  image_URL: string;
 }

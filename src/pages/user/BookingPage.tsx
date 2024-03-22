@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { OrderModel } from "../../Models/Order";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Alert, AlertTitle } from "@mui/material";
 
 const steps = [
   "Choose Your Place",
@@ -40,6 +41,7 @@ interface StepContentProps {
 }
 
 export default function BookingPage() {
+  const [showAlert, setShowAlert] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
   const dispatch = useAppDispatch();
   const { order } = useAppSelector((state) => state.orderSlice);
@@ -95,16 +97,22 @@ export default function BookingPage() {
   }, [order, activeStep, id, customerId]);
 
   const HandleNext = () => {
-    dispatch(getTotalPrice());
-    dispatch(getMenuPrice());
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
     window.scrollTo(0, 0);
-
-    // Scroll to top of the page
+    if (activeStep === 0 && order.place.id == "") {
+      setShowAlert(true);
+      return;
+    } else {
+      setShowAlert(false);
+      dispatch(getTotalPrice());
+      dispatch(getMenuPrice());
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    }
   };
 
   // Optionally, you can add handleBack if you want a "Back" button
   const handleBack = () => {
+    window.scrollTo(0, 0);
+
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
@@ -131,7 +139,14 @@ export default function BookingPage() {
           </Step>
         ))}
       </Stepper>
+      {showAlert && (
+        <Alert severity="error" sx={{ mt: 8 }}>
+          Please choose a place before proceeding.
+        </Alert>
+      )}
+
       <ShowStep step={activeStep} />
+
       <Box sx={{ display: "flex", flexDirection: "row", pt: 8 }}>
         {/* Optional Back Button */}
         <Button
